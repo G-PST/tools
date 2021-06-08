@@ -1,0 +1,27 @@
+[package]
+name = "tools"
+version = "0.1.0"
+authors = ["Dheepak Krishnamurthy <me@kdheepak.com>"]
+edition = "2018"
+
+[dependencies]
+anyhow = "1.0.38"
+dotenv = "0.9.0"
+futures = "0.3.9"
+hubcaps = { git = "https://github.com/kdheepak/hubcaps" }
+lazy_static = "1.4"
+license = "1.1.10"
+log = "0.4"
+regex = "1"
+reqwest = { version ="0.11.0", features = ["json"] }
+rocket = { version = "0.5.0-rc.1", default-features = false, features = ["json", "msgpack", "uuid"] }
+rocket_codegen = { git = "https://github.com/SergioBenitez/Rocket" }
+rocket_cors = { git = "https://github.com/lawliet89/rocket_cors", branch = "master" }
+serde = "1.0.0"
+serde_derive = "1"
+serde_json = "1"
+tokio = { version = "0.2", features = ["macros", "rt-threaded", "rt-util", "time", "blocking"] }
+uuid = {version = "0.8", features = ["v4"]}
+
+[build-dependencies]
+which = "4"
