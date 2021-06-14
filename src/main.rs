@@ -45,6 +45,9 @@ use license::License;
 use log::{info, trace, warn};
 use regex::Regex;
 
+use git_version::git_version;
+const GIT_VERSION: &str = git_version!();
+
 #[get("/")]
 async fn index() -> Option<NamedFile> {
     NamedFile::open("frontend/dist/index.html").await.ok()
@@ -55,6 +58,11 @@ async fn files(file: PathBuf) -> Option<NamedFile> {
     NamedFile::open(Path::new("frontend/dist/").join(file))
         .await
         .ok()
+}
+
+#[get("/version")]
+async fn version() -> String {
+    GIT_VERSION.to_string()
 }
 
 #[derive(FromForm)]
@@ -278,6 +286,6 @@ fn rocket() -> _ {
 
     rocket::build()
         .mount("/", routes![index, files])
-        .mount("/api/", routes![tools])
+        .mount("/api/", routes![tools, version])
         .attach(options.to_cors().unwrap())
 }

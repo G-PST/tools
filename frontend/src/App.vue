@@ -1,8 +1,13 @@
 <template>
   <Tools />
   <div>
-    App Version
-    <a target="_blank" :href="commitUrl">{{ commitHash }}</a>
+    App Client Version
+    <a target="_blank" :href="clientCommitUrl">{{ clientCommitHash }}</a>
+  </div>
+  <br />
+  <div>
+    App Server Version
+    <a target="_blank" :href="serverCommitUrl">{{ serverCommitHash }}</a>
   </div>
 </template>
 
@@ -10,13 +15,37 @@
 import { defineComponent } from "vue";
 import Tools from "./components/Tools.vue";
 import GitHash from "../assets/hash.json";
+import axios from "axios";
+
+const baseURL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:8000/api"
+    : "https://gpst-tools.herokuapp.com/api";
+const client = axios.create({
+  baseURL: baseURL,
+});
 
 export default defineComponent({
   name: "App",
+  mounted() {
+    client
+      .get("/version")
+      .then((response) => {
+        this.serverCommitHash = response.data;
+        this.serverCommitUrl =
+          "https://github.com/kdheepak/tools/tree/" + response.data;
+      })
+      .catch((error) => {
+        // eslint-disable-next-line
+        console.log(error);
+      });
+  },
   data() {
     return {
-      commitHash: GitHash.hash,
-      commitUrl: "https://github.com/kdheepak/tools/tree/" + GitHash.hash,
+      clientCommitHash: GitHash.hash,
+      clientCommitUrl: "https://github.com/kdheepak/tools/tree/" + GitHash.hash,
+      serverCommitHash: "",
+      serverCommitUrl: "",
     };
   },
   components: {
