@@ -7,7 +7,7 @@
   <br />
   <div>
     App Server Version
-    <a target="_blank" :href="serverCommitUrl">{{ serverCommitHash }}</a>
+    {{ serverVersion }}
   </div>
 </template>
 
@@ -31,9 +31,7 @@ export default defineComponent({
     client
       .get("/version")
       .then((response) => {
-        this.serverCommitHash = response.data;
-        this.serverCommitUrl =
-          "https://github.com/kdheepak/tools/tree/" + response.data;
+        this.serverVersion = response.data;
       })
       .catch((error) => {
         // eslint-disable-next-line
@@ -44,8 +42,7 @@ export default defineComponent({
     return {
       clientCommitHash: GitHash.hash,
       clientCommitUrl: "https://github.com/kdheepak/tools/tree/" + GitHash.hash,
-      serverCommitHash: "",
-      serverCommitUrl: "",
+      serverVersion: "",
     };
   },
   components: {

@@ -45,9 +45,6 @@ use license::License;
 use log::{info, trace, warn};
 use regex::Regex;
 
-use git_version::git_version;
-const GIT_VERSION: &str = git_version!();
-
 #[get("/")]
 async fn index() -> Option<NamedFile> {
     NamedFile::open("frontend/dist/index.html").await.ok()
@@ -62,7 +59,7 @@ async fn files(file: PathBuf) -> Option<NamedFile> {
 
 #[get("/version")]
 async fn version() -> String {
-    GIT_VERSION.to_string()
+    concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION")).to_string()
 }
 
 #[derive(FromForm)]
