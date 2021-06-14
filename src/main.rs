@@ -114,7 +114,8 @@ impl Tool {
                 if !line.starts_with("- ") {
                     continue;
                 }
-                let line = line.replace("- ", "");
+                let re = Regex::new(r"^- ").unwrap();
+                let line = re.replace(line, "");
                 if let Some((key, value)) = split_once(&line) {
                     if value.is_empty() || value.starts_with("<!--") {
                         continue;
