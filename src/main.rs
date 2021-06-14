@@ -112,7 +112,7 @@ impl Tool {
                 let line = line.replace("- ", "");
                 dbg!(&line);
                 if let Some((key, value)) = split_once(&line) {
-                    if value.is_empty() {
+                    if value.is_empty() || value.starts_with("<!--") {
                         continue;
                     }
                     match key {
