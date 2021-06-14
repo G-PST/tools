@@ -110,7 +110,6 @@ impl Tool {
                     continue;
                 }
                 let line = line.replace("- ", "");
-                dbg!(&line);
                 if let Some((key, value)) = split_once(&line) {
                     if value.is_empty() || value.starts_with("<!--") {
                         continue;
@@ -172,9 +171,7 @@ impl Tool {
                             modeling_paradigm =
                                 Some(value.split(',').map(|w| w.trim().to_string()).collect())
                         }
-                        _ => {
-                            warn!("Unable to parse line {}", line);
-                        }
+                        _ => {}
                     }
                 }
             }
@@ -247,6 +244,7 @@ async fn tools() -> Json<Vec<Tool>> {
     let tools = tools.unwrap_or_default();
     let tools = tools
         .iter()
+        .filter(|issue| issue.state == "open")
         .map(move |issue| Tool::issue_to_tool(issue))
         .collect();
     Json(tools)
