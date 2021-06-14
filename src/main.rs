@@ -219,6 +219,7 @@ async fn licenses() -> Json<Vec<Tool>> {
     let tools = tools.unwrap_or_default();
     let tools = tools
         .iter()
+        .filter(|issue| issue.state == "open")
         .map(move |issue| Tool::issue_to_tool(issue))
         .collect();
     Json(tools)
