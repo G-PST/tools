@@ -4,7 +4,8 @@
 
 -->
 
-- Description: <!-- Short text description -->
+- Short Description: <!-- Short text description (140 char max) -->
+- Description: <!-- Text description -->
 - Website: <!-- website url -->
 - License: <!-- Public Domain, Permissive (open-source, eg. BSD), LGPL (open-source), Copyleft (open-source), Proprietary (commercial), Private -->
 - Source: <!-- url to repository -->
