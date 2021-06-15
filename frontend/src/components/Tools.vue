@@ -48,8 +48,8 @@ export default defineComponent({
     return {
       options: {
         search: false,
-        showColumns: false,
-        buttonsAlign: "left",
+        showColumns: true,
+        buttonsAlign: "right",
       },
       repository: "Tools",
       response: {

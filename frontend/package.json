@@ -6,7 +6,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.0-4",
     "@mdi/font": "5.9.55",
     "axios": "^0.21.1",
-    "bootstrap": "^5.0.0-beta3",
+    "bootstrap": "4",
     "bootstrap-table": "^1.18.3",
     "d3": "^7.0.0",
     "datatables": "^1.10.18",
