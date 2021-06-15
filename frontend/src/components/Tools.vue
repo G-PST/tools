@@ -17,6 +17,8 @@
 
     <BootstrapTable :columns="columns" :data="toolsQuery" :options="options">
     </BootstrapTable>
+
+    <br />
   </div>
 </template>
 
@@ -51,6 +53,8 @@ export default defineComponent({
         showColumns: true,
         buttonsAlign: "right",
         showPaginationSwitch: true,
+        showExtendedPagination: true,
+        pagination: true,
         sortReset: true,
       },
       repository: "Tools",
