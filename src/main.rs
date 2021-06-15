@@ -71,6 +71,7 @@ struct Options<'r> {
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde")]
 struct Tool {
+    id: usize,
     number: u64,
     name: String,
     description: String,
@@ -92,7 +93,7 @@ fn split_once(haystack: &str, needle: &str) -> Option<(String, String)> {
 }
 
 impl Tool {
-    fn issue_to_tool(issue: &hubcaps::issues::Issue) -> Self {
+    fn issue_to_tool(issue: &hubcaps::issues::Issue, id: usize) -> Self {
         let number = issue.number;
         let name = issue.title.clone();
         let body = issue.body.clone();
@@ -180,6 +181,7 @@ impl Tool {
         }
 
         Self {
+            id,
             number,
             name,
             description,
@@ -218,7 +220,8 @@ async fn licenses() -> Json<Vec<Tool>> {
     let tools = tools
         .iter()
         .filter(|issue| issue.state == "open")
-        .map(move |issue| Tool::issue_to_tool(issue))
+        .enumerate()
+        .map(move |(i, issue)| Tool::issue_to_tool(issue, i))
         .collect();
     Json(tools)
 }
@@ -246,7 +249,8 @@ async fn tools() -> Json<Vec<Tool>> {
     let tools = tools
         .iter()
         .filter(|issue| issue.state == "open")
-        .map(move |issue| Tool::issue_to_tool(issue))
+        .enumerate()
+        .map(move |(i, issue)| Tool::issue_to_tool(issue, i))
         .collect();
     Json(tools)
 }

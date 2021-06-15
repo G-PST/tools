@@ -62,10 +62,14 @@ export default defineComponent({
     columns() {
       return [
         {
+          checkbox: true,
+        },
+        {
           field: "name_url",
           title: "Name",
           align: "left",
           halign: "left",
+          sortName: "name",
           sortable: true,
         },
         {
