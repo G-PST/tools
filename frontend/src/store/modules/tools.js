@@ -46,7 +46,7 @@ const actions = {
         } else if (toolObj.source.includes("sourceforge.net")) {
           toolObj.source_img = "/images/sourceforge-mark.png";
         } else {
-          toolObj.source_img = "/images/link.png";
+          toolObj.source_img = "/images/link-mark.png";
         }
       }
     }
