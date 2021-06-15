@@ -50,6 +50,7 @@ export default defineComponent({
         showExtendedPagination: true,
         pagination: true,
         sortReset: true,
+        sortPriority: '[{"sortName": "name","sortOrder":"asc"}]',
       },
       repository: "Tools",
       response: {
@@ -70,6 +71,7 @@ export default defineComponent({
           align: "left",
           halign: "left",
           sortName: "name",
+          sortOrder: "asc",
           sortable: true,
         },
         {

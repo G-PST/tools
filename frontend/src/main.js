@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-table/dist/bootstrap-table.min.css";
 import "bootstrap-table/dist/bootstrap-table.min.js";
+import "bootstrap-table/dist/extensions/multiple-sort/bootstrap-table-multiple-sort.js";
 import "jquery/dist/jquery.min.js";
 import "@fortawesome/fontawesome-free/css/all.css";
 
