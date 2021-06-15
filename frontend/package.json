@@ -1,11 +1,17 @@
 {
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.3",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/vue-fontawesome": "^3.0.0-4",
     "@mdi/font": "5.9.55",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.0-beta3",
+    "bootstrap-table": "^1.18.3",
     "d3": "^7.0.0",
     "datatables": "^1.10.18",
     "jquery": "^3.6.0",
+    "popper": "^1.0.1",
     "roboto-fontface": "*",
     "vue": "^3.0.5",
     "vue-router": "4",

@@ -11,17 +11,16 @@
     <Autocomplete
       v-model="searchQuery"
       placeholder='Filter tools (e.g. "OpenDSS" or "steady state")'
-      :data="['OpenDSS', 'PandaPower', 'SWITCH']"
+      :data="[]"
     />
     <br />
-
     <table class="table table-hover align-left" id="toolsTable">
       <thead>
         <tr>
-          <th>Name</th>
-          <th width="32">Source</th>
-          <th>Stars</th>
-          <th>Description</th>
+          <th width="160" data-field="name" class="text-start">Name</th>
+          <th class="text-start" data-field="description">Description</th>
+          <th width="32" class="text-start" data-field="source">Source</th>
+          <th width="32" class="text-start" data-field="stars">GitHub Stars</th>
         </tr>
       </thead>
 
@@ -36,8 +35,13 @@
           <td class="text-start">
             <a target="_blank" :href="issue.toolUrl">{{ issue.toolName }}</a>
           </td>
+          <td class="text-start">{{ issue.toolDescription }}</td>
           <td>
-            <a target="_blank" :href="issue.toolSourceUrl">
+            <a
+              target="_blank"
+              :href="issue.toolSourceUrl"
+              v-if="issue.toolSourceUrl"
+            >
               <img
                 :src="issue.toolSourceUrlImg"
                 alt="Source Url"
@@ -46,7 +50,6 @@
             </a>
           </td>
           <td class="text-center">{{ issue.toolGithubStars }}</td>
-          <td class="text-start">{{ issue.toolDescription }}</td>
         </tr>
 
         <tr v-if="noIssues">
@@ -61,6 +64,7 @@
 import { ref, defineComponent } from "vue";
 import axios from "axios";
 import Autocomplete from "./Autocomplete.vue";
+import $ from "jquery";
 
 const baseURL =
   process.env.NODE_ENV === "development"
@@ -80,7 +84,10 @@ export default defineComponent({
   },
   data() {
     return {
-      username: "dkrishna",
+      options: {
+        search: true,
+        showColumns: true,
+      },
       repository: "Tools",
       tools: [],
       autocomplete_suggestions: ["OpenDSS"],
@@ -102,14 +109,6 @@ export default defineComponent({
       return !this.issuesQuery.length && !this.loader.issuesLoading;
     },
     issuesQuery() {
-      localStorage.setItem(
-        "dkrishna.tools.gitHubIssues",
-        JSON.stringify({
-          username: this.username,
-          repository: this.repository,
-          searchQuery: this.searchQuery,
-        })
-      );
       if (this.searchQuery) {
         return this.tools.filter((item) =>
           this.searchQuery
@@ -126,10 +125,13 @@ export default defineComponent({
     },
   },
   methods: {
+    reloadPage() {
+      this.reset();
+      window.location.reload();
+    },
     reset() {
-      this.username = "dkrishna";
       this.repository = "Tools";
-      localStorage.removeItem("dkrishna.tools.gitHubIssues");
+      localStorage.removeItem("kdheepak.tools.gitHubIssues");
     },
     resetResponse() {
       this.response.status = "";
@@ -140,23 +142,12 @@ export default defineComponent({
     },
     getIssues() {
       this.resetResponse();
-      this.tools = [];
-      localStorage.setItem(
-        "dkrishna.tools.gitHubIssues",
-        JSON.stringify({
-          username: this.username,
-          repository: this.repository,
-          searchQuery: this.searchQuery,
-        })
-      );
       this.loader.issuesLoading = true;
       this.tools = [];
-      // eslint-disable-next-line
       const url = "/tools";
       client
         .get(url)
         .then((response) => {
-          // eslint-disable-next-line
           for (var toolObj of response.data) {
             toolObj.toolName = toolObj.name;
             toolObj.toolDescription = toolObj.description;
@@ -168,9 +159,16 @@ export default defineComponent({
             toolObj.toolSourceUrlImg = toolObj.source_url;
             this.tools.push(toolObj);
           }
+          localStorage.setItem(
+            "kdheepak.tools.gitHubIssues",
+            JSON.stringify({
+              repository: this.repository,
+              searchQuery: this.searchQuery,
+              tools: this.tools,
+            })
+          );
         })
         .catch((error) => {
-          // eslint-disable-next-line
           console.log(error);
           this.response.status = "error";
           this.response.message = "Unable to get data from the server";
@@ -181,12 +179,17 @@ export default defineComponent({
     },
     getLocalData() {
       const localData = JSON.parse(
-        localStorage.getItem("dkrishna.tools.gitHubIssues")
+        localStorage.getItem("kdheepak.tools.gitHubIssues")
       );
-      if (localData && localData.username && localData.repository) {
-        this.username = localData.username;
+      if (
+        localData &&
+        Array.isArray(localData.tools) &&
+        localData.tools.length !== 0
+      ) {
         this.repository = localData.repository;
         this.searchQuery = localData.searchQuery;
+        this.tools = localData.tools;
+      } else {
         this.getIssues();
       }
     },
