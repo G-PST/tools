@@ -4,14 +4,13 @@
       <div class="form-group">
         <input
           ref="input"
-          v-model="value"
           type="search"
           :class="`form-control ${inputClass}`"
           :placeholder="placeholder"
           :aria-label="placeholder"
           @focus="isFocused = true"
           @blur="handleBlur"
-          @input="handleInput($event.target.value)"
+          @input="handleInput"
           autocomplete="off"
         />
       </div>
@@ -52,10 +51,11 @@ export default defineComponent({
       required: true,
       validator: (d) => d instanceof Array,
     },
-    modelValue: {
-      type: String,
-    },
     inputClass: {
+      type: String,
+      default: "",
+    },
+    inputValue: {
       type: String,
       default: "",
     },
@@ -74,11 +74,9 @@ export default defineComponent({
       validator: (d) => d instanceof Function,
     },
   },
-  emits: ["update:modelValue"],
   data() {
     return {
       isFocused: false,
-      inputValue: "",
     };
   },
   computed: {
@@ -94,23 +92,9 @@ export default defineComponent({
         };
       });
     },
-    value: {
-      get() {
-        return this.modelValue;
-      },
-      set(value) {
-        this.$emit("update:modelValue", value);
-        this.inputValue = value;
-      },
-    },
   },
   methods: {
     handleHit(evt) {
-      if (typeof this.value !== "undefined") {
-        this.$emit("input", evt.text);
-      }
-      this.inputValue = evt.text;
-      this.$emit("hit", evt.data);
       this.$refs.input.blur();
       this.isFocused = false;
     },
@@ -121,12 +105,8 @@ export default defineComponent({
       }
       this.isFocused = false;
     },
-    handleInput(newValue) {
-      this.inputValue = newValue;
-      // If v-model is being used, emit an input event
-      if (typeof this.value !== "undefined") {
-        this.$emit("input", newValue);
-      }
+    handleInput(evt) {
+      this.$store.commit("updateSearchQuery", evt.target.value);
     },
   },
 });

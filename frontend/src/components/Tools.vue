@@ -9,7 +9,6 @@
     <br />
 
     <Autocomplete
-      v-model="searchQuery"
       placeholder='Filter tools (e.g. "OpenDSS" or "steady state")'
       :data="[]"
     />
@@ -101,7 +100,7 @@ export default defineComponent({
     noTools() {
       return this.toolsQuery.length === 0 && this.toolsLoaded;
     },
-    ...mapGetters(["searchQuery", "tools", "toolsQuery", "toolsLoaded"]),
+    ...mapGetters(["tools", "toolsQuery", "toolsLoaded"]),
   },
   methods: {
     reloadPage() {

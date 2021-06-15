@@ -18,7 +18,6 @@ const state = {
 const getters = {
   toolsLoaded: (state) => state.toolsLoaded,
   tools: (state) => state.tools,
-  searchQuery: (state) => state.searchQuery,
   toolsQuery: (state) => {
     if (state.searchQuery) {
       return state.tools.filter((item) =>
@@ -27,8 +26,8 @@ const getters = {
           .split(" ")
           .every(
             (v) =>
-              item.toolName.toLowerCase().includes(v) ||
-              item.toolDescription.toLowerCase().includes(v)
+              item.name.toLowerCase().includes(v) ||
+              item.description.toLowerCase().includes(v)
           )
       );
     }
@@ -59,6 +58,9 @@ const mutations = {
   setTools: (state, tools) => {
     state.tools = tools;
     state.toolsLoaded = true;
+  },
+  updateSearchQuery: (state, query) => {
+    state.searchQuery = query;
   },
 };
 
