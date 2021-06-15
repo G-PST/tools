@@ -12,46 +12,11 @@
       placeholder='Filter tools (e.g. "OpenDSS" or "steady state")'
       :data="[]"
     />
+
     <br />
-    <table class="table table-hover align-left" id="toolsTable">
-      <thead>
-        <tr>
-          <th width="160" data-field="name" class="text-start">Name</th>
-          <th class="text-start" data-field="description">Description</th>
-          <th width="32" class="text-start" data-field="source">Source</th>
-          <th width="32" class="text-start" data-field="stars">GitHub Stars</th>
-        </tr>
-      </thead>
 
-      <tbody>
-        <tr v-if="!toolsLoaded">
-          <td class="text-center" colspan="4">
-            <img src="/images/loading.svg" alt="" />
-          </td>
-        </tr>
-
-        <tr v-if="showTools" v-for="tool in toolsQuery" :key="tool.number">
-          <td class="text-start">
-            <a target="_blank" :href="tool.website">{{ tool.name }}</a>
-          </td>
-          <td class="text-start">{{ tool.description }}</td>
-          <td>
-            <a target="_blank" :href="tool.source" v-if="tool.source">
-              <img
-                :src="tool.source_img"
-                alt="Source"
-                style="width: 32px; height: 32px"
-              />
-            </a>
-          </td>
-          <td class="text-center">{{ tool.github_stars }}</td>
-        </tr>
-
-        <tr v-if="noTools">
-          <td class="text-center" colspan="4">No tools found...</td>
-        </tr>
-      </tbody>
-    </table>
+    <BootstrapTable :columns="columns" :data="toolsQuery" :options="options">
+    </BootstrapTable>
   </div>
 </template>
 
@@ -82,11 +47,11 @@ export default defineComponent({
   data() {
     return {
       options: {
-        search: true,
-        showColumns: true,
+        search: false,
+        showColumns: false,
+        buttonsAlign: "left",
       },
       repository: "Tools",
-      autocomplete_suggestions: ["OpenDSS"],
       response: {
         status: "",
         message: "",
@@ -94,6 +59,30 @@ export default defineComponent({
     };
   },
   computed: {
+    columns() {
+      return [
+        {
+          field: "name_url",
+          title: "Name",
+          align: "left",
+          halign: "left",
+        },
+        {
+          field: "description",
+          title: "Description",
+          align: "left",
+          halign: "left",
+        },
+        {
+          field: "source_url",
+          title: "Source",
+        },
+        {
+          field: "github_stars",
+          title: "Stars",
+        },
+      ];
+    },
     showTools() {
       return this.tools.length > 0 && this.toolsLoaded;
     },

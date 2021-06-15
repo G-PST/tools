@@ -40,6 +40,9 @@ const actions = {
     const response = await client.get("/tools");
     for (var toolObj of response.data) {
       toolObj.github_stars = toolObj.github_stars ? toolObj.github_stars : "-";
+      if (toolObj.website) {
+        toolObj.name_url = `<a target="_blank" href='${toolObj.website}'>${toolObj.name}</a>`;
+      }
       if (toolObj.source) {
         if (toolObj.source.includes("github.com")) {
           toolObj.source_img = "/images/github-mark.png";
@@ -48,6 +51,7 @@ const actions = {
         } else {
           toolObj.source_img = "/images/link-mark.png";
         }
+        toolObj.source_url = `<a target="_blank" href='${toolObj.source}'><img src='${toolObj.source_img}' alt="Source" style="width: 32px; height: 32px"/></a>`;
       }
     }
     commit("setTools", response.data);
