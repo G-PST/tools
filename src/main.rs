@@ -74,6 +74,7 @@ struct Tool {
     id: usize,
     number: u64,
     name: String,
+    short_description: String,
     description: String,
     website: String,
     license: String,
@@ -99,6 +100,7 @@ impl Tool {
         let body = issue.body.clone();
 
         let mut description = Default::default();
+        let mut short_description = Default::default();
         let mut website = Default::default();
         let mut license = Default::default();
         let mut source = Default::default();
@@ -124,6 +126,7 @@ impl Tool {
                     let key = key.as_str();
                     match key {
                         "Description" => description = value,
+                        "Short Description" => short_description = value,
                         "Website" => website = value,
                         "License" => license = value,
                         "Source" => {
@@ -184,6 +187,7 @@ impl Tool {
             id,
             number,
             name,
+            short_description,
             description,
             website,
             license,

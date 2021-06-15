@@ -76,7 +76,7 @@ export default defineComponent({
           sortName: "name",
         },
         {
-          field: "description",
+          field: "short_description",
           title: "Description",
           align: "left",
           halign: "left",

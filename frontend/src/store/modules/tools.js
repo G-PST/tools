@@ -27,7 +27,8 @@ const getters = {
           .every(
             (v) =>
               item.name.toLowerCase().includes(v) ||
-              item.description.toLowerCase().includes(v)
+              item.description.toLowerCase().includes(v) ||
+              item.short_description.toLowerCase().includes(v)
           )
       );
     }
