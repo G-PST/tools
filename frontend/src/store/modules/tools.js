@@ -38,7 +38,6 @@ const getters = {
 
 const actions = {
   async fetchTools({ commit }) {
-    const localData = JSON.parse(localStorage.getItem("kdheepak.tools.data"));
     const hours = 0.25;
     const now = new Date().getTime();
     const setupTime = localStorage.getItem("setupTime");
@@ -50,6 +49,7 @@ const actions = {
         localStorage.setItem("setupTime", now);
       }
     }
+    const localData = JSON.parse(localStorage.getItem("kdheepak.tools.data"));
     if (localData && localData.tools.length !== 0) {
       commit("setTools", localData.tools);
     } else {
