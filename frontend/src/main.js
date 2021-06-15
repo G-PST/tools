@@ -14,14 +14,15 @@ import BootstrapTable from "./bootstrap-table-vue.js";
 import "bootstrap-table/dist/extensions/export/bootstrap-table-export";
 
 import { createApp } from "vue";
-import { createRouter, createWebHashHistory } from "vue-router";
+
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 library.add(faUserSecret);
 
-import App from "./App.vue";
+// router
+import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "./components/Home.vue";
 import About from "./components/About.vue";
 
@@ -37,6 +38,14 @@ const router = createRouter({
   linkExactActiveClass: "active", // active class for *exact* links.
 });
 
+// store
+
+import store from "./store";
+
+// app
+
+import App from "./App.vue";
 const app = createApp(App);
 app.use(router);
+app.use(store);
 app.component("BootstrapTable", BootstrapTable).mount("#app");
