@@ -13,12 +13,15 @@
       :data="[]"
     />
 
-    <br />
-
-    <BootstrapTable :columns="columns" :data="toolsQuery" :options="options">
-    </BootstrapTable>
+    <BootstrapTable :columns="columns" :data="toolsQuery" :options="options" />
 
     <br />
+
+    <div class="row" v-if="!toolsLoaded">
+      <div class="col">
+        <img src="/images/loading.svg" alt="" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -26,17 +29,8 @@
 import { ref, defineComponent } from "vue";
 import axios from "axios";
 import Autocomplete from "./Autocomplete.vue";
-import $ from "jquery";
 
 import { mapState, mapGetters, mapActions } from "vuex";
-
-const baseURL =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:8000/api"
-    : "https://gpst-tools.herokuapp.com/api";
-const client = axios.create({
-  baseURL: baseURL,
-});
 
 export default defineComponent({
   name: "Tools",
