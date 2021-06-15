@@ -25,34 +25,30 @@
       </thead>
 
       <tbody>
-        <tr v-if="loader.issuesLoading">
+        <tr v-if="!toolsLoaded">
           <td class="text-center" colspan="4">
             <img src="/images/loading.svg" alt="" />
           </td>
         </tr>
 
-        <tr v-if="showIssues" v-for="issue in issuesQuery" :key="issue.number">
+        <tr v-if="showTools" v-for="tool in toolsQuery" :key="tool.number">
           <td class="text-start">
-            <a target="_blank" :href="issue.toolUrl">{{ issue.toolName }}</a>
+            <a target="_blank" :href="tool.website">{{ tool.name }}</a>
           </td>
-          <td class="text-start">{{ issue.toolDescription }}</td>
+          <td class="text-start">{{ tool.description }}</td>
           <td>
-            <a
-              target="_blank"
-              :href="issue.toolSourceUrl"
-              v-if="issue.toolSourceUrl"
-            >
+            <a target="_blank" :href="tool.source" v-if="tool.source">
               <img
-                :src="issue.toolSourceUrlImg"
-                alt="Source Url"
+                :src="tool.source_img"
+                alt="Source"
                 style="width: 32px; height: 32px"
               />
             </a>
           </td>
-          <td class="text-center">{{ issue.toolGithubStars }}</td>
+          <td class="text-center">{{ tool.github_stars }}</td>
         </tr>
 
-        <tr v-if="noIssues">
+        <tr v-if="noTools">
           <td class="text-center" colspan="4">No tools found...</td>
         </tr>
       </tbody>
@@ -65,6 +61,8 @@ import { ref, defineComponent } from "vue";
 import axios from "axios";
 import Autocomplete from "./Autocomplete.vue";
 import $ from "jquery";
+
+import { mapState, mapGetters, mapActions } from "vuex";
 
 const baseURL =
   process.env.NODE_ENV === "development"
@@ -89,40 +87,21 @@ export default defineComponent({
         showColumns: true,
       },
       repository: "Tools",
-      tools: [],
       autocomplete_suggestions: ["OpenDSS"],
-      searchQuery: null,
       response: {
         status: "",
         message: "",
       },
-      loader: {
-        issuesLoading: false,
-      },
     };
   },
   computed: {
-    showIssues() {
-      return !!this.tools.length && !this.loader.issuesLoading;
+    showTools() {
+      return this.tools.length > 0 && this.toolsLoaded;
     },
-    noIssues() {
-      return !this.issuesQuery.length && !this.loader.issuesLoading;
+    noTools() {
+      return this.toolsQuery.length === 0 && this.toolsLoaded;
     },
-    issuesQuery() {
-      if (this.searchQuery) {
-        return this.tools.filter((item) =>
-          this.searchQuery
-            .toLowerCase()
-            .split(" ")
-            .every(
-              (v) =>
-                item.toolName.toLowerCase().includes(v) ||
-                item.toolDescription.toLowerCase().includes(v)
-            )
-        );
-      }
-      return this.tools;
-    },
+    ...mapGetters(["searchQuery", "tools", "toolsQuery", "toolsLoaded"]),
   },
   methods: {
     reloadPage() {
@@ -131,68 +110,20 @@ export default defineComponent({
     },
     reset() {
       this.repository = "Tools";
-      localStorage.removeItem("kdheepak.tools.gitHubIssues");
+      localStorage.removeItem("kdheepak.tools.data");
     },
     resetResponse() {
       this.response.status = "";
       this.response.message = "";
     },
-    getLabel(item) {
-      return item;
-    },
-    getIssues() {
+    getTools() {
       this.resetResponse();
-      this.loader.issuesLoading = true;
-      this.tools = [];
-      const url = "/tools";
-      client
-        .get(url)
-        .then((response) => {
-          for (var toolObj of response.data) {
-            toolObj.toolName = toolObj.name;
-            toolObj.toolDescription = toolObj.description;
-            toolObj.toolUrl = toolObj.website;
-            toolObj.toolSourceUrl = toolObj.source;
-            toolObj.toolGithubStars = toolObj.github_stars
-              ? toolObj.github_stars
-              : "-";
-            toolObj.toolSourceUrlImg = toolObj.source_url;
-            this.tools.push(toolObj);
-          }
-          localStorage.setItem(
-            "kdheepak.tools.gitHubIssues",
-            JSON.stringify({
-              repository: this.repository,
-              searchQuery: this.searchQuery,
-              tools: this.tools,
-            })
-          );
-        })
-        .catch((error) => {
-          console.log(error);
-          this.response.status = "error";
-          this.response.message = "Unable to get data from the server";
-        })
-        .finally(() => {
-          this.loader.issuesLoading = false;
-        });
+      this.fetchTools();
     },
     getLocalData() {
-      const localData = JSON.parse(
-        localStorage.getItem("kdheepak.tools.gitHubIssues")
-      );
-      if (
-        localData &&
-        Array.isArray(localData.tools) &&
-        localData.tools.length !== 0
-      ) {
-        this.repository = localData.repository;
-        this.searchQuery = localData.searchQuery;
-        this.tools = localData.tools;
-      } else {
-        this.getIssues();
-      }
+      this.getTools();
     },
+    ...mapActions(["fetchTools"]),
   },
 });
 </script>

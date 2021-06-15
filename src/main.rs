@@ -78,18 +78,17 @@ struct Tool {
     license: String,
     language: Vec<String>,
     source: Option<String>,
-    source_url: Option<String>,
     github_stars: Option<u64>,
     infrastructure_sector: Option<Vec<String>>,
     modeling_paradigm: Option<Vec<String>>,
     capabilities: Option<Vec<String>>,
 }
 
-fn split_once(in_string: &str) -> Option<(&str, &str)> {
-    let mut splitter = in_string.splitn(2, ": ");
+fn split_once(haystack: &str, needle: &str) -> Option<(String, String)> {
+    let mut splitter = haystack.splitn(2, needle);
     let first = splitter.next()?;
     let second = splitter.next()?;
-    Some((first.trim(), second.trim()))
+    Some((first.trim().to_string(), second.trim().to_string()))
 }
 
 impl Tool {
@@ -102,7 +101,6 @@ impl Tool {
         let mut website = Default::default();
         let mut license = Default::default();
         let mut source = Default::default();
-        let mut source_url = Default::default();
         let mut github_stars = Default::default();
         let mut infrastructure_sector = Default::default();
         let mut modeling_paradigm = Default::default();
@@ -115,22 +113,24 @@ impl Tool {
                     continue;
                 }
                 let re = Regex::new(r"^- ").unwrap();
-                let line = re.replace(line, "");
-                if let Some((key, value)) = split_once(&line) {
-                    if value.is_empty() || value.starts_with("<!--") {
+                let line = re.replace(line, "").to_string();
+                let re = Regex::new(r"<!--[\s\S]*?-->").unwrap();
+                let line = re.replace(&line, "").to_string();
+                if let Some((key, value)) = split_once(&line, ": ") {
+                    if value.is_empty() {
                         continue;
                     }
+                    let key = key.as_str();
                     match key {
-                        "Description" => description = value.to_string(),
-                        "Website" => website = value.to_string(),
-                        "License" => license = value.to_string(),
+                        "Description" => description = value,
+                        "Website" => website = value,
+                        "License" => license = value,
                         "Source" => {
-                            source = Some(value.to_string());
+                            source = Some(value.clone());
                             if value.contains("github.com") {
-                                source_url = Some("/images/gitHub-mark.png".into());
                                 let re = Regex::new(r"^(?:git|ssh|https?|git)(://|@)(.*)[:/]((.*)/(.*))(\.git)?(/?|\#[-\d\w._]+?)$").unwrap();
                                 warn!("{}", value);
-                                if let Some(captures) = re.captures(value) {
+                                if let Some(captures) = re.captures(&value) {
                                     let mut s = captures[3].split('/');
                                     let username = s.next().unwrap().to_string();
                                     let repository = s.next().unwrap().to_string();
@@ -156,10 +156,6 @@ impl Tool {
                                         github_stars = Some(repo.stargazers_count);
                                     }
                                 }
-                            } else if value.contains("sourceforge.net") {
-                                source_url = Some("/images/sourceforge-mark.png".into());
-                            } else {
-                                source_url = Some("/images/link-mark.png".into());
                             }
                         }
                         "Language" => {
@@ -191,7 +187,6 @@ impl Tool {
             license,
             language,
             source,
-            source_url,
             github_stars,
             infrastructure_sector,
             modeling_paradigm,
