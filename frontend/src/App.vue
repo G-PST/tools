@@ -1,5 +1,6 @@
 <template>
   <NavBar />
+  <br />
   <router-view />
   <Footer />
 </template>
