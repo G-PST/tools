@@ -51,7 +51,7 @@ export default defineComponent({
         showColumns: true,
         buttonsAlign: "right",
         showPaginationSwitch: true,
-        sortable: true,
+        sortReset: true,
       },
       repository: "Tools",
       response: {
@@ -68,6 +68,7 @@ export default defineComponent({
           title: "Name",
           align: "left",
           halign: "left",
+          sortable: true,
         },
         {
           field: "description",
@@ -82,6 +83,7 @@ export default defineComponent({
         {
           field: "github_stars",
           title: "Stars",
+          sortable: true,
         },
       ];
     },
