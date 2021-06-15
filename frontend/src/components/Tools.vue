@@ -50,6 +50,8 @@ export default defineComponent({
         search: false,
         showColumns: true,
         buttonsAlign: "right",
+        showPaginationSwitch: true,
+        sortable: true,
       },
       repository: "Tools",
       response: {
