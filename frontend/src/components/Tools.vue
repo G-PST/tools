@@ -50,7 +50,8 @@ export default defineComponent({
         showExtendedPagination: true,
         pagination: true,
         sortReset: true,
-        sortPriority: '[{"sortName": "name","sortOrder":"asc"}]',
+        sortName: "name_url",
+        sortOrder: "asc",
       },
       repository: "Tools",
       response: {
@@ -63,6 +64,7 @@ export default defineComponent({
     columns() {
       return [
         {
+          field: "state",
           checkbox: true,
         },
         {
@@ -70,9 +72,8 @@ export default defineComponent({
           title: "Name",
           align: "left",
           halign: "left",
-          sortName: "name",
-          sortOrder: "asc",
           sortable: true,
+          sortName: "name",
         },
         {
           field: "description",
