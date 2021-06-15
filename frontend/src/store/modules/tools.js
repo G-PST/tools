@@ -38,24 +38,48 @@ const getters = {
 
 const actions = {
   async fetchTools({ commit }) {
-    const response = await client.get("/tools");
-    for (var toolObj of response.data) {
-      toolObj.github_stars = toolObj.github_stars ? toolObj.github_stars : "-";
-      if (toolObj.website) {
-        toolObj.name_url = `<a target="_blank" href='${toolObj.website}'>${toolObj.name}</a>`;
-      }
-      if (toolObj.source) {
-        if (toolObj.source.includes("github.com")) {
-          toolObj.source_img = "/images/github-mark.png";
-        } else if (toolObj.source.includes("sourceforge.net")) {
-          toolObj.source_img = "/images/sourceforge-mark.png";
-        } else {
-          toolObj.source_img = "/images/link-mark.png";
-        }
-        toolObj.source_url = `<a target="_blank" href='${toolObj.source}'><img src='${toolObj.source_img}' alt="Source" style="width: 32px; height: 32px"/></a>`;
+    const localData = JSON.parse(localStorage.getItem("kdheepak.tools.data"));
+    const hours = 0.25;
+    const now = new Date().getTime();
+    const setupTime = localStorage.getItem("setupTime");
+    if (setupTime == null) {
+      localStorage.setItem("setupTime", now);
+    } else {
+      if (now - setupTime > hours * 60 * 60 * 1000) {
+        localStorage.clear();
+        localStorage.setItem("setupTime", now);
       }
     }
-    commit("setTools", response.data);
+    if (localData && localData.tools.length !== 0) {
+      commit("setTools", localData.tools);
+    } else {
+      const response = await client.get("/tools");
+      for (var toolObj of response.data) {
+        toolObj.github_stars = toolObj.github_stars
+          ? toolObj.github_stars
+          : "-";
+        if (toolObj.website) {
+          toolObj.name_url = `<a target="_blank" href='${toolObj.website}'>${toolObj.name}</a>`;
+        }
+        if (toolObj.source) {
+          if (toolObj.source.includes("github.com")) {
+            toolObj.source_img = "/images/github-mark.png";
+          } else if (toolObj.source.includes("sourceforge.net")) {
+            toolObj.source_img = "/images/sourceforge-mark.png";
+          } else {
+            toolObj.source_img = "/images/link-mark.png";
+          }
+          toolObj.source_url = `<a target="_blank" href='${toolObj.source}'><img src='${toolObj.source_img}' alt="Source" style="width: 32px; height: 32px"/></a>`;
+        }
+      }
+      localStorage.setItem(
+        "kdheepak.tools.data",
+        JSON.stringify({
+          tools: response.data,
+        })
+      );
+      commit("setTools", response.data);
+    }
   },
 };
 
