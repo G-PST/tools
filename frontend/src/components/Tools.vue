@@ -18,7 +18,7 @@
         v-on:click="reset"
         id="button"
         class="btn btn-secondary"
-        style="margin-left: 5px"
+        style="margin-left: 10px"
       >
         <i class="fa fa-sync"></i>
       </button>
