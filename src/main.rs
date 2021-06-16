@@ -84,6 +84,8 @@ struct Tool {
     infrastructure_sector: Option<Vec<String>>,
     modeling_paradigm: Option<Vec<String>>,
     capabilities: Option<Vec<String>>,
+    issue_body: String,
+    issue_url: String,
 }
 
 fn split_once(haystack: &str, needle: &str) -> Option<(String, String)> {
@@ -109,8 +111,11 @@ impl Tool {
         let mut modeling_paradigm = Default::default();
         let mut capabilities = Default::default();
         let mut language = Default::default();
+        let mut issue_body = Default::default();
+        let issue_url = issue.html_url.clone();
 
         if let Some(body) = body {
+            issue_body = body.clone();
             for line in body.lines() {
                 if !line.starts_with("- ") {
                     continue;
@@ -196,37 +201,10 @@ impl Tool {
             infrastructure_sector,
             modeling_paradigm,
             capabilities,
+            issue_body,
+            issue_url,
         }
     }
-}
-
-#[get("/tools/licenses", format = "json")]
-async fn licenses() -> Json<Vec<Tool>> {
-    let github = Github::new(
-        concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION")),
-        Credentials::Token(env::var("TOOLS_GITHUB_PAT").unwrap()),
-    )
-    .unwrap();
-    let repo = github.repo("kdheepak", "tools");
-    let tools = repo
-        .issues()
-        .iter(
-            &IssueListOptions::builder()
-                .asc()
-                .per_page(100)
-                .state(hubcaps::issues::State::All)
-                .build(),
-        )
-        .try_collect::<Vec<hubcaps::issues::Issue>>()
-        .await;
-    let tools = tools.unwrap_or_default();
-    let tools = tools
-        .iter()
-        .filter(|issue| issue.state == "open")
-        .enumerate()
-        .map(move |(i, issue)| Tool::issue_to_tool(issue, i))
-        .collect();
-    Json(tools)
 }
 
 #[get("/tools", format = "json")]

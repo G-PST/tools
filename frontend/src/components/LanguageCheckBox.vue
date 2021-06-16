@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row text-center">
     <div class="col">
       <div class="form-check form-check-inline" v-if="getToolsLoaded">
         <input

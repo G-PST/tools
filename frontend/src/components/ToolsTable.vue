@@ -14,7 +14,7 @@
 
   <br />
 
-  <div class="row" v-if="!getToolsLoaded">
+  <div class="row text-center" v-if="!getToolsLoaded">
     <div class="col">
       <img src="/images/loading.svg" alt="" />
     </div>
@@ -72,13 +72,20 @@ export default defineComponent({
           halign: "left",
         },
         {
+          field: "website_url",
+          title: "Website",
+          align: "center",
+        },
+        {
           field: "source_url",
           title: "Source",
+          align: "center",
         },
         {
           field: "github_stars",
           title: "Stars",
           sortable: true,
+          align: "center",
         },
       ];
     },
@@ -90,7 +97,7 @@ export default defineComponent({
     },
     ...mapGetters("tools", ["getTools", "getToolsQuery", "getToolsLoaded"]),
   },
-  mounted() {
+  created() {
     this.getLocalData();
   },
   methods: {

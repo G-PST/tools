@@ -28,11 +28,13 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "./components/Home.vue";
 import About from "./components/About.vue";
 import Submit from "./components/Submit.vue";
+import Tool from "./components/Tool.vue";
 
 const routes = [
   { path: "/", component: Home },
   { path: "/About", component: About },
   { path: "/Submit", component: Submit },
+  { path: "/Tool/:number", component: Tool },
 ];
 
 const router = createRouter({

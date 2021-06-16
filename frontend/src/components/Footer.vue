@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer mt-auto py-3 bg">
+  <footer class="footer mt-auto py-3 bg text-center">
     <div class="container">
       <div>
         App Client Version

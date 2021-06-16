@@ -90,8 +90,9 @@ const actions = {
         toolObj.github_stars = toolObj.github_stars
           ? toolObj.github_stars
           : "-";
+        toolObj.name_url = `<a href='/#/Tool/${toolObj.number}'>${toolObj.name}</a>`;
         if (toolObj.website) {
-          toolObj.name_url = `<a target="_blank" href='${toolObj.website}'>${toolObj.name}</a>`;
+          toolObj.website_url = `<a target="_blank" href='${toolObj.website}'><img src='/images/link-mark.png' alt="Website" style="width: 32px; height: 32px"/></a>`;
         }
         if (toolObj.source) {
           if (toolObj.source.includes("github.com")) {

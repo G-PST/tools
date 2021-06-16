@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="row">
+    <div class="row text-center">
       <div class="col">
         <h1>Tools</h1>
       </div>
