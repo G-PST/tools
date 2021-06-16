@@ -133,12 +133,11 @@ impl Tool {
                             source = Some(value.clone());
                             if value.contains("github.com") {
                                 let re = Regex::new(r"^(?:git|ssh|https?|git)(://|@)(.*)[:/]((.*)/(.*))(\.git)?(/?|\#[-\d\w._]+?)$").unwrap();
-                                warn!("{}", value);
                                 if let Some(captures) = re.captures(&value) {
                                     let mut s = captures[3].split('/');
                                     let username = s.next().unwrap().to_string();
                                     let repository = s.next().unwrap().to_string();
-                                    warn!("{} {}", username, repository);
+                                    info!("{} {}", username, repository);
                                     let github = Github::new(
                                         concat!(
                                             env!("CARGO_PKG_NAME"),
@@ -238,7 +237,7 @@ async fn tools() -> Json<Vec<Tool>> {
     )
     .unwrap();
     let repo = github.repo("kdheepak", "tools");
-    let tools = repo
+    let issues = repo
         .issues()
         .iter(
             &IssueListOptions::builder()
@@ -249,8 +248,8 @@ async fn tools() -> Json<Vec<Tool>> {
         )
         .try_collect::<Vec<hubcaps::issues::Issue>>()
         .await;
-    let tools = tools.unwrap_or_default();
-    let tools = tools
+    let issues = issues.unwrap_or_default();
+    let tools = issues
         .iter()
         .filter(|issue| issue.state == "open")
         .enumerate()
