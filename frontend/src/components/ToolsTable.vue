@@ -1,4 +1,15 @@
 <template>
+  <div class="row text-center" v-if="noTools">
+    <div class="col">
+      <p>
+        <i
+          >Is your tool not listed? Click
+          <router-link to="/Submit">here</router-link> to submit it.</i
+        >
+      </p>
+    </div>
+  </div>
+
   <div id="toolbar">
     <button
       v-on:click="reset"
