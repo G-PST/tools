@@ -29,12 +29,14 @@ import Home from "./components/Home.vue";
 import About from "./components/About.vue";
 import Submit from "./components/Submit.vue";
 import Tool from "./components/Tool.vue";
+import TemporalSpacialPlot from "./components/TemporalSpacialPlot.vue";
 
 const routes = [
   { path: "/", component: Home },
   { path: "/About", component: About },
   { path: "/Submit", component: Submit },
   { path: "/Tool/:number", component: Tool },
+  { path: "/Viz/SpaceTime", component: TemporalSpacialPlot },
 ];
 
 const router = createRouter({
