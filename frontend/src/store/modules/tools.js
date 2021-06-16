@@ -26,12 +26,16 @@ const getters = {
         state.searchQuery
           .toLowerCase()
           .split(" ")
-          .every(
-            (v) =>
+          .every((v) => {
+            return (
               item.name.toLowerCase().includes(v) ||
               item.description.toLowerCase().includes(v) ||
+              item.language
+                .map(Function.prototype.call, String.prototype.toLowerCase)
+                .includes(v) ||
               item.short_description.toLowerCase().includes(v)
-          )
+            );
+          })
       );
     }
     return state.tools;
