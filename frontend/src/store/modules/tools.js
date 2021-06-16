@@ -37,6 +37,10 @@ const getters = {
 };
 
 const actions = {
+  async clearTools({ commit }) {
+    localStorage.clear();
+    commit("clearTools");
+  },
   async fetchTools({ commit }) {
     const hours = 0.25;
     const now = new Date().getTime();
@@ -87,6 +91,10 @@ const mutations = {
   setTools: (state, tools) => {
     state.tools = tools;
     state.toolsLoaded = true;
+  },
+  clearTools: (state) => {
+    state.tools = [];
+    state.toolsLoaded = false;
   },
   updateSearchQuery: (state, query) => {
     state.searchQuery = query;

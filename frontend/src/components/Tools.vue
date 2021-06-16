@@ -13,6 +13,16 @@
       :data="[]"
     />
 
+    <div id="toolbar">
+      <button
+        v-on:click="reset"
+        id="button"
+        class="btn btn-secondary"
+        style="margin-left: 5px"
+      >
+        <i class="fa fa-sync"></i>
+      </button>
+    </div>
     <BootstrapTable :columns="columns" :data="toolsQuery" :options="options" />
 
     <br />
@@ -52,6 +62,8 @@ export default defineComponent({
         sortReset: true,
         sortName: "name_url",
         sortOrder: "asc",
+        toolbar: "#toolbar",
+        toolbarAlign: "right",
       },
       repository: "Tools",
       response: {
@@ -101,13 +113,9 @@ export default defineComponent({
     ...mapGetters(["tools", "toolsQuery", "toolsLoaded"]),
   },
   methods: {
-    reloadPage() {
-      this.reset();
-      window.location.reload();
-    },
     reset() {
-      this.repository = "Tools";
-      localStorage.removeItem("kdheepak.tools.data");
+      this.clearTools();
+      this.getTools();
     },
     resetResponse() {
       this.response.status = "";
@@ -120,7 +128,7 @@ export default defineComponent({
     getLocalData() {
       this.getTools();
     },
-    ...mapActions(["fetchTools"]),
+    ...mapActions(["fetchTools", "clearTools"]),
   },
 });
 </script>
