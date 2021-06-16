@@ -13,6 +13,7 @@
       </div>
       <div
         class="form-check form-check-inline"
+        v-if="getToolsLoaded"
         v-for="language in getLanguages"
         :key="language"
       >
