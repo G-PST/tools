@@ -13,10 +13,12 @@ const state = {
   tools: [],
   searchQuery: null,
   toolsLoaded: false,
+  submitTool: null,
 };
 
 const getters = {
   toolsLoaded: (state) => state.toolsLoaded,
+  submitTool: (state) => state.submitTool,
   tools: (state) => state.tools,
   toolsQuery: (state) => {
     if (state.searchQuery) {
@@ -40,6 +42,10 @@ const actions = {
   async clearTools({ commit }) {
     localStorage.clear();
     commit("clearTools");
+  },
+  async submitTool({ commit }) {
+    const response = await client.post("/tools");
+    commit("updateSubmitTool", response.data);
   },
   async fetchTools({ commit }) {
     const hours = 0.25;

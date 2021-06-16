@@ -27,10 +27,12 @@ library.add(faUserSecret);
 import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "./components/Home.vue";
 import About from "./components/About.vue";
+import Submit from "./components/Submit.vue";
 
 const routes = [
   { path: "/", component: Home },
   { path: "/About", component: About },
+  { path: "/Submit", component: Submit },
 ];
 
 const router = createRouter({
