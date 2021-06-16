@@ -11,18 +11,23 @@ const client = axios.create({
 
 const state = {
   tools: [],
+  languages: new Set(),
+  selectedLanguages: [],
   searchQuery: null,
   toolsLoaded: false,
   submitTool: null,
 };
 
 const getters = {
-  toolsLoaded: (state) => state.toolsLoaded,
-  submitTool: (state) => state.submitTool,
-  tools: (state) => state.tools,
-  toolsQuery: (state) => {
+  getLanguages: (state) => Array.from(state.languages).sort(),
+  getSelectedLanguages: (state) => state.selectedLanguages.sort(),
+  getToolsLoaded: (state) => state.toolsLoaded,
+  getSubmitTool: (state) => state.submitTool,
+  getTools: (state) => state.tools,
+  getToolsQuery: (state) => {
+    var tools;
     if (state.searchQuery) {
-      return state.tools.filter((item) =>
+      tools = state.tools.filter((item) =>
         state.searchQuery
           .toLowerCase()
           .split(" ")
@@ -40,8 +45,18 @@ const getters = {
             );
           })
       );
+    } else {
+      tools = state.tools;
     }
-    return state.tools;
+    tools = tools.filter((tool) => {
+      for (var language of state.selectedLanguages) {
+        if (tool.language.includes(language)) {
+          return true;
+        }
+      }
+      return false;
+    });
+    return tools;
   },
 };
 
@@ -101,9 +116,20 @@ const actions = {
 };
 
 const mutations = {
+  setSelectedLanguages: (state, selectedLanguages) => {
+    state.selectedLanguages = selectedLanguages;
+  },
   setTools: (state, tools) => {
     state.tools = tools;
     state.toolsLoaded = true;
+    for (var tool of state.tools) {
+      tool.language.map((lang) => state.languages.add(lang));
+    }
+    for (var lang of state.languages) {
+      if (!state.selectedLanguages.includes(lang)) {
+        state.selectedLanguages.push(lang);
+      }
+    }
   },
   clearTools: (state) => {
     state.tools = [];
@@ -115,6 +141,7 @@ const mutations = {
 };
 
 export default {
+  namespaced: true,
   state,
   getters,
   actions,

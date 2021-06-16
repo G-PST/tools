@@ -10,11 +10,11 @@
     </button>
   </div>
 
-  <BootstrapTable :columns="columns" :data="toolsQuery" :options="options" />
+  <BootstrapTable :columns="columns" :data="getToolsQuery" :options="options" />
 
   <br />
 
-  <div class="row" v-if="!toolsLoaded">
+  <div class="row" v-if="!getToolsLoaded">
     <div class="col">
       <img src="/images/loading.svg" alt="" />
     </div>
@@ -28,9 +28,6 @@ import { mapState, mapGetters, mapActions } from "vuex";
 
 export default defineComponent({
   name: "ToolsTable",
-  mounted() {
-    this.getLocalData();
-  },
   data() {
     return {
       options: {
@@ -86,30 +83,30 @@ export default defineComponent({
       ];
     },
     showTools() {
-      return this.tools.length > 0 && this.toolsLoaded;
+      return this.getTools.length > 0 && this.getToolsLoaded;
     },
     noTools() {
-      return this.toolsQuery.length === 0 && this.toolsLoaded;
+      return this.getToolsQuery.length === 0 && this.getToolsLoaded;
     },
-    ...mapGetters(["tools", "toolsQuery", "toolsLoaded"]),
+    ...mapGetters("tools", ["getTools", "getToolsQuery", "getToolsLoaded"]),
+  },
+  mounted() {
+    this.getLocalData();
   },
   methods: {
     reset() {
       this.clearTools();
-      this.getTools();
+      this.getLocalData();
     },
     resetResponse() {
       this.response.status = "";
       this.response.message = "";
     },
-    getTools() {
+    getLocalData() {
       this.resetResponse();
       this.fetchTools();
     },
-    getLocalData() {
-      this.getTools();
-    },
-    ...mapActions(["fetchTools", "clearTools"]),
+    ...mapActions("tools", ["fetchTools", "clearTools"]),
   },
 });
 </script>

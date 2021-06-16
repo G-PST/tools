@@ -13,6 +13,8 @@
       :data="[]"
     />
 
+    <LanguageCheckBox />
+
     <br />
 
     <ToolsTable />
@@ -22,6 +24,7 @@
 <script lang="ts">
 import { ref, defineComponent } from "vue";
 import Autocomplete from "./Autocomplete.vue";
+import LanguageCheckBox from "./LanguageCheckBox.vue";
 import ToolsTable from "./ToolsTable.vue";
 
 export default defineComponent({
@@ -29,6 +32,7 @@ export default defineComponent({
   components: {
     Autocomplete,
     ToolsTable,
+    LanguageCheckBox,
   },
 });
 </script>
