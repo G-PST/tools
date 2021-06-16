@@ -54,13 +54,12 @@ export default {
           "transform",
           `translate(${this.margin.left}px, ${this.margin.top}px)`
         );
-      console.log(this.getTools);
       let rects = svg.selectAll("rect").data(this.getTools).enter();
       rects
         .append("rect")
-        .attr("x", (d) => d.number)
-        .attr("y", (d) => d.id)
-        .attr("width", 600)
+        .attr("x", (d) => d.number * 5)
+        .attr("y", (d) => d.id * 5)
+        .attr("width", 60)
         .attr("height", 40)
         .attr("stroke", "black")
         .attr("fill", "#69a3b2");
