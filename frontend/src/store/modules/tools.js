@@ -30,6 +30,9 @@ const getters = {
             return (
               item.name.toLowerCase().includes(v) ||
               item.description.toLowerCase().includes(v) ||
+              item.modeling_paradigm
+                .map(Function.prototype.call, String.prototype.toLowerCase)
+                .includes(v) ||
               item.language
                 .map(Function.prototype.call, String.prototype.toLowerCase)
                 .includes(v) ||
