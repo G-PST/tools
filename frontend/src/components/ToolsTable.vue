@@ -27,6 +27,10 @@
 
   <div class="row text-center" v-if="!getToolsLoaded">
     <div class="col">
+      <p v-if="getToolsNotResponding">
+        Hmm. It usually doesn't take this long. Contact the developers to find
+        out what's up.
+      </p>
       <img src="/images/loading.svg" alt="" />
     </div>
   </div>
@@ -55,6 +59,7 @@ export default defineComponent({
         toolbarAlign: "right",
       },
       repository: "Tools",
+      getToolsNotResponding: false,
       response: {
         status: "",
         message: "",
@@ -121,8 +126,10 @@ export default defineComponent({
       this.response.message = "";
     },
     getLocalData() {
+      this.getToolsNotResponding = false;
       this.resetResponse();
       this.fetchTools();
+      setTimeout(() => (this.getToolsNotResponding = true), 15000);
     },
     ...mapActions("tools", ["fetchTools", "clearTools"]),
   },
