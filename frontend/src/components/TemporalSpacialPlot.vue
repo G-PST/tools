@@ -169,8 +169,8 @@ export default {
       const svg = d3
         .select("#chart")
         .append("svg")
-        .attr("width", this.width * 1.25)
-        .attr("height", this.height * 2);
+        .attr("width", this.width * 1.5)
+        .attr("height", this.height * 1.5);
 
       this.svg = svg
         .append("g")
