@@ -87,83 +87,192 @@ export default {
       var data = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
       var myColor = d3.scaleOrdinal().domain(data).range(d3.schemeSet3);
 
-      let rects = this.svg.selectAll("rect").data(this.getToolsQuery).enter();
+      let rects = this.svg
+        .selectAll("rect")
+        .data(this.getToolsQuery, (d) => d.name);
 
-      rects
-        .append("rect")
-        .filter(function (d) {
-          console.log(
-            d.name,
-            d.lowest_temporal_resolution,
-            d.highest_temporal_resolution,
-            d.lowest_spatial_resolution,
-            d.highest_spatial_resolution
-          );
-          return (
-            d.lowest_temporal_resolution &&
-            d.highest_temporal_resolution &&
-            d.lowest_spatial_resolution &&
-            d.highest_spatial_resolution
-          );
-        })
-        .attr("x", (d) => this.x(d.highest_temporal_resolution.toLowerCase()))
-        .attr("y", (d) => this.y(d.highest_spatial_resolution.toLowerCase()))
-        .attr("width", (d) =>
-          Math.abs(
-            this.x(d.highest_temporal_resolution.toLowerCase()) -
-              this.x(d.lowest_temporal_resolution.toLowerCase())
-          )
-        )
-        .attr("height", (d) =>
-          Math.abs(
-            this.y(d.lowest_spatial_resolution.toLowerCase()) -
+      rects.join(
+        (enter) => {
+          enter
+            .filter(function (d) {
+              console.log(
+                d.name,
+                d.lowest_temporal_resolution,
+                d.highest_temporal_resolution,
+                d.lowest_spatial_resolution,
+                d.highest_spatial_resolution
+              );
+              return (
+                d.lowest_temporal_resolution &&
+                d.highest_temporal_resolution &&
+                d.lowest_spatial_resolution &&
+                d.highest_spatial_resolution
+              );
+            })
+            .filter(function (d) {
+              return (
+                d.lowest_temporal_resolution !==
+                  d.highest_temporal_resolution &&
+                d.lowest_spatial_resolution !== d.highest_spatial_resolution
+              );
+            })
+            .append("rect")
+            .attr("x", (d) =>
+              this.x(d.highest_temporal_resolution.toLowerCase())
+            )
+            .attr("y", (d) =>
               this.y(d.highest_spatial_resolution.toLowerCase())
-          )
-        )
-        .attr("stroke", "black")
-        .attr("opacity", "0.25")
-        .attr("fill", function (d) {
-          return myColor(d);
-        });
-
-      let texts = this.svg.selectAll("text").data(this.getToolsQuery).enter();
-      texts
-        .append("text")
-        .filter(function (d) {
-          return (
-            d.lowest_temporal_resolution &&
-            d.highest_temporal_resolution &&
-            d.lowest_spatial_resolution &&
-            d.highest_spatial_resolution
-          );
-        })
-        .filter(function (d) {
-          return (
-            d.lowest_temporal_resolution !== d.highest_temporal_resolution &&
-            d.lowest_spatial_resolution !== d.highest_spatial_resolution
-          );
-        })
-        .attr("x", (d) => this.x(d.highest_temporal_resolution.toLowerCase()))
-        .attr("y", (d) => this.y(d.highest_spatial_resolution.toLowerCase()))
-        .attr(
-          "dx",
-          (d) =>
-            Math.abs(
-              this.x(d.highest_temporal_resolution.toLowerCase()) -
-                this.x(d.lowest_temporal_resolution.toLowerCase())
-            ) / 2
-        )
-        .attr(
-          "dy",
-          (d) =>
-            Math.abs(
-              this.y(d.lowest_spatial_resolution.toLowerCase()) -
-                this.y(d.highest_spatial_resolution.toLowerCase())
-            ) / 2
-        )
-        .attr("text-anchor", "middle")
-        .style("font-weight", "bold")
-        .text((d) => d.name);
+            )
+            .attr("width", (d) =>
+              Math.abs(
+                this.x(d.highest_temporal_resolution.toLowerCase()) -
+                  this.x(d.lowest_temporal_resolution.toLowerCase())
+              )
+            )
+            .attr("height", (d) =>
+              Math.abs(
+                this.y(d.lowest_spatial_resolution.toLowerCase()) -
+                  this.y(d.highest_spatial_resolution.toLowerCase())
+              )
+            )
+            .attr("stroke", "black")
+            .attr("opacity", "0.25")
+            .attr("fill", function (d) {
+              return myColor(d);
+            });
+        },
+        (update) => {
+          update
+            .filter(function (d) {
+              return (
+                d.lowest_temporal_resolution &&
+                d.highest_temporal_resolution &&
+                d.lowest_spatial_resolution &&
+                d.highest_spatial_resolution
+              );
+            })
+            .filter(function (d) {
+              return (
+                d.lowest_temporal_resolution !==
+                  d.highest_temporal_resolution &&
+                d.lowest_spatial_resolution !== d.highest_spatial_resolution
+              );
+            })
+            .attr("x", (d) =>
+              this.x(d.highest_temporal_resolution.toLowerCase())
+            )
+            .attr("y", (d) =>
+              this.y(d.highest_spatial_resolution.toLowerCase())
+            )
+            .attr("width", (d) =>
+              Math.abs(
+                this.x(d.highest_temporal_resolution.toLowerCase()) -
+                  this.x(d.lowest_temporal_resolution.toLowerCase())
+              )
+            )
+            .attr("height", (d) =>
+              Math.abs(
+                this.y(d.lowest_spatial_resolution.toLowerCase()) -
+                  this.y(d.highest_spatial_resolution.toLowerCase())
+              )
+            );
+        },
+        (exit) => {
+          exit.remove();
+        }
+      );
+      let texts = this.svg
+        .selectAll("text")
+        .data(this.getToolsQuery, (d) => d.name);
+      texts.join(
+        (enter) => {
+          enter
+            .filter(function (d) {
+              return (
+                d.lowest_temporal_resolution &&
+                d.highest_temporal_resolution &&
+                d.lowest_spatial_resolution &&
+                d.highest_spatial_resolution
+              );
+            })
+            .filter(function (d) {
+              return (
+                d.lowest_temporal_resolution !==
+                  d.highest_temporal_resolution &&
+                d.lowest_spatial_resolution !== d.highest_spatial_resolution
+              );
+            })
+            .append("text")
+            .attr("x", (d) =>
+              this.x(d.highest_temporal_resolution.toLowerCase())
+            )
+            .attr("y", (d) =>
+              this.y(d.highest_spatial_resolution.toLowerCase())
+            )
+            .attr(
+              "dx",
+              (d) =>
+                Math.abs(
+                  this.x(d.highest_temporal_resolution.toLowerCase()) -
+                    this.x(d.lowest_temporal_resolution.toLowerCase())
+                ) / 2
+            )
+            .attr(
+              "dy",
+              (d) =>
+                Math.abs(
+                  this.y(d.lowest_spatial_resolution.toLowerCase()) -
+                    this.y(d.highest_spatial_resolution.toLowerCase())
+                ) / 2
+            )
+            .attr("text-anchor", "middle")
+            .style("font-weight", "bold")
+            .text((d) => d.name);
+        },
+        (update) => {
+          update
+            .filter(function (d) {
+              return (
+                d.lowest_temporal_resolution &&
+                d.highest_temporal_resolution &&
+                d.lowest_spatial_resolution &&
+                d.highest_spatial_resolution
+              );
+            })
+            .filter(function (d) {
+              return (
+                d.lowest_temporal_resolution !==
+                  d.highest_temporal_resolution &&
+                d.lowest_spatial_resolution !== d.highest_spatial_resolution
+              );
+            })
+            .attr("x", (d) =>
+              this.x(d.highest_temporal_resolution.toLowerCase())
+            )
+            .attr("y", (d) =>
+              this.y(d.highest_spatial_resolution.toLowerCase())
+            )
+            .attr(
+              "dx",
+              (d) =>
+                Math.abs(
+                  this.x(d.highest_temporal_resolution.toLowerCase()) -
+                    this.x(d.lowest_temporal_resolution.toLowerCase())
+                ) / 2
+            )
+            .attr(
+              "dy",
+              (d) =>
+                Math.abs(
+                  this.y(d.lowest_spatial_resolution.toLowerCase()) -
+                    this.y(d.highest_spatial_resolution.toLowerCase())
+                ) / 2
+            );
+        },
+        (exit) => {
+          exit.remove();
+        }
+      );
     },
     generatePlot() {
       const svg = d3
@@ -210,7 +319,7 @@ export default {
           "continent",
           "global",
         ])
-        .range([0, this.height / 2]);
+        .range([0, this.height]);
 
       svg
         .append("g")
