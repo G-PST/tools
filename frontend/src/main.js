@@ -35,7 +35,11 @@ const routes = [
   { path: "/", component: Home },
   { path: "/About", component: About },
   { path: "/Submit", component: Submit },
-  { path: "/Tool/:number", component: Tool },
+  {
+    path: "/Tool/:number(\\d+)",
+    component: Tool,
+    props: (route) => ({ query: route.query.q }),
+  },
   { path: "/Viz/SpaceTime", component: TemporalSpacialPlot },
 ];
 

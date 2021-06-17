@@ -16,6 +16,15 @@
         >Go to GitHub Issue</a
       >
     </div>
+    <div class="row text-center" v-if="!getToolsLoaded">
+      <div class="col">
+        <p v-if="getToolsNotResponding">
+          Hmm. It usually doesn't take this long. Contact the developers to find
+          out what's up.
+        </p>
+        <img src="/images/loading.svg" alt="" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -55,19 +64,30 @@ export default defineComponent({
   created() {
     this.getLocalData();
   },
+  props: ["query"],
   data() {
     return {
+      getToolsNotResponding: false,
       loaded: false,
     };
   },
   computed: {
     issue() {
       const n = this.$route.params.number;
+      const query = this.searchQuery
+        ? this.searchQuery.split(/[-./\\()"'\s,;<>~!@#$%^&*|+=[\]{}`~?:]/u)
+        : [];
       if (n) {
         var tool = this.getTools.find((tool) => {
           return tool.number.toString() === n.toString();
         });
         const converter = new showdown.Converter();
+        for (var q of query) {
+          tool.issue_body = tool.issue_body.replace(
+            new RegExp(q, "ig"),
+            (match) => `<mark class="highlight">${match}</mark>`
+          );
+        }
         tool.body_html = converter.makeHtml(tool.issue_body);
         return tool;
       } else {
@@ -77,6 +97,7 @@ export default defineComponent({
         };
       }
     },
+    ...mapState("tools", ["searchQuery"]),
     ...mapGetters("tools", ["getTools", "getToolsLoaded"]),
   },
   methods: {
@@ -85,7 +106,9 @@ export default defineComponent({
       this.getLocalData();
     },
     getLocalData() {
+      this.getToolsNotResponding = false;
       this.fetchTools();
+      setTimeout(() => (this.getToolsNotResponding = true), 15000);
     },
     ...mapActions("tools", ["fetchTools", "clearTools"]),
   },

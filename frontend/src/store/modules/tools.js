@@ -33,6 +33,7 @@ const getters = {
           .split(/[-./\\()"'\s,;<>~!@#$%^&*|+=[\]{}`~?:]/u)
           .every((v) => {
             return (
+              item.issue_body.toLowerCase().includes(v) ||
               item.name.toLowerCase().includes(v) ||
               item.description.toLowerCase().includes(v) ||
               item.modeling_paradigm
