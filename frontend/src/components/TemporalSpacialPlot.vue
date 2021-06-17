@@ -293,8 +293,6 @@ export default {
           this.svg.selectAll("text").attr("transform", event.transform);
         });
 
-      svg.call(zoom);
-
       this.svg = svg
         .append("g")
         .style(
