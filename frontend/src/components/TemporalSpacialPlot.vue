@@ -47,8 +47,8 @@ export default {
       const svg = d3
         .select("#chart")
         .append("svg")
-        .attr("width", this.width)
-        .attr("height", this.height)
+        .attr("width", this.width * 1.5)
+        .attr("height", this.height * 1.5)
         .append("g")
         .style(
           "transform",
@@ -65,6 +65,7 @@ export default {
           "minutes",
           "hours",
           "days",
+          "months",
           "years",
           "decades",
         ])
@@ -87,16 +88,6 @@ export default {
         ])
         .range([0, this.height]);
 
-      svg
-        .append("g")
-        .attr("transform", `translate(0,${this.height * 0.8})`)
-        .call(d3.axisBottom(x));
-
-      svg
-        .append("g")
-        .attr("transform", `translate(0,-${this.height * 0.2})`)
-        .call(d3.axisLeft(y));
-
       let rects = svg.selectAll("rect").data(this.getTools).enter();
       rects
         .append("rect")
@@ -106,7 +97,11 @@ export default {
             d.lowest_temporal_resolution,
             d.highest_temporal_resolution,
             d.lowest_spatial_resolution,
-            d.highest_spatial_resolution
+            d.highest_spatial_resolution,
+            x(d.lowest_temporal_resolution.toLowerCase()),
+            x(d.highest_temporal_resolution.toLowerCase()),
+            y(d.lowest_spatial_resolution.toLowerCase()),
+            y(d.highest_spatial_resolution.toLowerCase())
           );
           return (
             d.lowest_temporal_resolution &&
@@ -115,11 +110,8 @@ export default {
             d.highest_spatial_resolution
           );
         })
-        .attr("x", (d) => {
-          console.log(x(d.lowest_temporal_resolution));
-          return x(d.lowest_temporal_resolution.toLowerCase());
-        })
-        .attr("y", (d) => y(d.lowest_spatial_resolution.toLowerCase()))
+        .attr("x", (d) => x(d.highest_temporal_resolution.toLowerCase()))
+        .attr("y", (d) => y(d.highest_spatial_resolution.toLowerCase()))
         .attr("width", (d) =>
           Math.abs(
             x(d.lowest_temporal_resolution.toLowerCase()) -
@@ -134,6 +126,35 @@ export default {
         )
         .attr("stroke", "black")
         .attr("fill", "#69a3b2");
+
+      let texts = svg.selectAll("text").data(this.getTools).enter();
+      texts
+        .append("text")
+        .filter(function (d) {
+          return (
+            d.lowest_temporal_resolution &&
+            d.highest_temporal_resolution &&
+            d.lowest_spatial_resolution &&
+            d.highest_spatial_resolution
+          );
+        })
+        .attr("x", (d) => x(d.highest_temporal_resolution.toLowerCase()))
+        .attr("y", (d) => y(d.highest_spatial_resolution.toLowerCase()))
+        .attr("dx", -10)
+        .attr("dy", ".42em")
+        .attr("text-anchor", "middle")
+        .style("font-weight", "bold")
+        .text((d) => d.name);
+
+      svg
+        .append("g")
+        .attr("transform", `translate(0,${this.height * 0.85})`)
+        .call(d3.axisBottom(x));
+
+      svg
+        .append("g")
+        .attr("transform", `translate(0,-${this.height * 0.15})`)
+        .call(d3.axisLeft(y));
     },
     ...mapActions("tools", ["fetchTools", "clearTools"]),
   },
