@@ -14,6 +14,7 @@ window.$ = jQuery;
 import "bootstrap-table/dist/bootstrap-table";
 import BootstrapTable from "./bootstrap-table-vue.js";
 import "bootstrap-table/dist/extensions/export/bootstrap-table-export";
+import "d3-scale-chromatic";
 
 import { createApp } from "vue";
 

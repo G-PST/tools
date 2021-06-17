@@ -9,6 +9,7 @@
     "bootstrap": "4",
     "bootstrap-table": "^1.18.3",
     "d3": "^7.0.0",
+    "d3-scale-chromatic": "^3.0.0",
     "datatables": "^1.10.18",
     "jquery": "^3.6.0",
     "popper": "^1.0.1",
