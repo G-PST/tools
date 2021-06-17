@@ -1,13 +1,21 @@
 <template>
+  <Autocomplete
+    placeholder='Filter tools (e.g. "OpenDSS" or "steady state")'
+    :data="[]"
+  />
   <div id="chart" />
 </template>
 
 <script lang="ts">
 import * as d3 from "d3";
 import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
+import Autocomplete from "./Autocomplete.vue";
 
 export default {
   name: "TemporalSpacialPlot",
+  components: {
+    Autocomplete,
+  },
 
   props: {
     data: {},
@@ -86,9 +94,9 @@ export default {
           "continent",
           "global",
         ])
-        .range([0, this.height]);
+        .range([this.height, 0]);
 
-      let rects = svg.selectAll("rect").data(this.getTools).enter();
+      let rects = svg.selectAll("rect").data(this.getToolsQuery).enter();
       rects
         .append("rect")
         .filter(function (d) {
@@ -127,7 +135,7 @@ export default {
         .attr("stroke", "black")
         .attr("fill", "#69a3b2");
 
-      let texts = svg.selectAll("text").data(this.getTools).enter();
+      let texts = svg.selectAll("text").data(this.getToolsQuery).enter();
       texts
         .append("text")
         .filter(function (d) {
