@@ -30,7 +30,7 @@ const getters = {
       tools = state.tools.filter((item) =>
         state.searchQuery
           .toLowerCase()
-          .split(" ")
+          .split(/[-./\\()"',;<>~!@#$%^&*|+=[\]{}`~?:]/u)
           .every((v) => {
             return (
               item.name.toLowerCase().includes(v) ||
