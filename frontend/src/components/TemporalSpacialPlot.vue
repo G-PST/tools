@@ -15,8 +15,8 @@ export default {
 
   data() {
     return {
-      width: 750,
-      height: 400,
+      width: 1000,
+      height: 800,
       margin: {
         top: 50,
         right: 50,
@@ -54,13 +54,84 @@ export default {
           "transform",
           `translate(${this.margin.left}px, ${this.margin.top}px)`
         );
+
+      var x = d3
+        .scalePoint()
+        .domain([
+          "",
+          "instant",
+          "milliseconds",
+          "seconds",
+          "minutes",
+          "hours",
+          "days",
+          "years",
+          "decades",
+        ])
+        .range([0, this.width]);
+
+      var y = d3
+        .scalePoint()
+        .domain([
+          "",
+          "component",
+          "device",
+          "facility",
+          "municipality",
+          "county",
+          "state",
+          "region",
+          "country",
+          "continent",
+          "global",
+        ])
+        .range([0, this.height]);
+
+      svg
+        .append("g")
+        .attr("transform", `translate(0,${this.height * 0.8})`)
+        .call(d3.axisBottom(x));
+
+      svg
+        .append("g")
+        .attr("transform", `translate(0,-${this.height * 0.2})`)
+        .call(d3.axisLeft(y));
+
       let rects = svg.selectAll("rect").data(this.getTools).enter();
       rects
         .append("rect")
-        .attr("x", (d) => d.number * 5)
-        .attr("y", (d) => d.id * 5)
-        .attr("width", 60)
-        .attr("height", 40)
+        .filter(function (d) {
+          console.log(
+            d.name,
+            d.lowest_temporal_resolution,
+            d.highest_temporal_resolution,
+            d.lowest_spatial_resolution,
+            d.highest_spatial_resolution
+          );
+          return (
+            d.lowest_temporal_resolution &&
+            d.highest_temporal_resolution &&
+            d.lowest_spatial_resolution &&
+            d.highest_spatial_resolution
+          );
+        })
+        .attr("x", (d) => {
+          console.log(x(d.lowest_temporal_resolution));
+          return x(d.lowest_temporal_resolution.toLowerCase());
+        })
+        .attr("y", (d) => y(d.lowest_spatial_resolution.toLowerCase()))
+        .attr("width", (d) =>
+          Math.abs(
+            x(d.lowest_temporal_resolution.toLowerCase()) -
+              x(d.highest_temporal_resolution.toLowerCase())
+          )
+        )
+        .attr("height", (d) =>
+          Math.abs(
+            y(d.lowest_spatial_resolution.toLowerCase()) -
+              y(d.highest_spatial_resolution.toLowerCase())
+          )
+        )
         .attr("stroke", "black")
         .attr("fill", "#69a3b2");
     },

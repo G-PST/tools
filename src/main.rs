@@ -70,6 +70,35 @@ struct Options<'r> {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde")]
+enum TemporalResolution {
+    Instant,
+    Milliseconds,
+    Seconds,
+    Minutes,
+    Hours,
+    Days,
+    Months,
+    Years,
+    Decades,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(crate = "rocket::serde")]
+enum SpatialResolution {
+    Component,
+    Device,
+    Facility,
+    Municipality,
+    County,
+    State,
+    Region,
+    Country,
+    Continent,
+    Global,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(crate = "rocket::serde")]
 struct Tool {
     id: usize,
     number: u64,
@@ -86,6 +115,10 @@ struct Tool {
     capabilities: Option<Vec<String>>,
     issue_body: String,
     issue_url: String,
+    lowest_temporal_resolution: Option<TemporalResolution>,
+    highest_temporal_resolution: Option<TemporalResolution>,
+    lowest_spatial_resolution: Option<SpatialResolution>,
+    highest_spatial_resolution: Option<SpatialResolution>,
 }
 
 fn split_once(haystack: &str, needle: &str) -> Option<(String, String)> {
@@ -112,6 +145,10 @@ impl Tool {
         let mut capabilities = Default::default();
         let mut language = Default::default();
         let mut issue_body = Default::default();
+        let mut lowest_temporal_resolution = None;
+        let mut highest_temporal_resolution = None;
+        let mut lowest_spatial_resolution = None;
+        let mut highest_spatial_resolution = None;
         let issue_url = issue.html_url.clone();
 
         if let Some(body) = body {
@@ -181,6 +218,74 @@ impl Tool {
                             modeling_paradigm =
                                 Some(value.split(',').map(|w| w.trim().to_string()).collect())
                         }
+                        "Lowest Temporal Resolution" => {
+                            lowest_temporal_resolution = match value.as_str() {
+                                "Instant" => Some(TemporalResolution::Instant),
+                                "Milliseconds" => Some(TemporalResolution::Milliseconds),
+                                "Seconds" => Some(TemporalResolution::Seconds),
+                                "Minutes" => Some(TemporalResolution::Minutes),
+                                "Hours" => Some(TemporalResolution::Hours),
+                                "Days" => Some(TemporalResolution::Days),
+                                "Months" => Some(TemporalResolution::Months),
+                                "Years" => Some(TemporalResolution::Years),
+                                "Decades" => Some(TemporalResolution::Decades),
+                                _ => {
+                                    warn!("{}", value);
+                                    Some(TemporalResolution::Instant)
+                                }
+                            }
+                        }
+                        "Highest Temporal Resolution" => {
+                            highest_temporal_resolution = match value.as_str() {
+                                "Instant" => Some(TemporalResolution::Instant),
+                                "Milliseconds" => Some(TemporalResolution::Milliseconds),
+                                "Seconds" => Some(TemporalResolution::Seconds),
+                                "Minutes" => Some(TemporalResolution::Minutes),
+                                "Hours" => Some(TemporalResolution::Hours),
+                                "Days" => Some(TemporalResolution::Days),
+                                "Months" => Some(TemporalResolution::Months),
+                                "Years" => Some(TemporalResolution::Years),
+                                "Decades" => Some(TemporalResolution::Decades),
+                                _ => {
+                                    warn!("{}", value);
+                                    Some(TemporalResolution::Instant)
+                                }
+                            }
+                        }
+                        "Lowest Spatial Resolution" => {
+                            lowest_spatial_resolution = match value.as_str() {
+                                "Component" => Some(SpatialResolution::Component),
+                                "Device" => Some(SpatialResolution::Device),
+                                "Facility" => Some(SpatialResolution::Facility),
+                                "Municipality" => Some(SpatialResolution::Municipality),
+                                "State" => Some(SpatialResolution::State),
+                                "Region" => Some(SpatialResolution::Region),
+                                "Country" => Some(SpatialResolution::Country),
+                                "Continent" => Some(SpatialResolution::Continent),
+                                "Global" => Some(SpatialResolution::Global),
+                                _ => {
+                                    warn!("{}", value);
+                                    Some(SpatialResolution::Component)
+                                }
+                            }
+                        }
+                        "Highest Spatial Resolution" => {
+                            highest_spatial_resolution = match value.as_str() {
+                                "Component" => Some(SpatialResolution::Component),
+                                "Device" => Some(SpatialResolution::Device),
+                                "Facility" => Some(SpatialResolution::Facility),
+                                "Municipality" => Some(SpatialResolution::Municipality),
+                                "State" => Some(SpatialResolution::State),
+                                "Region" => Some(SpatialResolution::Region),
+                                "Country" => Some(SpatialResolution::Country),
+                                "Continent" => Some(SpatialResolution::Continent),
+                                "Global" => Some(SpatialResolution::Global),
+                                _ => {
+                                    warn!("{}", value);
+                                    Some(SpatialResolution::Component)
+                                }
+                            }
+                        }
                         _ => {}
                     }
                 }
@@ -203,6 +308,10 @@ impl Tool {
             capabilities,
             issue_body,
             issue_url,
+            lowest_temporal_resolution,
+            highest_temporal_resolution,
+            lowest_spatial_resolution,
+            highest_spatial_resolution,
         }
     }
 }
