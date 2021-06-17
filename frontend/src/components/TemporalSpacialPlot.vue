@@ -19,7 +19,8 @@
 
     <br />
 
-    <div id="chart" />
+    <div class="row text-center" />
+    <div id="chart" class="col" />
   </div>
 </template>
 
@@ -281,6 +282,19 @@ export default {
         .attr("width", this.width * 1.5)
         .attr("height", this.height * 1.5);
 
+      var zoom = d3
+        .zoom()
+        .scaleExtent([1, 8])
+        .on("zoom", (event) => {
+          this.svg.selectAll("line").attr("transform", event.transform);
+          this.svg.selectAll("path").attr("transform", event.transform);
+          this.svg.selectAll("rect").attr("transform", event.transform);
+          this.svg.selectAll("circle").attr("transform", event.transform);
+          this.svg.selectAll("text").attr("transform", event.transform);
+        });
+
+      svg.call(zoom);
+
       this.svg = svg
         .append("g")
         .style(
@@ -321,21 +335,23 @@ export default {
         ])
         .range([0, this.height]);
 
-      svg
+      this.x_axis_g = svg
         .append("g")
         .style(
           "transform",
           `translate(${this.margin.left}px, ${this.margin.top}px)`
-        )
-        .call(d3.axisBottom(this.x));
+        );
+      this.xAxis = d3.axisBottom(this.x);
+      this.x_axis_g.call(this.xAxis);
 
-      svg
+      this.y_axis_g = svg
         .append("g")
         .style(
           "transform",
           `translate(${this.margin.left}px, ${this.margin.top}px)`
-        )
-        .call(d3.axisLeft(this.y));
+        );
+      this.yAxis = d3.axisLeft(this.y);
+      this.y_axis_g.call(this.yAxis);
     },
     ...mapActions("tools", ["fetchTools", "clearTools"]),
   },
