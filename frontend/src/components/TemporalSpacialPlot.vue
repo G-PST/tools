@@ -107,7 +107,7 @@ export default {
           );
         })
         .attr("x", (d) => this.x(d.highest_temporal_resolution.toLowerCase()))
-        .attr("y", (d) => this.y(d.lowest_spatial_resolution.toLowerCase()))
+        .attr("y", (d) => this.y(d.highest_spatial_resolution.toLowerCase()))
         .attr("width", (d) =>
           Math.abs(
             this.x(d.highest_temporal_resolution.toLowerCase()) -
@@ -144,7 +144,7 @@ export default {
           );
         })
         .attr("x", (d) => this.x(d.highest_temporal_resolution.toLowerCase()))
-        .attr("y", (d) => this.y(d.lowest_spatial_resolution.toLowerCase()))
+        .attr("y", (d) => this.y(d.highest_spatial_resolution.toLowerCase()))
         .attr(
           "dx",
           (d) =>
@@ -210,7 +210,7 @@ export default {
           "continent",
           "global",
         ])
-        .range([0, this.height]);
+        .range([0, this.height / 2]);
 
       svg
         .append("g")
