@@ -69,7 +69,7 @@ struct Options<'r> {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-#[serde(crate = "rocket::serde")]
+#[serde(crate = "rocket::serde", rename_all = "lowercase")]
 enum TemporalResolution {
     Instant,
     Milliseconds,
@@ -83,7 +83,7 @@ enum TemporalResolution {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-#[serde(crate = "rocket::serde")]
+#[serde(crate = "rocket::serde", rename_all = "lowercase")]
 enum SpatialResolution {
     Component,
     Device,
