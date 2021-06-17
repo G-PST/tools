@@ -24,6 +24,7 @@ const getters = {
   getToolsLoaded: (state) => state.toolsLoaded,
   getSubmitTool: (state) => state.submitTool,
   getTools: (state) => state.tools,
+  getSearchQuery: (state) => state.searchQuery,
   getToolsQuery: (state) => {
     var tools;
     if (state.searchQuery) {

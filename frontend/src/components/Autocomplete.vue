@@ -10,6 +10,7 @@
           :aria-label="placeholder"
           @focus="isFocused = true"
           @blur="handleBlur"
+          :value="getSearchQuery"
           @input="handleInput"
           autocomplete="off"
         />
@@ -39,7 +40,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import AutocompleteList from "./AutocompleteList.vue";
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 
 export default defineComponent({
   name: "Autocomplete",
@@ -93,7 +94,8 @@ export default defineComponent({
         };
       });
     },
-    ...mapState(["searchQuery"]),
+    ...mapState("tools", ["searchQuery"]),
+    ...mapGetters("tools", ["getSearchQuery"]),
   },
   methods: {
     handleHit(evt) {
