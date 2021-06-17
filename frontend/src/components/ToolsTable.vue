@@ -12,6 +12,13 @@
 
   <div id="toolbar">
     <button
+      class="btn btn-secondary"
+      style="margin-left: 1em"
+      v-on:click="visualize"
+    >
+      <i class="fa fa-chart-bar"></i>
+    </button>
+    <button
       v-on:click="reset"
       id="button"
       class="btn btn-secondary"
@@ -48,7 +55,7 @@ export default defineComponent({
       options: {
         search: false,
         showColumns: true,
-        buttonsAlign: "right",
+        buttonsAlign: "left",
         showPaginationSwitch: true,
         showExtendedPagination: true,
         pagination: true,
@@ -117,6 +124,9 @@ export default defineComponent({
     this.getLocalData();
   },
   methods: {
+    visualize() {
+      this.$router.push("/Viz/SpaceTime");
+    },
     reset() {
       this.clearTools();
       this.getLocalData();

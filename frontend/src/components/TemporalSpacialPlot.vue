@@ -1,20 +1,39 @@
 <template>
-  <Autocomplete
-    placeholder='Filter tools (e.g. "OpenDSS" or "steady state")'
-    :data="[]"
-  />
-  <div id="chart" />
+  <div class="container">
+    <div class="row text-center">
+      <div class="col">
+        <h1>Visualization</h1>
+      </div>
+    </div>
+
+    <br />
+
+    <Autocomplete
+      placeholder='Filter tools (e.g. "OpenDSS" or "steady state")'
+      :data="[]"
+    />
+
+    <br />
+
+    <LanguageCheckBox />
+
+    <br />
+
+    <div id="chart" />
+  </div>
 </template>
 
 <script lang="ts">
 import * as d3 from "d3";
 import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
 import Autocomplete from "./Autocomplete.vue";
+import LanguageCheckBox from "./LanguageCheckBox.vue";
 
 export default {
   name: "TemporalSpacialPlot",
   components: {
     Autocomplete,
+    LanguageCheckBox,
   },
 
   props: {
