@@ -43,6 +43,7 @@ export default {
     getToolsQuery: {
       deep: true,
       handler() {
+        console.log(this.getToolsQuery);
         this.updatePlot();
       },
     },
@@ -79,7 +80,9 @@ export default {
       this.getLocalData();
     },
     getLocalData() {
-      this.fetchTools();
+      if (this.getToolsQuery.length === 0) {
+        this.fetchTools();
+      }
     },
     updatePlot() {
       if (!this.svg) {

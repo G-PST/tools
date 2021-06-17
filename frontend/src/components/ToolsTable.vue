@@ -129,16 +129,18 @@ export default defineComponent({
     },
     reset() {
       this.clearTools();
-      this.getLocalData();
+      this.getLocalData(true);
     },
     resetResponse() {
       this.response.status = "";
       this.response.message = "";
     },
-    getLocalData() {
+    getLocalData(reset) {
       this.getToolsNotResponding = false;
       this.resetResponse();
-      this.fetchTools();
+      if (this.getToolsQuery.length === 0 || reset) {
+        this.fetchTools();
+      }
       setTimeout(() => (this.getToolsNotResponding = true), 15000);
     },
     ...mapActions("tools", ["fetchTools", "clearTools"]),
