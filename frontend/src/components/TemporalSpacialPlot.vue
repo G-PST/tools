@@ -285,17 +285,6 @@ export default {
         .attr("width", this.width * 1.5)
         .attr("height", this.height * 1.5);
 
-      var zoom = d3
-        .zoom()
-        .scaleExtent([1, 8])
-        .on("zoom", (event) => {
-          this.svg.selectAll("line").attr("transform", event.transform);
-          this.svg.selectAll("path").attr("transform", event.transform);
-          this.svg.selectAll("rect").attr("transform", event.transform);
-          this.svg.selectAll("circle").attr("transform", event.transform);
-          this.svg.selectAll("text").attr("transform", event.transform);
-        });
-
       this.svg = svg
         .append("g")
         .style(
@@ -353,6 +342,34 @@ export default {
         );
       this.yAxis = d3.axisLeft(this.y);
       this.y_axis_g.call(this.yAxis);
+
+      const extent = [
+        [0, 0],
+        [this.width, this.height],
+      ];
+
+      var zoomed = (event) => {
+        this.x.range([0, this.width].map((d) => event.transform.applyX(d)));
+        this.x_axis_g.call(this.xAxis);
+
+        this.y.range([0, this.height].map((d) => event.transform.applyY(d)));
+        this.y_axis_g.call(this.yAxis);
+
+        this.svg.selectAll("line").attr("transform", event.transform);
+        this.svg.selectAll("path").attr("transform", event.transform);
+        this.svg.selectAll("rect").attr("transform", event.transform);
+        this.svg.selectAll("circle").attr("transform", event.transform);
+        this.svg.selectAll("text").attr("transform", event.transform);
+      };
+
+      var zoom = d3
+        .zoom()
+        .scaleExtent([1, 8])
+        .translateExtent(extent)
+        .extent(extent)
+        .on("zoom", zoomed);
+
+      svg.call(zoom);
     },
     ...mapActions("tools", ["fetchTools", "clearTools"]),
   },
