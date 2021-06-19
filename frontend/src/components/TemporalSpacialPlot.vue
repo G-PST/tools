@@ -32,7 +32,7 @@ import LanguageCheckBox from "./LanguageCheckBox.vue";
 
 var dedupeLabels = (dedupLabels) => {
   const getOverlapFromTwoExtents = (l, r) => {
-    var overlapPadding = 0;
+    var overlapPadding = 10;
     l.left = l.x - overlapPadding;
     l.right = l.x + l.width + overlapPadding;
     l.top = l.y - overlapPadding;
@@ -67,21 +67,28 @@ var dedupeLabels = (dedupLabels) => {
         var underBBox = this.getBBox();
         // If not overlapping with a subsequent item, and isn't meant to be shown always, hide it
         if (getOverlapFromTwoExtents(thisBBox, underBBox)) {
-          var delta = 1.0;
+          var dx =
+              (Math.max(0, thisBBox.right - underBBox.left) +
+                Math.min(0, thisBBox.left - underBBox.right)) *
+              0.01,
+            dy =
+              (Math.max(0, thisBBox.bottom - underBBox.top) +
+                Math.min(0, thisBBox.top - b.bottom)) *
+              0.02;
           d3.select(this).attr("x", (d) => {
-            d.label_x += delta;
+            d.label_x += dx;
             return d.label_x;
           });
           d3.select(this).attr("y", (d) => {
-            d.label_y += delta;
+            d.label_y += dy;
             return d.label_y + delta;
           });
           d3.select(that).attr("x", (d) => {
-            d.label_x -= delta;
+            d.label_x -= dx;
             return d.label_x - delta;
           });
           d3.select(that).attr("y", (d) => {
-            d.label_y -= delta;
+            d.label_y -= dy;
             return d.label_y - delta;
           });
         }
@@ -100,7 +107,6 @@ export default {
   },
   watch: {
     getToolsQuery: {
-      deep: true,
       handler() {
         this.updatePlot();
       },
@@ -171,62 +177,81 @@ export default {
           d.h = Math.abs(d.y_min - d.y_max);
           d.label_x = d.x_min + Math.abs(d.x_min - d.x_max) / 2;
           d.label_y = d.y_min + Math.abs(d.y_min - d.y_max) / 2;
+          d.original_label_x = d.label_x;
+          d.original_label_y = d.label_y;
           return d;
         });
 
       let rects = this.svg.selectAll("rect").data(data, (d) => d.name);
 
-      rects.join(
-        (enter) => {
-          enter
-            .append("rect")
-            .attr("x", (d) => d.x_min)
-            .attr("y", (d) => d.y_min)
-            .attr("width", (d) => d.w)
-            .attr("height", (d) => d.h)
-            .attr("stroke", "black")
-            .attr("fill", function (d) {
-              return myColor(d);
-            });
-        },
-        (update) => {
-          update
-            .attr("x", (d) => d.x_min)
-            .attr("y", (d) => d.y_min)
-            .attr("width", (d) => d.w)
-            .attr("height", (d) => d.h);
-        },
-        (exit) => {
-          exit.remove();
-        }
-      );
-      let texts = this.svg.selectAll("text").data(data, (d) => d.name);
+      rects
+        .join("rect")
+        .attr("x", (d) => d.x_min)
+        .attr("y", (d) => d.y_min)
+        .attr("width", (d) => d.w)
+        .attr("height", (d) => d.h)
+        .attr("stroke", "black")
+        .attr("fill", function (d) {
+          return myColor(d);
+        });
 
-      var label_array = [];
-      var anchor_array = [];
-      var nsweeps = 200;
-      var index = 0;
+      /* const labels = this.svg.selectAll("text").data(data, (d) => d.name); */
+      /* labels.join("text") */
+      /*   .attr("x", d => d.label_x) */
+      /*   .attr("y", d => d.label_y) */
+      /*   .attr("class", "dedup") */
+      /*   .text(d => d.name); */
 
-      texts.join(
-        (enter) => {
-          enter
-            .append("text")
-            .attr("class", "dedupe")
-            .attr("x", (d) => d.label_x)
-            .attr("y", (d) => d.label_y)
-            .attr("text-anchor", "middle")
-            .style("font-weight", "bold")
-            .text((d) => d.name);
-          dedupeLabels(d3.selectAll(".dedupe"));
-        },
-        (update) => {
-          update.attr("x", (d) => d.label_x).attr("y", (d) => d.label_y);
-          dedupeLabels(d3.selectAll(".dedupe"));
-        },
-        (exit) => {
-          exit.remove();
-        }
-      );
+      var graph = { nodes: [], links: [] };
+
+      data.map((d, i) => {
+        graph.nodes.push({ x: d.label_x, y: d.label_y, name: d.name });
+        graph.nodes.push({ fx: d.label_x, fy: d.label_y, name: null });
+        graph.links.push({ source: 2 * i, target: 2 * i + 1 });
+        return graph;
+      });
+
+      const simulation = d3
+        .forceSimulation()
+        .nodes(graph.nodes)
+        .force("center", d3.forceCollide(50))
+        .force("link", d3.forceLink(graph.links))
+        .on("tick", tick);
+
+      simulation.tick(100);
+
+      const link = this.svg
+        .selectAll(".link")
+        .data(graph.links)
+        .join("line")
+        .classed("link", true);
+
+      const node = this.svg
+        .selectAll(".node")
+        .data(graph.nodes)
+        .join("circle")
+        .attr("r", 6)
+        .classed("node", (d) => d.fx === undefined)
+        .classed("hidden", (d) => d.fx === undefined);
+
+      const labels = this.svg
+        .selectAll(".label")
+        .data(graph.nodes.filter((d) => d.name))
+        .join("text")
+        .attr("x", (d) => d.x)
+        .attr("y", (d) => d.y)
+        .attr("text-anchor", "middle")
+        .text((d) => d.name);
+
+      function tick() {
+        link
+          .attr("x1", (d) => d.source.x)
+          .attr("y1", (d) => d.source.y)
+          .attr("x2", (d) => d.target.x)
+          .attr("y2", (d) => d.target.y);
+        node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+        labels.attr("x", (d) => d.x).attr("y", (d) => d.y);
+      }
     },
     generatePlot() {
       const svg = d3
@@ -325,3 +350,21 @@ export default {
   },
 };
 </script>
+
+<css>
+.link {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.node {
+  display: none;
+  fill: #ccc;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.node.hidden {
+  fill: red;
+}
+</css>
