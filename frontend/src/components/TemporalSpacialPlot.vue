@@ -202,6 +202,10 @@ export default {
       /*   .attr("class", "dedup") */
       /*   .text(d => d.name); */
 
+      this.svg.selectAll(".label").html(null).remove();
+      this.svg.selectAll(".node").html(null).remove();
+      this.svg.selectAll(".link").html(null).remove();
+
       var graph = { nodes: [], links: [] };
 
       data.map((d, i) => {
@@ -217,8 +221,6 @@ export default {
         .force("center", d3.forceCollide(50))
         .force("link", d3.forceLink(graph.links))
         .on("tick", tick);
-
-      simulation.tick(100);
 
       const link = this.svg
         .selectAll(".link")
