@@ -30,12 +30,7 @@ import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
 import Autocomplete from "./Autocomplete.vue";
 import LanguageCheckBox from "./LanguageCheckBox.vue";
 
-var dedupeLabels = (allDedupeLabels) => {
-  // allDedupeLabels should contain all the objects you want to consider for de-duping
-  // ex. dedupeLabels(d3.selectAll('.dedupe')
-  // Use class "dedupe" when generating each object. Then add "dedupe-always-show" to things you want to show regardless (like important labels)
-
-  // A function to check whether two bounding boxes overlap
+var dedupeLabels = (dedupLabels) => {
   const getOverlapFromTwoExtents = (l, r) => {
     var overlapPadding = 0;
     l.left = l.x - overlapPadding;
@@ -61,24 +56,34 @@ var dedupeLabels = (allDedupeLabels) => {
     }
   };
 
-  // Cycle through dedupables and dedupe them
-  allDedupeLabels.each(function (d, i) {
+  dedupLabels.each(function (d, i) {
     // Get bounding box
     var thisBBox = this.getBBox();
+    var that = this;
 
-    // Iterate through each box to see if it overlaps with any following
-    // If they do, hide them
-    // And only get labels later in the order than this one
-    allDedupeLabels
+    dedupLabels
       .filter((k, j) => j > i)
       .each(function (d) {
         var underBBox = this.getBBox();
         // If not overlapping with a subsequent item, and isn't meant to be shown always, hide it
-        if (
-          getOverlapFromTwoExtents(thisBBox, underBBox) &&
-          d3.select(this).attr("class").match("dedupe-always-show") == null
-        ) {
-          d3.select(this).style("opacity", 0.25);
+        if (getOverlapFromTwoExtents(thisBBox, underBBox)) {
+          var delta = 1.0;
+          d3.select(this).attr("x", (d) => {
+            d.label_x += delta;
+            return d.label_x;
+          });
+          d3.select(this).attr("y", (d) => {
+            d.label_y += delta;
+            return d.label_y + delta;
+          });
+          d3.select(that).attr("x", (d) => {
+            d.label_x -= delta;
+            return d.label_x - delta;
+          });
+          d3.select(that).attr("y", (d) => {
+            d.label_y -= delta;
+            return d.label_y - delta;
+          });
         }
       });
   });
@@ -97,7 +102,6 @@ export default {
     getToolsQuery: {
       deep: true,
       handler() {
-        console.log(this.getToolsQuery);
         this.updatePlot();
       },
     },
@@ -145,95 +149,58 @@ export default {
       var data = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
       var myColor = d3.scaleOrdinal().domain(data).range(d3.schemeSet3);
 
-      let rects = this.svg
-        .selectAll("rect")
-        .data(this.getToolsQuery, (d) => d.name);
+      var data = this.getToolsQuery
+        .filter(
+          (d) =>
+            d.lowest_temporal_resolution &&
+            d.highest_temporal_resolution &&
+            d.lowest_spatial_resolution &&
+            d.highest_spatial_resolution
+        )
+        .filter(
+          (d) =>
+            d.lowest_temporal_resolution !== d.highest_temporal_resolution &&
+            d.lowest_spatial_resolution !== d.highest_spatial_resolution
+        )
+        .map((d) => {
+          d.x_min = this.x(d.highest_temporal_resolution);
+          d.x_max = this.x(d.lowest_temporal_resolution);
+          d.y_min = this.y(d.highest_spatial_resolution);
+          d.y_max = this.y(d.lowest_spatial_resolution);
+          d.w = Math.abs(d.x_min - d.x_max);
+          d.h = Math.abs(d.y_min - d.y_max);
+          d.label_x = d.x_min + Math.abs(d.x_min - d.x_max) / 2;
+          d.label_y = d.y_min + Math.abs(d.y_min - d.y_max) / 2;
+          return d;
+        });
+
+      let rects = this.svg.selectAll("rect").data(data, (d) => d.name);
 
       rects.join(
         (enter) => {
           enter
-            .filter(function (d) {
-              console.log(
-                d.name,
-                d.lowest_temporal_resolution,
-                d.highest_temporal_resolution,
-                d.lowest_spatial_resolution,
-                d.highest_spatial_resolution
-              );
-              return (
-                d.lowest_temporal_resolution &&
-                d.highest_temporal_resolution &&
-                d.lowest_spatial_resolution &&
-                d.highest_spatial_resolution
-              );
-            })
-            .filter(function (d) {
-              return (
-                d.lowest_temporal_resolution !==
-                  d.highest_temporal_resolution &&
-                d.lowest_spatial_resolution !== d.highest_spatial_resolution
-              );
-            })
             .append("rect")
-            .attr("x", (d) => this.x(d.highest_temporal_resolution))
-            .attr("y", (d) => this.y(d.highest_spatial_resolution))
-            .attr("width", (d) =>
-              Math.abs(
-                this.x(d.highest_temporal_resolution) -
-                  this.x(d.lowest_temporal_resolution)
-              )
-            )
-            .attr("height", (d) =>
-              Math.abs(
-                this.y(d.lowest_spatial_resolution) -
-                  this.y(d.highest_spatial_resolution)
-              )
-            )
+            .attr("x", (d) => d.x_min)
+            .attr("y", (d) => d.y_min)
+            .attr("width", (d) => d.w)
+            .attr("height", (d) => d.h)
             .attr("stroke", "black")
-            .attr("opacity", "0.25")
             .attr("fill", function (d) {
               return myColor(d);
             });
         },
         (update) => {
           update
-            .filter(function (d) {
-              return (
-                d.lowest_temporal_resolution &&
-                d.highest_temporal_resolution &&
-                d.lowest_spatial_resolution &&
-                d.highest_spatial_resolution
-              );
-            })
-            .filter(function (d) {
-              return (
-                d.lowest_temporal_resolution !==
-                  d.highest_temporal_resolution &&
-                d.lowest_spatial_resolution !== d.highest_spatial_resolution
-              );
-            })
-            .attr("x", (d) => this.x(d.highest_temporal_resolution))
-            .attr("y", (d) => this.y(d.highest_spatial_resolution))
-            .attr("width", (d) =>
-              Math.abs(
-                this.x(d.highest_temporal_resolution) -
-                  this.x(d.lowest_temporal_resolution)
-              )
-            )
-            .attr("height", (d) =>
-              Math.abs(
-                this.y(d.lowest_spatial_resolution) -
-                  this.y(d.highest_spatial_resolution)
-              )
-            );
+            .attr("x", (d) => d.x_min)
+            .attr("y", (d) => d.y_min)
+            .attr("width", (d) => d.w)
+            .attr("height", (d) => d.h);
         },
         (exit) => {
           exit.remove();
         }
       );
-      let texts = this.svg
-        .selectAll("text")
-        .data(this.getToolsQuery, (d) => d.name);
+      let texts = this.svg.selectAll("text").data(data, (d) => d.name);
 
       var label_array = [];
       var anchor_array = [];
@@ -243,88 +210,17 @@ export default {
       texts.join(
         (enter) => {
           enter
-            .filter(function (d) {
-              return (
-                d.lowest_temporal_resolution &&
-                d.highest_temporal_resolution &&
-                d.lowest_spatial_resolution &&
-                d.highest_spatial_resolution
-              );
-            })
-            .filter(function (d) {
-              return (
-                d.lowest_temporal_resolution !==
-                  d.highest_temporal_resolution &&
-                d.lowest_spatial_resolution !== d.highest_spatial_resolution
-              );
-            })
             .append("text")
             .attr("class", "dedupe")
-            .attr("x", (d) => this.x(d.highest_temporal_resolution))
-            .attr("y", (d) => this.y(d.highest_spatial_resolution))
-            .attr(
-              "dx",
-              (d) =>
-                Math.abs(
-                  this.x(d.highest_temporal_resolution) -
-                    this.x(d.lowest_temporal_resolution)
-                ) / 2
-            )
-            .attr(
-              "dy",
-              (d) =>
-                Math.abs(
-                  this.y(d.lowest_spatial_resolution) -
-                    this.y(d.highest_spatial_resolution)
-                ) / 2
-            )
+            .attr("x", (d) => d.label_x)
+            .attr("y", (d) => d.label_y)
             .attr("text-anchor", "middle")
-            .style("opacity", 1)
             .style("font-weight", "bold")
-            .text((d) => d.name)
-            .each((datum, index, elements) => {
-              const boundingBox = (elements[index] as any).getBBox();
-              datum.bbox_width = boundingBox.width;
-              datum.bbox_height = boundingBox.height;
-            });
+            .text((d) => d.name);
           dedupeLabels(d3.selectAll(".dedupe"));
         },
         (update) => {
-          update
-            .filter(function (d) {
-              return (
-                d.lowest_temporal_resolution &&
-                d.highest_temporal_resolution &&
-                d.lowest_spatial_resolution &&
-                d.highest_spatial_resolution
-              );
-            })
-            .filter(function (d) {
-              return (
-                d.lowest_temporal_resolution !==
-                  d.highest_temporal_resolution &&
-                d.lowest_spatial_resolution !== d.highest_spatial_resolution
-              );
-            })
-            .style("opacity", 1)
-            .attr("x", (d) => this.x(d.highest_temporal_resolution))
-            .attr("y", (d) => this.y(d.highest_spatial_resolution))
-            .attr(
-              "dx",
-              (d) =>
-                Math.abs(
-                  this.x(d.highest_temporal_resolution) -
-                    this.x(d.lowest_temporal_resolution)
-                ) / 2
-            )
-            .attr(
-              "dy",
-              (d) =>
-                Math.abs(
-                  this.y(d.lowest_spatial_resolution) -
-                    this.y(d.highest_spatial_resolution)
-                ) / 2
-            );
+          update.attr("x", (d) => d.label_x).attr("y", (d) => d.label_y);
           dedupeLabels(d3.selectAll(".dedupe"));
         },
         (exit) => {
