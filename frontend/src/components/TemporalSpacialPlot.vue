@@ -30,6 +30,60 @@ import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
 import Autocomplete from "./Autocomplete.vue";
 import LanguageCheckBox from "./LanguageCheckBox.vue";
 
+var dedupeLabels = (allDedupeLabels) => {
+  // allDedupeLabels should contain all the objects you want to consider for de-duping
+  // ex. dedupeLabels(d3.selectAll('.dedupe')
+  // Use class "dedupe" when generating each object. Then add "dedupe-always-show" to things you want to show regardless (like important labels)
+
+  // A function to check whether two bounding boxes overlap
+  const getOverlapFromTwoExtents = (l, r) => {
+    var overlapPadding = 0;
+    l.left = l.x - overlapPadding;
+    l.right = l.x + l.width + overlapPadding;
+    l.top = l.y - overlapPadding;
+    l.bottom = l.y + l.height + overlapPadding;
+    r.left = r.x - overlapPadding;
+    r.right = r.x + r.width + overlapPadding;
+    r.top = r.y - overlapPadding;
+    r.bottom = r.y + r.height + overlapPadding;
+    var a = l;
+    var b = r;
+
+    if (
+      a.left >= b.right ||
+      a.top >= b.bottom ||
+      a.right <= b.left ||
+      a.bottom <= b.top
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  // Cycle through dedupables and dedupe them
+  allDedupeLabels.each(function (d, i) {
+    // Get bounding box
+    var thisBBox = this.getBBox();
+
+    // Iterate through each box to see if it overlaps with any following
+    // If they do, hide them
+    // And only get labels later in the order than this one
+    allDedupeLabels
+      .filter((k, j) => j > i)
+      .each(function (d) {
+        var underBBox = this.getBBox();
+        // If not overlapping with a subsequent item, and isn't meant to be shown always, hide it
+        if (
+          getOverlapFromTwoExtents(thisBBox, underBBox) &&
+          d3.select(this).attr("class").match("dedupe-always-show") == null
+        ) {
+          d3.select(this).style("opacity", 0.25);
+        }
+      });
+  });
+};
+
 export default {
   name: "TemporalSpacialPlot",
   components: {
@@ -121,22 +175,18 @@ export default {
               );
             })
             .append("rect")
-            .attr("x", (d) =>
-              this.x(d.highest_temporal_resolution.toLowerCase())
-            )
-            .attr("y", (d) =>
-              this.y(d.highest_spatial_resolution.toLowerCase())
-            )
+            .attr("x", (d) => this.x(d.highest_temporal_resolution))
+            .attr("y", (d) => this.y(d.highest_spatial_resolution))
             .attr("width", (d) =>
               Math.abs(
-                this.x(d.highest_temporal_resolution.toLowerCase()) -
-                  this.x(d.lowest_temporal_resolution.toLowerCase())
+                this.x(d.highest_temporal_resolution) -
+                  this.x(d.lowest_temporal_resolution)
               )
             )
             .attr("height", (d) =>
               Math.abs(
-                this.y(d.lowest_spatial_resolution.toLowerCase()) -
-                  this.y(d.highest_spatial_resolution.toLowerCase())
+                this.y(d.lowest_spatial_resolution) -
+                  this.y(d.highest_spatial_resolution)
               )
             )
             .attr("stroke", "black")
@@ -162,22 +212,18 @@ export default {
                 d.lowest_spatial_resolution !== d.highest_spatial_resolution
               );
             })
-            .attr("x", (d) =>
-              this.x(d.highest_temporal_resolution.toLowerCase())
-            )
-            .attr("y", (d) =>
-              this.y(d.highest_spatial_resolution.toLowerCase())
-            )
+            .attr("x", (d) => this.x(d.highest_temporal_resolution))
+            .attr("y", (d) => this.y(d.highest_spatial_resolution))
             .attr("width", (d) =>
               Math.abs(
-                this.x(d.highest_temporal_resolution.toLowerCase()) -
-                  this.x(d.lowest_temporal_resolution.toLowerCase())
+                this.x(d.highest_temporal_resolution) -
+                  this.x(d.lowest_temporal_resolution)
               )
             )
             .attr("height", (d) =>
               Math.abs(
-                this.y(d.lowest_spatial_resolution.toLowerCase()) -
-                  this.y(d.highest_spatial_resolution.toLowerCase())
+                this.y(d.lowest_spatial_resolution) -
+                  this.y(d.highest_spatial_resolution)
               )
             );
         },
@@ -188,6 +234,12 @@ export default {
       let texts = this.svg
         .selectAll("text")
         .data(this.getToolsQuery, (d) => d.name);
+
+      var label_array = [];
+      var anchor_array = [];
+      var nsweeps = 200;
+      var index = 0;
+
       texts.join(
         (enter) => {
           enter
@@ -207,31 +259,35 @@ export default {
               );
             })
             .append("text")
-            .attr("x", (d) =>
-              this.x(d.highest_temporal_resolution.toLowerCase())
-            )
-            .attr("y", (d) =>
-              this.y(d.highest_spatial_resolution.toLowerCase())
-            )
+            .attr("class", "dedupe")
+            .attr("x", (d) => this.x(d.highest_temporal_resolution))
+            .attr("y", (d) => this.y(d.highest_spatial_resolution))
             .attr(
               "dx",
               (d) =>
                 Math.abs(
-                  this.x(d.highest_temporal_resolution.toLowerCase()) -
-                    this.x(d.lowest_temporal_resolution.toLowerCase())
+                  this.x(d.highest_temporal_resolution) -
+                    this.x(d.lowest_temporal_resolution)
                 ) / 2
             )
             .attr(
               "dy",
               (d) =>
                 Math.abs(
-                  this.y(d.lowest_spatial_resolution.toLowerCase()) -
-                    this.y(d.highest_spatial_resolution.toLowerCase())
+                  this.y(d.lowest_spatial_resolution) -
+                    this.y(d.highest_spatial_resolution)
                 ) / 2
             )
             .attr("text-anchor", "middle")
+            .style("opacity", 1)
             .style("font-weight", "bold")
-            .text((d) => d.name);
+            .text((d) => d.name)
+            .each((datum, index, elements) => {
+              const boundingBox = (elements[index] as any).getBBox();
+              datum.bbox_width = boundingBox.width;
+              datum.bbox_height = boundingBox.height;
+            });
+          dedupeLabels(d3.selectAll(".dedupe"));
         },
         (update) => {
           update
@@ -250,28 +306,26 @@ export default {
                 d.lowest_spatial_resolution !== d.highest_spatial_resolution
               );
             })
-            .attr("x", (d) =>
-              this.x(d.highest_temporal_resolution.toLowerCase())
-            )
-            .attr("y", (d) =>
-              this.y(d.highest_spatial_resolution.toLowerCase())
-            )
+            .style("opacity", 1)
+            .attr("x", (d) => this.x(d.highest_temporal_resolution))
+            .attr("y", (d) => this.y(d.highest_spatial_resolution))
             .attr(
               "dx",
               (d) =>
                 Math.abs(
-                  this.x(d.highest_temporal_resolution.toLowerCase()) -
-                    this.x(d.lowest_temporal_resolution.toLowerCase())
+                  this.x(d.highest_temporal_resolution) -
+                    this.x(d.lowest_temporal_resolution)
                 ) / 2
             )
             .attr(
               "dy",
               (d) =>
                 Math.abs(
-                  this.y(d.lowest_spatial_resolution.toLowerCase()) -
-                    this.y(d.highest_spatial_resolution.toLowerCase())
+                  this.y(d.lowest_spatial_resolution) -
+                    this.y(d.highest_spatial_resolution)
                 ) / 2
             );
+          dedupeLabels(d3.selectAll(".dedupe"));
         },
         (exit) => {
           exit.remove();
