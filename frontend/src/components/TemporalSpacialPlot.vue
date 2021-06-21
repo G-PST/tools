@@ -18,8 +18,35 @@
     <LanguageCheckBox />
 
     <br />
-
-    <div class="row text-center" />
+    <div class="row text-center">
+      <div class="col">
+        <div class="form-check form-check-inline" v-if="getToolsLoaded">
+          <input class="form-check-input" type="checkbox" v-model="allTools" />
+          <label class="form-check-label">
+            <a class="all-tool-label" target="_blank"> All </a>
+          </label>
+        </div>
+        <div
+          class="form-check form-check-inline"
+          v-if="getToolsLoaded"
+          v-for="tool in getTools"
+          :key="tool"
+        >
+          <input
+            class="form-check-input"
+            type="checkbox"
+            :id="tool"
+            :value="tool.name"
+            v-model="selectedTools"
+          />
+          <label class="form-check-label" :for="tool">
+            <a class="tool-label" target="_blank">
+              {{ tool.name }}
+            </a>
+          </label>
+        </div>
+      </div>
+    </div>
     <div id="chart" class="col" />
   </div>
 </template>
@@ -115,6 +142,11 @@ export default {
         this.updatePlot();
       },
     },
+    selectedTools: {
+      handler() {
+        this.updatePlot();
+      },
+    },
   },
   data() {
     return {
@@ -128,8 +160,27 @@ export default {
       },
     };
   },
-
   computed: {
+    allTools: {
+      get() {
+        return this.getTools.length == this.selectedTools.length;
+      },
+      set(value) {
+        if (value) {
+          this.setSelectedTools(this.getTools.map((d) => d.name));
+        } else {
+          this.setSelectedTools([]);
+        }
+      },
+    },
+    selectedTools: {
+      get() {
+        return this.$store.state.tools.selectedTools;
+      },
+      set(value) {
+        this.setSelectedTools(value);
+      },
+    },
     ...mapGetters("tools", ["getTools", "getToolsQuery", "getToolsLoaded"]),
   },
 
@@ -151,6 +202,7 @@ export default {
       if (this.getToolsQuery.length === 0) {
         this.fetchTools();
       }
+      this.selectedTools = this.getTools.map((d) => d.name);
     },
     updatePlot() {
       if (!this.svg) {
@@ -160,18 +212,9 @@ export default {
       var myColor = d3.scaleOrdinal().domain(data).range(d3.schemeSet3);
 
       var data = this.getToolsQuery
-        .filter(
-          (d) =>
-            d.lowest_temporal_resolution &&
-            d.highest_temporal_resolution &&
-            d.lowest_spatial_resolution &&
-            d.highest_spatial_resolution
-        )
-        .filter(
-          (d) =>
-            d.lowest_temporal_resolution !== d.highest_temporal_resolution &&
-            d.lowest_spatial_resolution !== d.highest_spatial_resolution
-        )
+        .filter((d) => {
+          return this.selectedTools.includes(d.name);
+        })
         .map((d) => {
           d.x_min = this.x(d.highest_temporal_resolution);
           d.x_max = this.x(d.lowest_temporal_resolution);
@@ -329,6 +372,7 @@ export default {
       svg.call(zoom);
     },
     ...mapActions("tools", ["fetchTools", "clearTools"]),
+    ...mapMutations("tools", ["setSelectedTools"]),
   },
 };
 </script>

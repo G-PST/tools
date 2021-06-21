@@ -12,6 +12,7 @@ const client = axios.create({
 const state = {
   tools: [],
   languages: new Set(),
+  selectedTools: [],
   selectedLanguages: [],
   searchQuery: null,
   toolsLoaded: false,
@@ -19,8 +20,9 @@ const state = {
 };
 
 const getters = {
+  getSelectedTools: (state) => Array.from(state.selectedTools).sort(),
   getLanguages: (state) => Array.from(state.languages).sort(),
-  getSelectedLanguages: (state) => state.selectedLanguages.sort(),
+  getSelectedLanguages: (state) => Array.from(state.selectedLanguages).sort(),
   getToolsLoaded: (state) => state.toolsLoaded,
   getSubmitTool: (state) => state.submitTool,
   getTools: (state) => state.tools,
@@ -119,6 +121,9 @@ const actions = {
 };
 
 const mutations = {
+  setSelectedTools: (state, selectedTools) => {
+    state.selectedTools = selectedTools;
+  },
   setSelectedLanguages: (state, selectedLanguages) => {
     state.selectedLanguages = selectedLanguages;
   },
