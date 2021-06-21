@@ -59,7 +59,7 @@ import LanguageCheckBox from "./LanguageCheckBox.vue";
 
 var dedupeLabels = (dedupLabels) => {
   const getOverlapFromTwoExtents = (l, r) => {
-    var overlapPadding = 10;
+    var overlapPadding = 5;
     l.left = l.x - overlapPadding;
     l.right = l.x + l.width + overlapPadding;
     l.top = l.y - overlapPadding;
