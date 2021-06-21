@@ -47,6 +47,24 @@
         </div>
       </div>
     </div>
+
+    <br />
+
+    <div class="row">
+      <div class="col">
+        <select class="form-control" v-model="selection1">
+          <option>temporal_resolution</option>
+          <option>temporal_scope</option>
+        </select>
+      </div>
+      <div class="col">
+        <select class="form-control" v-model="selection2">
+          <option>spatial_resolution</option>
+          <option>spatial_scope</option>
+        </select>
+      </div>
+    </div>
+
     <div id="chart" class="col" />
   </div>
 </template>
@@ -137,6 +155,21 @@ export default {
     data: {},
   },
   watch: {
+    selection1: {
+      handler() {
+        this.updatePlot();
+      },
+    },
+    selection2: {
+      handler() {
+        this.updatePlot();
+      },
+    },
+    getTools: {
+      handler() {
+        this.selectedTools = this.getTools.map((d) => d.name);
+      },
+    },
     getToolsQuery: {
       handler() {
         this.updatePlot();
@@ -152,6 +185,8 @@ export default {
     return {
       width: window.innerWidth * 0.5,
       height: window.innerHeight * 0.5,
+      selection1: "temporal_resolution",
+      selection2: "spatial_resolution",
       margin: {
         top: 75,
         right: 75,
@@ -202,7 +237,6 @@ export default {
       if (this.getToolsQuery.length === 0) {
         this.fetchTools();
       }
-      this.selectedTools = this.getTools.map((d) => d.name);
     },
     updatePlot() {
       if (!this.svg) {
@@ -216,10 +250,10 @@ export default {
           return this.selectedTools.includes(d.name);
         })
         .map((d) => {
-          d.x_min = this.x(d.highest_temporal_resolution);
-          d.x_max = this.x(d.lowest_temporal_resolution);
-          d.y_min = this.y(d.highest_spatial_resolution);
-          d.y_max = this.y(d.lowest_spatial_resolution);
+          d.x_min = this.x(d["highest_" + this.selection1]);
+          d.x_max = this.x(d["lowest_" + this.selection1]);
+          d.y_min = this.y(d["highest_" + this.selection2]);
+          d.y_max = this.y(d["lowest_" + this.selection2]);
           d.w = Math.abs(d.x_min - d.x_max);
           d.h = Math.abs(d.y_min - d.y_max);
           d.label_x = d.x_min + Math.abs(d.x_min - d.x_max) / 2;
