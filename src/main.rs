@@ -45,6 +45,10 @@ use license::License;
 use log::{info, trace, warn};
 use regex::Regex;
 
+use anyhow::anyhow;
+use strum::IntoEnumIterator;
+use strum_macros::EnumIter;
+
 #[get("/")]
 async fn index() -> Option<NamedFile> {
     NamedFile::open("frontend/dist/index.html").await.ok()
@@ -68,7 +72,7 @@ struct Options<'r> {
     name: Option<&'r str>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, EnumIter)]
 #[serde(crate = "rocket::serde", rename_all = "lowercase")]
 enum TemporalResolution {
     Instant,
@@ -82,7 +86,7 @@ enum TemporalResolution {
     Decades,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, EnumIter)]
 #[serde(crate = "rocket::serde", rename_all = "lowercase")]
 enum SpatialResolution {
     Component,
@@ -316,6 +320,23 @@ impl Tool {
     }
 }
 
+#[get("/labels/<kind>", format = "json")]
+async fn labels(kind: String) -> Json<Vec<String>> {
+    match kind.as_str() {
+        "TemporalResolution" => Json(
+            TemporalResolution::iter()
+                .map(|s| format!("{:?}", s))
+                .collect::<Vec<String>>(),
+        ),
+        "SpatialResolution" => Json(
+            SpatialResolution::iter()
+                .map(|s| format!("{:?}", s))
+                .collect::<Vec<String>>(),
+        ),
+        _ => Json(vec![]),
+    }
+}
+
 #[get("/tools", format = "json")]
 async fn tools() -> Json<Vec<Tool>> {
     let github = Github::new(
@@ -373,6 +394,6 @@ fn rocket() -> _ {
 
     rocket::build()
         .mount("/", routes![index, files])
-        .mount("/api/", routes![tools, version])
+        .mount("/api/", routes![tools, labels, version])
         .attach(options.to_cors().unwrap())
 }
