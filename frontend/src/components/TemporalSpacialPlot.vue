@@ -156,7 +156,7 @@ export default {
       if (!this.svg) {
         return;
       }
-      var data = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
+      var data = this.getTools;
       var myColor = d3.scaleOrdinal().domain(data).range(d3.schemeSet3);
 
       var data = this.getToolsQuery
@@ -186,7 +186,7 @@ export default {
           return d;
         });
 
-      let rects = this.svg.selectAll("rect").data(data, (d) => d.name);
+      let rects = this.rects.selectAll("rect").data(data, (d) => d.name);
 
       rects
         .join("rect")
@@ -195,11 +195,12 @@ export default {
         .attr("width", (d) => d.w)
         .attr("height", (d) => d.h)
         .attr("stroke", "black")
+        .attr("opacity", 0.5)
         .attr("fill", function (d) {
           return myColor(d);
         });
 
-      const labels = this.svg.selectAll("text").data(data, (d) => d.name);
+      const labels = this.labels.selectAll("text").data(data, (d) => d.name);
       labels
         .join("text")
         .attr("x", (d) => d.label_x)
@@ -255,6 +256,8 @@ export default {
           "transform",
           `translate(${this.margin.left}px, ${this.margin.top}px)`
         );
+      this.rects = this.svg.append("g");
+      this.labels = this.svg.append("g");
 
       this.x = d3
         .scalePoint()
