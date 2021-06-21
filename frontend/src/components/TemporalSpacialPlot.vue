@@ -56,14 +56,15 @@ var dedupeLabels = (dedupLabels) => {
     }
   };
 
-  dedupLabels.each(function (d, i) {
-    // Get bounding box
-    var thisBBox = this.getBBox();
-    var that = this;
+  var move = 1;
+  while (move > 0) {
+    move = 0;
+    dedupLabels.each(function (d, i) {
+      // Get bounding box
+      var thisBBox = this.getBBox();
+      var that = this;
 
-    dedupLabels
-      .filter((k, j) => j > i)
-      .each(function (d) {
+      dedupLabels.each(function (d) {
         var underBBox = this.getBBox();
         // If not overlapping with a subsequent item, and isn't meant to be shown always, hide it
         if (getOverlapFromTwoExtents(thisBBox, underBBox)) {
@@ -73,27 +74,30 @@ var dedupeLabels = (dedupLabels) => {
               0.01,
             dy =
               (Math.max(0, thisBBox.bottom - underBBox.top) +
-                Math.min(0, thisBBox.top - b.bottom)) *
-              0.02;
+                Math.min(0, thisBBox.top - underBBox.bottom)) *
+              0.02,
+            delta = 0;
+          move += Math.abs(dx) + Math.abs(dy);
           d3.select(this).attr("x", (d) => {
-            d.label_x += dx;
-            return d.label_x;
+            d.label_x -= dx;
+            return d.label_x + delta;
           });
           d3.select(this).attr("y", (d) => {
-            d.label_y += dy;
+            d.label_y -= dy;
             return d.label_y + delta;
           });
           d3.select(that).attr("x", (d) => {
-            d.label_x -= dx;
+            d.label_x += dx;
             return d.label_x - delta;
           });
           d3.select(that).attr("y", (d) => {
-            d.label_y -= dy;
+            d.label_y += dy;
             return d.label_y - delta;
           });
         }
       });
-  });
+    });
+  }
 };
 
 export default {
@@ -195,65 +199,48 @@ export default {
           return myColor(d);
         });
 
-      /* const labels = this.svg.selectAll("text").data(data, (d) => d.name); */
-      /* labels.join("text") */
-      /*   .attr("x", d => d.label_x) */
-      /*   .attr("y", d => d.label_y) */
-      /*   .attr("class", "dedup") */
-      /*   .text(d => d.name); */
+      const labels = this.svg.selectAll("text").data(data, (d) => d.name);
+      labels
+        .join("text")
+        .attr("x", (d) => d.label_x)
+        .attr("y", (d) => d.label_y)
+        .attr("class", "dedup")
+        .attr("text-anchor", "middle")
+        .text((d) => d.name);
 
-      this.svg.selectAll(".label").html(null).remove();
-      this.svg.selectAll(".node").html(null).remove();
-      this.svg.selectAll(".link").html(null).remove();
+      dedupeLabels(d3.selectAll(".dedup"));
 
-      var graph = { nodes: [], links: [] };
+      const graph = { nodes: [], links: [] };
 
       data.map((d, i) => {
-        graph.nodes.push({ x: d.label_x, y: d.label_y, name: d.name });
-        graph.nodes.push({ fx: d.label_x, fy: d.label_y, name: null });
-        graph.links.push({ source: 2 * i, target: 2 * i + 1 });
+        graph.nodes.push({
+          i: i * 2,
+          x: d.label_x,
+          y: d.label_y,
+          name: d.name,
+        });
+        graph.nodes.push({
+          i: i * 2 + 1,
+          x: d.original_label_x,
+          y: d.original_label_y,
+          name: null,
+        });
+        graph.links.push({
+          source: { x: d.label_x, y: d.label_y },
+          target: { x: d.original_label_x, y: d.original_label_y },
+        });
         return graph;
       });
-
-      const simulation = d3
-        .forceSimulation()
-        .nodes(graph.nodes)
-        .force("center", d3.forceCollide(50))
-        .force("link", d3.forceLink(graph.links))
-        .on("tick", tick);
 
       const link = this.svg
         .selectAll(".link")
         .data(graph.links)
         .join("line")
-        .classed("link", true);
-
-      const node = this.svg
-        .selectAll(".node")
-        .data(graph.nodes)
-        .join("circle")
-        .attr("r", 6)
-        .classed("node", (d) => d.fx === undefined)
-        .classed("hidden", (d) => d.fx === undefined);
-
-      const labels = this.svg
-        .selectAll(".label")
-        .data(graph.nodes.filter((d) => d.name))
-        .join("text")
-        .attr("x", (d) => d.x)
-        .attr("y", (d) => d.y)
-        .attr("text-anchor", "middle")
-        .text((d) => d.name);
-
-      function tick() {
-        link
-          .attr("x1", (d) => d.source.x)
-          .attr("y1", (d) => d.source.y)
-          .attr("x2", (d) => d.target.x)
-          .attr("y2", (d) => d.target.y);
-        node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
-        labels.attr("x", (d) => d.x).attr("y", (d) => d.y);
-      }
+        .classed("link", true)
+        .attr("x1", (d) => d.source.x)
+        .attr("y1", (d) => d.source.y)
+        .attr("x2", (d) => d.target.x)
+        .attr("y2", (d) => d.target.y);
     },
     generatePlot() {
       const svg = d3
@@ -320,11 +307,6 @@ export default {
       this.yAxis = d3.axisLeft(this.y);
       this.y_axis_g.call(this.yAxis);
 
-      const extent = [
-        [0, 0],
-        [this.width, this.height],
-      ];
-
       var zoomed = (event) => {
         this.x.range([0, this.width].map((d) => event.transform.applyX(d)));
         this.x_axis_g.call(this.xAxis);
@@ -339,12 +321,7 @@ export default {
         this.svg.selectAll("text").attr("transform", event.transform);
       };
 
-      var zoom = d3
-        .zoom()
-        .scaleExtent([1, 8])
-        .translateExtent(extent)
-        .extent(extent)
-        .on("zoom", zoomed);
+      var zoom = d3.zoom().scaleExtent([1, 8]).on("zoom", zoomed);
 
       svg.call(zoom);
     },
