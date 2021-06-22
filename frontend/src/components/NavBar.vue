@@ -23,6 +23,9 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/About">About</router-link>
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/Submit">Submit</router-link>
+          </li>
         </ul>
       </div>
     </div>
