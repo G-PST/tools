@@ -6,85 +6,205 @@
   </div>
 
   <form class="row" @submit.prevent="submit">
-    <div class="input-group mb-3">
+    <div class="row input-group mb-3">
       <span class="input-group-text">Name</span>
       <input
-        :value="currentTool.name"
+        v-model="currentTool.name"
         id="name"
         type="text"
         class="form-control"
-        placeholder=""
+        placeholder="Tool Name"
         aria-label="Name"
       />
     </div>
-    <div class="input-group mb-3">
+    <div class="row input-group mb-3">
       <span class="input-group-text">Summary</span>
       <input
-        :value="currentTool.short_description"
+        v-model="currentTool.short_description"
         id="short_description"
         type="text"
         class="form-control"
-        placeholder=""
+        placeholder="Short Description (maximum 140 chars)"
         aria-label="Short Description"
       />
     </div>
-    <div class="input-group mb-3">
+    <div class="row input-group mb-3">
       <span class="input-group-text">Description</span>
       <textarea
-        :value="currentTool.description"
+        v-model="currentTool.description"
         id="description"
         rows="3"
         type="text"
         class="form-control"
-        placeholder=""
+        placeholder="Long Description"
         aria-label="Description"
       />
     </div>
-    <div class="input-group mb-3">
+    <div class="row input-group mb-3">
       <span class="input-group-text">Website</span>
       <input
-        :value="currentTool.website"
+        v-model="currentTool.website"
         id="website"
-        type="text"
+        type="url"
         class="form-control"
-        placeholder=""
+        placeholder="Website URL"
         aria-label="Website"
       />
     </div>
-    <div class="input-group mb-3">
+    <div class="row input-group mb-3">
       <span class="input-group-text">Source</span>
       <input
-        :value="currentTool.source"
+        v-model="currentTool.source"
         id="source"
-        type="text"
+        type="url"
         class="form-control"
-        placeholder=""
+        placeholder="Source URL"
         aria-label="Source"
       />
     </div>
-    <div class="input-group mb-3">
+    <div class="row input-group mb-3">
       <span class="input-group-text">License</span>
       <input
-        :value="currentTool.license"
+        v-model="currentTool.license"
         id="license"
         type="text"
         class="form-control"
-        placeholder=""
+        placeholder="License (e.g. BSD, LGPL, etc)"
         aria-label="License"
       />
     </div>
-    <div class="input-group mb-3">
+    <div class="row input-group mb-3">
       <span class="input-group-text">Point of contact</span>
       <input
-        :value="currentTool.point_of_contact"
+        v-model="currentTool.point_of_contact"
         id="point-of-contact"
-        type="text"
+        type="email"
         class="form-control"
-        placeholder=""
+        placeholder="Email address"
         aria-label="Point of contact"
       />
     </div>
-    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+    <div class="row input-group mb-3">
+      <span class="input-group-text">Lowest Temporal Resolution</span>
+      <select
+        v-model="currentTool.lowest_temporal_resolution"
+        class="form-select"
+        aria-label="Lowest Temporal Resolution"
+      >
+        <option value="instant">Instant</option>
+        <option value="subseconds">Subseconds</option>
+        <option value="seconds">Seconds</option>
+        <option value="minutes">Minutes</option>
+        <option value="hours">Hours</option>
+        <option value="days">Days</option>
+        <option value="weeks">Weeks</option>
+        <option value="months">Months</option>
+        <option value="years">Years</option>
+        <option value="decades">Decades</option>
+        <option value="centuries">Centuries</option>
+      </select>
+    </div>
+    <div class="row input-group mb-3">
+      <span class="input-group-text">Typical Temporal Resolution</span>
+      <select
+        v-model="currentTool.typical_temporal_resolution"
+        class="form-select"
+        aria-label="Typical Temporal Resolution"
+      >
+        <option value="instant">Instant</option>
+        <option value="subseconds">Subseconds</option>
+        <option value="seconds">Seconds</option>
+        <option value="minutes">Minutes</option>
+        <option value="hours">Hours</option>
+        <option value="days">Days</option>
+        <option value="weeks">Weeks</option>
+        <option value="months">Months</option>
+        <option value="years">Years</option>
+        <option value="decades">Decades</option>
+        <option value="centuries">Centuries</option>
+      </select>
+    </div>
+    <div class="row input-group mb-3">
+      <span class="input-group-text">Highest Temporal Resolution</span>
+      <select
+        v-model="currentTool.highest_temporal_resolution"
+        class="form-select"
+        aria-label="Highest Temporal Resolution"
+      >
+        <option value="instant">Instant</option>
+        <option value="subseconds">Subseconds</option>
+        <option value="seconds">Seconds</option>
+        <option value="minutes">Minutes</option>
+        <option value="hours">Hours</option>
+        <option value="days">Days</option>
+        <option value="weeks">Weeks</option>
+        <option value="months">Months</option>
+        <option value="years">Years</option>
+        <option value="decades">Decades</option>
+        <option value="centuries">Centuries</option>
+      </select>
+    </div>
+    <div class="row input-group mb-3">
+      <span class="input-group-text">Lowest Temporal Scope</span>
+      <select
+        v-model="currentTool.lowest_temporal_scope"
+        class="form-select"
+        aria-label="Lowest Temporal Scope"
+      >
+        <option value="instant">Instant</option>
+        <option value="subseconds">Subseconds</option>
+        <option value="seconds">Seconds</option>
+        <option value="minutes">Minutes</option>
+        <option value="hours">Hours</option>
+        <option value="days">Days</option>
+        <option value="weeks">Weeks</option>
+        <option value="months">Months</option>
+        <option value="years">Years</option>
+        <option value="decades">Decades</option>
+        <option value="centuries">Centuries</option>
+      </select>
+    </div>
+    <div class="row input-group mb-3">
+      <span class="input-group-text">Typical Temporal Scope</span>
+      <select
+        v-model="currentTool.typical_temporal_scope"
+        class="form-select"
+        aria-label="Typical Temporal Scope"
+      >
+        <option value="instant">Instant</option>
+        <option value="subseconds">Subseconds</option>
+        <option value="seconds">Seconds</option>
+        <option value="minutes">Minutes</option>
+        <option value="hours">Hours</option>
+        <option value="days">Days</option>
+        <option value="weeks">Weeks</option>
+        <option value="months">Months</option>
+        <option value="years">Years</option>
+        <option value="decades">Decades</option>
+        <option value="centuries">Centuries</option>
+      </select>
+    </div>
+    <div class="row input-group mb-3">
+      <span class="input-group-text">Highest Temporal Scope</span>
+      <select
+        v-model="currentTool.highest_temporal_scope"
+        class="form-select"
+        aria-label="Highest Temporal Scope"
+      >
+        <option value="instant">Instant</option>
+        <option value="subseconds">Subseconds</option>
+        <option value="seconds">Seconds</option>
+        <option value="minutes">Minutes</option>
+        <option value="hours">Hours</option>
+        <option value="days">Days</option>
+        <option value="weeks">Weeks</option>
+        <option value="months">Months</option>
+        <option value="years">Years</option>
+        <option value="decades">Decades</option>
+        <option value="centuries">Centuries</option>
+      </select>
+    </div>
+    <button type="submit" class="row btn btn-primary btn-lg">Submit</button>
   </form>
 </template>
 
@@ -107,7 +227,14 @@ export default defineComponent({
   name: "SubmitTool",
   data() {
     return {
+      errors: [],
       currentTool: {
+        issue_url: "",
+        issue_body: "",
+        body: "",
+        id: 0,
+        number: 0,
+        github_stars: 0,
         name: "",
         short_description: "",
         description: "",
@@ -115,24 +242,6 @@ export default defineComponent({
         email: "",
         license: "",
         source: "",
-      },
-    };
-  },
-  methods: {
-    submit() {
-      var data = {
-        issue_url: "",
-        issue_body: "",
-        body: "",
-        id: 0,
-        number: 0,
-        name: this.currentTool.name,
-        description: this.currentTool.description,
-        short_description: this.currentTool.short_description,
-        website: this.currentTool.website,
-        license: this.currentTool.license,
-        source: this.currentTool.source,
-        github_stars: 0,
         infrastructure_sector: [],
         modeling_paradigm: [],
         capabilities: [],
@@ -141,26 +250,31 @@ export default defineComponent({
         maintenance_status: true,
         input_data_formats: [],
         output_data_formats: [],
-        point_of_contact: this.currentTool.point_of_contact,
+        point_of_contact: "",
         interface: [],
-        lowest_temporal_resolution: null,
-        typical_temporal_resolution: null,
-        highest_temporal_resolution: null,
+        lowest_temporal_resolution: "seconds",
+        typical_temporal_resolution: "seconds",
+        highest_temporal_resolution: "seconds",
         lowest_spatial_resolution: null,
         typical_spatial_resolution: null,
         highest_spatial_resolution: null,
-        lowest_temporal_scope: null,
-        typical_temporal_scope: null,
-        highest_temporal_scope: null,
+        lowest_temporal_scope: "seconds",
+        typical_temporal_scope: "seconds",
+        highest_temporal_scope: "seconds",
         lowest_spatial_scope: null,
         typical_spatial_scope: null,
         highest_spatial_scope: null,
         number_of_publications: null,
         operating_systems: [],
-      };
-      console.log(data);
+      },
+    };
+  },
+  methods: {
+    submit() {
+      console.log(this.currentTool.name);
+      console.log(this.currentTool.short_description);
       client
-        .post("/tools", data)
+        .post("/tools", this.currentTool)
         .then((res) => {
           console.log(res);
         })
