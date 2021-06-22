@@ -636,26 +636,20 @@ fn rocket() -> _ {
     let allowed_origins =
         AllowedOrigins::some(&["https://tools.kdheepak.com"], &["http://localhost:3000"]);
 
-    let options = cors::CorsOptions {
-        allowed_origins,
-        allowed_methods: vec![Method::Get, Method::Post, Method::Delete]
-            .into_iter()
-            .map(From::from)
-            .collect(),
-        allowed_headers: AllowedHeaders::some(&["Authorization", "Accept"]),
-        allow_credentials: true,
-        expose_headers: ["Content-Type", "X-Custom"]
-            .iter()
-            .map(ToString::to_string)
-            .collect(),
-        max_age: Some(42),
-        send_wildcard: false,
-        fairing_route_base: "/mycors".to_string(),
-        fairing_route_rank: 0,
-    };
+    let options = cors::CorsOptions::default()
+        .allowed_origins(AllowedOrigins::all())
+        .allowed_methods(
+            vec![Method::Get, Method::Post, Method::Patch, Method::Delete]
+                .into_iter()
+                .map(From::from)
+                .collect(),
+        )
+        .allow_credentials(true)
+        .to_cors()
+        .unwrap();
 
     rocket::build()
         .mount("/", routes![index, files])
         .mount("/api/", routes![post_tool, get_tools, labels, version])
-        .attach(options.to_cors().unwrap())
+        .attach(options)
 }
