@@ -5,6 +5,13 @@
     </div>
   </div>
 
+  <div class="row" v-if="errors.length">
+    <b>Please correct the following error(s):</b>
+    <ul>
+      <li v-for="error in errors">{{ error }}</li>
+    </ul>
+  </div>
+
   <form class="row" @submit.prevent="submit">
     <div class="row input-group mb-3">
       <span class="input-group-text">Name</span>
