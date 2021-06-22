@@ -1,0 +1,31 @@
+{
+  "capabilities": [
+    "Production Cost Modeling"
+  ],
+  "description": "Long description",
+  "github_stars": null,
+  "highest_spatial_resolution": "device",
+  "highest_spatial_scope": "continent",
+  "highest_temporal_resolution": "minutes",
+  "highest_temporal_scope": "decades",
+  "id": 0,
+  "infrastructure_sector": null,
+  "issue_body": "",
+  "issue_url": "",
+  "language": [
+    "Python"
+  ],
+  "license": "license (commercial)",
+  "lowest_spatial_resolution": "region",
+  "lowest_spatial_scope": "municipality",
+  "lowest_temporal_resolution": "years",
+  "lowest_temporal_scope": "hours",
+  "modeling_paradigm": [
+    "Optimization"
+  ],
+  "name": "Tool Name",
+  "number": 11,
+  "short_description": "Short description",
+  "source": null,
+  "website": "website"
+}

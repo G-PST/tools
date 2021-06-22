@@ -427,8 +427,13 @@ async fn labels(kind: String) -> Json<Vec<String>> {
     }
 }
 
+#[post("/tools", format = "application/json", data = "<tool>")]
+async fn post_tool(tool: Json<Tool>) {
+    dbg!(tool);
+}
+
 #[get("/tools", format = "json")]
-async fn tools() -> Json<Vec<Tool>> {
+async fn get_tools() -> Json<Vec<Tool>> {
     let github = Github::new(
         concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION")),
         Credentials::Token(env::var("TOOLS_GITHUB_PAT").unwrap()),
@@ -484,6 +489,6 @@ fn rocket() -> _ {
 
     rocket::build()
         .mount("/", routes![index, files])
-        .mount("/api/", routes![tools, labels, version])
+        .mount("/api/", routes![post_tool, get_tools, labels, version])
         .attach(options.to_cors().unwrap())
 }
