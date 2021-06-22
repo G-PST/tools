@@ -579,7 +579,11 @@ async fn post_tool(tool: Json<Tool>) -> status::Accepted<String> {
         "".to_string()
     };
     let documentation = format!("- Documentation: {}", tool.documentation);
-    let maintenance_status = format!("- Actively Maintained: {}", tool.maintenance_status);
+    let maintenance_status = if tool.maintenance_status {
+        "- Actively Maintained: Yes".to_string()
+    } else {
+        "- Actively Maintained: No".to_string()
+    };
 
     let body = format!("{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}", short_description, description, website, license, language, interface, documentation, maintenance_status, number_of_publications, input_data_formats, output_data_formats, operating_systems, source, infrastructure_sector, modeling_paradigm, capabilities, point_of_contact, lowest_temporal_resolution, typical_temporal_resolution, highest_temporal_resolution, lowest_spatial_resolution, typical_spatial_resolution, highest_spatial_resolution, lowest_temporal_scope, typical_temporal_scope, highest_temporal_scope, lowest_spatial_scope, typical_spatial_scope, highest_spatial_scope,);
 
