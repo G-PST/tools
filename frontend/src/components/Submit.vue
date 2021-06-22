@@ -6,10 +6,12 @@
   </div>
 
   <div class="row" v-if="errors.length">
+  <p>
     <b>Please correct the following error(s):</b>
     <ul>
       <li v-for="error in errors">{{ error }}</li>
     </ul>
+  </p>
   </div>
 
   <form class="row" @submit.prevent="submit">
@@ -278,8 +280,13 @@ export default defineComponent({
   },
   methods: {
     submit() {
-      console.log(this.currentTool.name);
-      console.log(this.currentTool.short_description);
+      this.errors = [];
+      if (this.currentTool.name === "") {
+        this.errors.push("Tool Name cannot be empty");
+      }
+      if (this.errors.length > 0) {
+        return
+      }
       client
         .post("/tools", this.currentTool)
         .then((res) => {
