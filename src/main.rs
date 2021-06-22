@@ -26,18 +26,19 @@ use rocket::fairing::{Fairing, Info, Kind};
 use rocket::fs::NamedFile;
 use rocket::futures::StreamExt;
 use rocket::futures::TryStreamExt;
-use rocket::http::{ContentType, Header, Method};
-use rocket::serde::json::{json, Json, Value};
+use rocket::http::{ContentType, Header, Method, Status};
+use rocket::response::{content, status};
+use rocket::serde::json::{self, Json, Value};
 use rocket::serde::{Deserialize, Serialize};
 use rocket::tokio;
 use rocket::{get, routes};
-use rocket::{Request, Response, State};
+use rocket::{Request, Responder, Response, State};
 
 use rocket_cors as cors;
 
 use crate::cors::{AllowedHeaders, AllowedOrigins, CorsOptions};
 
-use hubcaps::issues::{Issue, IssueListOptions};
+use hubcaps::issues::{Issue, IssueListOptions, IssueOptions};
 
 use hubcaps::{Credentials, Github};
 
@@ -112,6 +113,13 @@ struct Tool {
     website: String,
     license: String,
     language: Vec<String>,
+    interface: Vec<String>,
+    documentation: String,
+    maintenance_status: bool,
+    number_of_publications: Option<u64>,
+    input_data_formats: Vec<String>,
+    output_data_formats: Vec<String>,
+    operating_systems: Vec<String>,
     source: Option<String>,
     github_stars: Option<u64>,
     infrastructure_sector: Option<Vec<String>>,
@@ -119,13 +127,18 @@ struct Tool {
     capabilities: Option<Vec<String>>,
     issue_body: String,
     issue_url: String,
+    point_of_contact: Option<String>,
     lowest_temporal_resolution: Option<TemporalScale>,
+    typical_temporal_resolution: Option<TemporalScale>,
     highest_temporal_resolution: Option<TemporalScale>,
     lowest_spatial_resolution: Option<SpatialScale>,
+    typical_spatial_resolution: Option<SpatialScale>,
     highest_spatial_resolution: Option<SpatialScale>,
     lowest_temporal_scope: Option<TemporalScale>,
+    typical_temporal_scope: Option<TemporalScale>,
     highest_temporal_scope: Option<TemporalScale>,
     lowest_spatial_scope: Option<SpatialScale>,
+    typical_spatial_scope: Option<SpatialScale>,
     highest_spatial_scope: Option<SpatialScale>,
 }
 
@@ -153,14 +166,26 @@ impl Tool {
         let mut capabilities = Default::default();
         let mut language = Default::default();
         let mut issue_body = Default::default();
+        let mut documentation = Default::default();
+        let mut maintenance_status = Default::default();
+        let mut input_data_formats = Default::default();
+        let mut output_data_formats = Default::default();
+        let mut point_of_contact = Default::default();
+        let mut interface = Default::default();
         let mut lowest_temporal_resolution = None;
+        let mut typical_temporal_resolution = None;
         let mut highest_temporal_resolution = None;
         let mut lowest_spatial_resolution = None;
+        let mut typical_spatial_resolution = None;
         let mut highest_spatial_resolution = None;
         let mut lowest_temporal_scope = None;
+        let mut typical_temporal_scope = None;
         let mut highest_temporal_scope = None;
         let mut lowest_spatial_scope = None;
+        let mut typical_spatial_scope = None;
         let mut highest_spatial_scope = None;
+        let mut number_of_publications = Default::default();
+        let mut operating_systems = Default::default();
         let issue_url = issue.html_url.clone();
 
         if let Some(body) = body {
@@ -388,14 +413,26 @@ impl Tool {
             capabilities,
             issue_body,
             issue_url,
+            interface,
+            documentation,
+            point_of_contact,
+            input_data_formats,
+            output_data_formats,
             lowest_temporal_resolution,
+            typical_temporal_resolution,
             highest_temporal_resolution,
             lowest_spatial_resolution,
+            typical_spatial_resolution,
             highest_spatial_resolution,
             lowest_temporal_scope,
+            typical_temporal_scope,
             highest_temporal_scope,
             lowest_spatial_scope,
+            typical_spatial_scope,
             highest_spatial_scope,
+            number_of_publications,
+            operating_systems,
+            maintenance_status,
         }
     }
 }
@@ -428,8 +465,138 @@ async fn labels(kind: String) -> Json<Vec<String>> {
 }
 
 #[post("/tools", format = "application/json", data = "<tool>")]
-async fn post_tool(tool: Json<Tool>) {
-    dbg!(tool);
+async fn post_tool(tool: Json<Tool>) -> status::Accepted<String> {
+    let github = Github::new(
+        concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION")),
+        Credentials::Token(env::var("TOOLS_GITHUB_PAT").unwrap()),
+    )
+    .unwrap();
+    let repo = github.repo("kdheepak", "tools");
+    let title = tool.name.clone();
+    let short_description = format!("- Short Description: {}", tool.short_description);
+    let description = format!("- Description: {}", tool.description);
+    let website = format!("- Website: {}", tool.website);
+    let license = format!("- License: {}", tool.license);
+    let source = if let Some(s) = &tool.source {
+        format!("- Source: {}", s)
+    } else {
+        "".to_string()
+    };
+    let infrastructure_sector = if let Some(s) = &tool.infrastructure_sector {
+        format!("- Infrastructure sector: {}", s.join(","))
+    } else {
+        "".to_string()
+    };
+    let modeling_paradigm = if let Some(s) = &tool.modeling_paradigm {
+        format!("- Modeling Paradigm: {}", s.join(","))
+    } else {
+        "".to_string()
+    };
+    let capabilities = if let Some(s) = &tool.capabilities {
+        format!("- Capabilities: {}", s.join(","))
+    } else {
+        "".to_string()
+    };
+    let lowest_temporal_resolution = if let Some(s) = tool.lowest_temporal_resolution {
+        format!("- Lowest Temporal Resolution: {:?}", s)
+    } else {
+        "".to_string()
+    };
+    let typical_temporal_resolution = if let Some(s) = tool.typical_temporal_resolution {
+        format!("- Typical Temporal Resolution: {:?}", s)
+    } else {
+        "".to_string()
+    };
+    let highest_temporal_resolution = if let Some(s) = tool.highest_temporal_resolution {
+        format!("- Highest Temporal Resolution: {:?}", s)
+    } else {
+        "".to_string()
+    };
+    let lowest_temporal_scope = if let Some(s) = tool.lowest_temporal_scope {
+        format!("- Smallest Temporal Scope: {:?}", s)
+    } else {
+        "".to_string()
+    };
+    let typical_temporal_scope = if let Some(s) = tool.typical_temporal_scope {
+        format!("- Typical Temporal Scope: {:?}", s)
+    } else {
+        "".to_string()
+    };
+    let highest_temporal_scope = if let Some(s) = tool.highest_temporal_scope {
+        format!("- Largest Temporal Scope: {:?}", s)
+    } else {
+        "".to_string()
+    };
+    let lowest_spatial_resolution = if let Some(s) = tool.lowest_spatial_resolution {
+        format!("- Lowest Spatial Resolution: {:?}", s)
+    } else {
+        "".to_string()
+    };
+    let typical_spatial_resolution = if let Some(s) = tool.typical_spatial_resolution {
+        format!("- Typical Spatial Resolution: {:?}", s)
+    } else {
+        "".to_string()
+    };
+    let highest_spatial_resolution = if let Some(s) = tool.highest_spatial_resolution {
+        format!("- Highest Spatial Resolution: {:?}", s)
+    } else {
+        "".to_string()
+    };
+    let lowest_spatial_scope = if let Some(s) = tool.lowest_spatial_scope {
+        format!("- Smallest Spatial Scope: {:?}", s)
+    } else {
+        "".to_string()
+    };
+    let typical_spatial_scope = if let Some(s) = tool.typical_spatial_scope {
+        format!("- Typical Spatial Scope: {:?}", s)
+    } else {
+        "".to_string()
+    };
+    let highest_spatial_scope = if let Some(s) = tool.highest_spatial_scope {
+        format!("- Largest Spatial Scope: {:?}", s)
+    } else {
+        "".to_string()
+    };
+    let point_of_contact = if let Some(s) = &tool.point_of_contact {
+        format!("- Point of Contact: {}", s)
+    } else {
+        "".to_string()
+    };
+    let language = format!("- Language: {}", tool.language.join(","));
+    let interface = format!("- Interface: {}", tool.interface.join(","));
+    let operating_systems = format!("- Operating Systems: {}", tool.operating_systems.join(","));
+    let input_data_formats = format!(
+        "- Input Data Formats: {}",
+        tool.input_data_formats.join(",")
+    );
+    let output_data_formats = format!(
+        "- Output Data Formats: {}",
+        tool.output_data_formats.join(",")
+    );
+    let number_of_publications = if let Some(s) = tool.number_of_publications {
+        format!("- Number of Publications: {}", s)
+    } else {
+        "".to_string()
+    };
+    let documentation = format!("- Documentation: {}", tool.documentation);
+    let maintenance_status = format!("- Actively Maintained: {}", tool.maintenance_status);
+
+    let body = format!("{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}", short_description, description, website, license, language, interface, documentation, maintenance_status, number_of_publications, input_data_formats, output_data_formats, operating_systems, source, infrastructure_sector, modeling_paradigm, capabilities, point_of_contact, lowest_temporal_resolution, typical_temporal_resolution, highest_temporal_resolution, lowest_spatial_resolution, typical_spatial_resolution, highest_spatial_resolution, lowest_temporal_scope, typical_temporal_scope, highest_temporal_scope, lowest_spatial_scope, typical_spatial_scope, highest_spatial_scope,);
+
+    let issue = IssueOptions {
+        title,
+        body: Some(body),
+        assignee: None,
+        milestone: None,
+        labels: vec![],
+    };
+    let r = repo.issues().create(&issue).await;
+    if r.is_ok() {
+        status::Accepted(Some(format!("{:?}", r)))
+    } else {
+        // TODO: do not return status::Accepted here
+        status::Accepted(Some(format!("{:?}", r)))
+    }
 }
 
 #[get("/tools", format = "json")]

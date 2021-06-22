@@ -3,6 +3,7 @@
     "Production Cost Modeling"
   ],
   "description": "Long description",
+  "documentation": "",
   "github_stars": null,
   "highest_spatial_resolution": "device",
   "highest_spatial_scope": "continent",
@@ -10,6 +11,8 @@
   "highest_temporal_scope": "decades",
   "id": 0,
   "infrastructure_sector": null,
+  "input_data_formats": [],
+  "interface": [],
   "issue_body": "",
   "issue_url": "",
   "language": [
@@ -20,11 +23,15 @@
   "lowest_spatial_scope": "municipality",
   "lowest_temporal_resolution": "years",
   "lowest_temporal_scope": "hours",
+  "maintenance_status": true,
   "modeling_paradigm": [
     "Optimization"
   ],
   "name": "Tool Name",
   "number": 11,
+  "operating_systems": [],
+  "output_data_formats": [],
+  "point_of_contact": "",
   "short_description": "Short description",
   "source": null,
   "website": "website"
