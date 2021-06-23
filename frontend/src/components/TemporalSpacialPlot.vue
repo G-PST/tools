@@ -285,6 +285,7 @@ export default {
         })
         .on("mouseout", function (d, i) {
           d3.select(this).attr("stroke-width", 1);
+          d3.selectAll(".dedup").classed("selected", false);
         })
         .on("click", function (e, d) {
           that.$router.push(`/Tool/${d.number}`);
