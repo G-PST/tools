@@ -626,6 +626,14 @@ async fn get_tools() -> Json<Vec<Tool>> {
     let tools = issues
         .iter()
         .filter(|issue| issue.state == "open")
+        .filter(|issue| {
+            issue
+                .labels
+                .iter()
+                .map(|l| l.name.clone())
+                .collect::<Vec<String>>()
+                .contains(&"tool".to_string())
+        })
         .enumerate()
         .map(move |(i, issue)| Tool::issue_to_tool(issue, i))
         .collect();
