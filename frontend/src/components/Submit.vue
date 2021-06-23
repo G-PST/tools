@@ -213,7 +213,14 @@
         <option value="centuries">Centuries</option>
       </select>
     </div>
-    <button type="submit" class="row btn btn-primary btn-lg">Submit</button>
+    <div class="row text-center">
+      <div class="col">
+        <button type="submit" class="row btn btn-primary btn-lg">Submit</button>
+      </div>
+      <div class="col" v-if="whileSubmitting">
+        <img src="/images/loading.svg" alt="" />
+      </div>
+    </div>
   </form>
 </template>
 
@@ -236,6 +243,7 @@ export default defineComponent({
   name: "SubmitTool",
   data() {
     return {
+      whileSubmitting: false,
       errors: [],
       currentTool: {
         issue_url: "",
@@ -280,20 +288,24 @@ export default defineComponent({
   },
   methods: {
     submit() {
+      this.whileSubmitting = true;
       this.errors = [];
       if (this.currentTool.name === "") {
         this.errors.push("Tool Name cannot be empty");
       }
       if (this.errors.length > 0) {
+        this.whileSubmitting = false;
         return
       }
       client
         .post("/tools", this.currentTool)
         .then((res) => {
+          this.whileSubmitting = false;
           console.log(res);
         })
         .catch((err) => {
           // catch error});
+          this.whileSubmitting = false;
           console.log(err);
         });
     },

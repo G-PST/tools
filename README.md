@@ -18,7 +18,7 @@ https://gpst-tools.herokuapp.com/
 
 https://gpst-tools.herokuapp.com/api
 
-### \*\* Rocket (Rust)
+### Rocket (Rust)
 
 ```
 curl https://sh.rustup.rs -sSf | sh

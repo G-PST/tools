@@ -1,0 +1,41 @@
+name: Tools
+description: Fill out the tool template
+title: ""
+labels: [pending]
+assignees:
+  - kdheepak
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this tool template!
+  - type: textarea
+    id: name
+    attributes:
+      label: Tool Name
+      description: What is the name of your software?
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: email@example.com
+    validations:
+      required: false
+  - type: dropdown
+    id: lowest-temporal-resolution
+    attributes:
+      label: Lowest Temporal Resolution
+      description: Lowest Temporal Resolution
+      options:
+        - Instant
+        - Subseconds
+        - Seconds
+        - Minutes
+        - Hours
+        - Days
+        - Weeks
+        - Months
+        - Years
+        - Decades
+        - Centuries
