@@ -285,6 +285,10 @@ export default {
         })
         .on("mouseout", function (d, i) {
           d3.select(this).attr("stroke-width", 1);
+        })
+        .on("click", function (e, d) {
+          that.$router.push(`/Tool/${d.number}`);
+          e.stopPropagation();
         });
 
       const labels = this.labels.selectAll("text").data(data, (d) => d.name);
