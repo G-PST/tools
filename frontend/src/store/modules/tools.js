@@ -129,6 +129,7 @@ const mutations = {
   },
   setTools: (state, tools) => {
     state.tools = tools;
+    state.selectedTools = tools.map((d) => d.name);
     state.toolsLoaded = true;
     for (var tool of state.tools) {
       tool.language.map((lang) => state.languages.add(lang));

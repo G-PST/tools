@@ -264,7 +264,7 @@ export default {
         });
 
       let rects = this.rects.selectAll("rect").data(data, (d) => d.name);
-
+      const that = this;
       rects
         .join("rect")
         .attr("x", (d) => d.x_min)
@@ -272,9 +272,19 @@ export default {
         .attr("width", (d) => d.w)
         .attr("height", (d) => d.h)
         .attr("stroke", "black")
+        .attr("stroke-width", 1)
         .attr("opacity", 0.5)
         .attr("fill", function (d) {
           return myColor(d);
+        })
+        .on("mouseover", function (d, i) {
+          d3.select(this).attr("stroke-width", 3);
+          d3.selectAll(".dedup").classed("selected", function (e, j) {
+            return i.name == e.name;
+          });
+        })
+        .on("mouseout", function (d, i) {
+          d3.select(this).attr("stroke-width", 1);
         });
 
       const labels = this.labels.selectAll("text").data(data, (d) => d.name);
@@ -412,6 +422,10 @@ export default {
 </script>
 
 <css>
+.selected {
+  font-weight: bold;
+}
+
 .link {
   stroke: #000;
   stroke-width: 1.5px;
