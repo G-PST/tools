@@ -338,9 +338,12 @@ export default {
     generatePlot() {
       const svg = d3
         .select("#chart")
+        .append("div")
+        .classed("svg-container", true)
         .append("svg")
-        .attr("width", this.width * 1.5)
-        .attr("height", this.height * 1.5);
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", `0 0 ${this.width * 1.5} ${this.height * 1.25}`)
+        .classed("svg-content-responsive", true);
 
       this.svg = svg
         .append("g")
@@ -445,5 +448,20 @@ export default {
 
 .node.hidden {
   fill: red;
+}
+
+.svg-container {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%; /* aspect ratio */
+  vertical-align: top;
+  overflow: hidden;
+}
+.svg-content-responsive {
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  left: 0;
 }
 </css>
