@@ -511,7 +511,19 @@ body:
     attributes:
       label: Publications
       description: How many works have been published as a direct result of the tool?
-      placeholder: "0"
+      placeholder: "Enter integer number of publications here (e.g. 10)"
       value: "0"
+    validations:
+      required: false
+  - type: textarea
+    id: publications-list
+    attributes:
+      label: Publication List
+      description: List of publications
+      placeholder: |
+        1.
+        2.
+        3.
+        ...
     validations:
       required: false
