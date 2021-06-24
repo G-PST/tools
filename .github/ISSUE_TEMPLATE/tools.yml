@@ -39,6 +39,7 @@ body:
       label: What is the software tool's license?
       multiple: false
       options:
+        - Commerical
         - 0-clause BSD License (0BSD)
         - 1-clause BSD License (BSD-1-Clause)
         - 2-clause BSD License (BSD-2-Clause)
@@ -50,11 +51,6 @@ body:
         - Artistic License 2.0 (Artistic-2.0)
         - Attribution Assurance License (AAL)
         - Boost Software License (BSL-1.0)
-        - 3-clause BSD License
-        - 2-clause BSD License
-        - 1-clause BSD License
-        - 0-clause BSD license
-        - BSD-3-Clause-LBNL
         - BSD+Patent (BSD-2-Clause-Patent)
         - CERN Open Hardware Licence Version 2 - Permissive
         - CERN Open Hardware Licence Version 2 - Weakly Reciprocal
