@@ -65,7 +65,7 @@ body:
     id: programming-language
     attributes:
       label: Programming Language
-      description: What is the software tool written in?
+      description: What is the software tool written in and what programming languages does it support?
       options:
         - label: ActionScript
         - label: ALGOL
