@@ -753,12 +753,6 @@ body:
         - label: ZOPL
         - label: ZPL
         - label: Z++
-  - type: checkboxes
-    id: operating-system-support
-    attributes:
-      label: Operating System Support
-      description: What languages are directly supported by the software tool?
-      options:
   - type: dropdown
     id: license
     attributes:
