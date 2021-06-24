@@ -25,6 +25,14 @@ body:
     validations:
       required: true
   - type: input
+    id: documentation
+    attributes:
+      label: documentation
+      description: Documentation for your software tool
+      placeholder: https://docs.xyz.com/
+    validations:
+      required: false
+  - type: input
     id: source
     attributes:
       label: Source
