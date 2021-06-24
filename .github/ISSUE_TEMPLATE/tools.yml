@@ -10,14 +10,6 @@ body:
       value: |
         Thanks for taking the time to submit your tool for consideration!
   - type: input
-    id: contact
-    attributes:
-      label: Contact Details
-      description: How can we get in touch with you if we need more info?
-      placeholder: email@example.com
-    validations:
-      required: true
-  - type: input
     id: name
     attributes:
       label: Tool Name
@@ -73,5 +65,13 @@ body:
         - Months
         - Years
         - Decades
+    validations:
+      required: true
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: email@example.com
     validations:
       required: true
