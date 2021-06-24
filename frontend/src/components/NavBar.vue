@@ -25,8 +25,9 @@
           </li>
           <li class="nav-item">
             <a
+              target="_blank"
               class="nav-link"
-              to="https://github.com/kdheepak/tools/issues/new?template=tools.yml"
+              href="https://github.com/kdheepak/tools/issues/new?template=tools.yml"
               >Submit</a
             >
           </li>
