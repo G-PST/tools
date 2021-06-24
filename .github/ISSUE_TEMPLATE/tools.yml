@@ -1,62 +1,77 @@
 name: Bug Report
-description: File a bug report
-title: "[Bug]: "
-labels: [bug, triage]
+description: Submit a tol
+title: "[Tool]: "
+labels: []
 assignees:
-  - octocat
+  - kdheepak
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report!
+        Thanks for taking the time to submit your tool for consideration!
   - type: input
     id: contact
     attributes:
       label: Contact Details
       description: How can we get in touch with you if we need more info?
-      placeholder: ex. email@example.com
+      placeholder: email@example.com
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Tool Name
+      description: What is your software tool called
+      placeholder: XYZ
+    validations:
+      required: true
+  - type: input
+    id: short-description
+    attributes:
+      label: Short Description
+      description: Describe your tool in 140 characters or less
+      placeholder: XYZ is a Energy System Model for ...
+    validations:
+      required: true
+  - type: textarea
+    id: long-description
+    attributes:
+      label: Long Description
+      description: Describe your tool in as much detail as you'd like
+      placeholder: ...
     validations:
       required: false
-  - type: textarea
-    id: what-happened
+  - type: dropdown
+    id: highest-temporal-resolution
     attributes:
-      label: What happened?
-      description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
+      label: What is the highest resolution supported by the tool?
+      multiple: false
+      options:
+        - Instant
+        - Milliseconds
+        - Seconds
+        - Minutes
+        - Hours
+        - Days
+        - Months
+        - Years
+        - Decades
     validations:
       required: true
   - type: dropdown
-    id: version
+    id: lowest-temporal-resolution
     attributes:
-      label: Version
-      description: What version of our software are you running?
+      label: What is the lowest resolution supported by the tool?
+      multiple: false
       options:
-        - 1.0.2 (Default)
-        - 1.0.3 (Edge)
+        - Instant
+        - Milliseconds
+        - Seconds
+        - Minutes
+        - Hours
+        - Days
+        - Months
+        - Years
+        - Decades
     validations:
       required: true
-  - type: dropdown
-    id: browsers
-    attributes:
-      label: What browsers are you seeing the problem on?
-      multiple: true
-      options:
-        - Firefox
-        - Chrome
-        - Safari
-        - Microsoft Edge
-  - type: textarea
-    id: logs
-    attributes:
-      label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
-      render: shell
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
-      options:
-        - label: I agree to follow this project's Code of Conduct
-          required: true
