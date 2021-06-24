@@ -1,6 +1,6 @@
 name: Tool Form
 description: Submit a tool
-title: "[Tool]: "
+title: ""
 labels: []
 assignees:
   - kdheepak
