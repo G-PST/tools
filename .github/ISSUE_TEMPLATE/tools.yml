@@ -506,3 +506,11 @@ body:
       placeholder: email@example.com
     validations:
       required: true
+  - type: input
+    id: publications
+    attributes:
+      label: Publications
+      description: How many works have been published as a direct result of the tool?
+      placeholder: 0
+    validations:
+      required: false
