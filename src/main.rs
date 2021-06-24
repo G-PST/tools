@@ -150,7 +150,7 @@ fn split_once(haystack: &str, needle: &str) -> Option<(String, String)> {
 }
 
 impl Tool {
-    fn issue_to_tool(issue: &hubcaps::issues::Issue, id: usize) -> Self {
+    fn issue_to_tool(issue: &hubcaps::issues::Issue, id: usize) -> Option<Self> {
         let number = issue.number;
         let name = issue.title.clone();
         let body = issue.body.clone();
@@ -188,216 +188,212 @@ impl Tool {
         let mut operating_systems = Default::default();
         let issue_url = issue.html_url.clone();
 
-        if let Some(body) = body {
-            issue_body = body.clone();
-            for line in body.lines() {
-                if !line.starts_with("- ") {
+        let body = body?;
+
+        issue_body = body.clone();
+        for line in body.lines() {
+            if !line.starts_with("- ") {
+                continue;
+            }
+            let re = Regex::new(r"^- ").unwrap();
+            let line = re.replace(line, "").to_string();
+            let re = Regex::new(r"<!--[\s\S]*?-->").unwrap();
+            let line = re.replace(&line, "").to_string();
+            if let Some((key, value)) = split_once(&line, ": ") {
+                if value.is_empty() {
                     continue;
                 }
-                let re = Regex::new(r"^- ").unwrap();
-                let line = re.replace(line, "").to_string();
-                let re = Regex::new(r"<!--[\s\S]*?-->").unwrap();
-                let line = re.replace(&line, "").to_string();
-                if let Some((key, value)) = split_once(&line, ": ") {
-                    if value.is_empty() {
-                        continue;
-                    }
-                    let key = key.as_str();
-                    match key {
-                        "Description" => description = value,
-                        "Short Description" => short_description = value,
-                        "Website" => website = value,
-                        "License" => license = value,
-                        "Source" => {
-                            source = Some(value.clone());
-                            if value.contains("github.com") {
-                                let re = Regex::new(r"^(?:git|ssh|https?|git)(://|@)(.*)[:/]((.*)/(.*))(\.git)?(/?|\#[-\d\w._]+?)$").unwrap();
-                                if let Some(captures) = re.captures(&value) {
-                                    let mut s = captures[3].split('/');
-                                    let username = s.next().unwrap().to_string();
-                                    let repository = s.next().unwrap().to_string();
-                                    info!("{} {}", username, repository);
-                                    let github = Github::new(
-                                        concat!(
-                                            env!("CARGO_PKG_NAME"),
-                                            "/",
-                                            env!("CARGO_PKG_VERSION")
-                                        ),
-                                        Credentials::Token(env::var("TOOLS_GITHUB_PAT").unwrap()),
-                                    )
-                                    .unwrap();
-                                    let repo = std::thread::spawn(move || {
-                                        let rt = tokio::runtime::Runtime::new().unwrap();
-                                        rt.block_on(async {
-                                            github.repo(username, repository).get().await
-                                        })
+                let key = key.as_str();
+                match key {
+                    "Description" => description = value,
+                    "Short Description" => short_description = value,
+                    "Website" => website = value,
+                    "License" => license = value,
+                    "Source" => {
+                        source = Some(value.clone());
+                        if value.contains("github.com") {
+                            let re = Regex::new(r"^(?:git|ssh|https?|git)(://|@)(.*)[:/]((.*)/(.*))(\.git)?(/?|\#[-\d\w._]+?)$").unwrap();
+                            if let Some(captures) = re.captures(&value) {
+                                let mut s = captures[3].split('/');
+                                let username = s.next().unwrap().to_string();
+                                let repository = s.next().unwrap().to_string();
+                                info!("{} {}", username, repository);
+                                let github = Github::new(
+                                    concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION")),
+                                    Credentials::Token(env::var("TOOLS_GITHUB_PAT").unwrap()),
+                                )
+                                .unwrap();
+                                let repo = std::thread::spawn(move || {
+                                    let rt = tokio::runtime::Runtime::new().unwrap();
+                                    rt.block_on(async {
+                                        github.repo(username, repository).get().await
                                     })
-                                    .join()
-                                    .unwrap();
-                                    if let Ok(repo) = repo {
-                                        github_stars = Some(repo.stargazers_count);
-                                    }
+                                })
+                                .join()
+                                .unwrap();
+                                if let Ok(repo) = repo {
+                                    github_stars = Some(repo.stargazers_count);
                                 }
                             }
                         }
-                        "Language" => {
-                            language = value.split(',').map(|w| w.trim().to_string()).collect()
-                        }
-                        "Infrastructure Sector" => {
-                            infrastructure_sector =
-                                Some(value.split(',').map(|w| w.trim().to_string()).collect())
-                        }
-                        "Capabilities" => {
-                            capabilities =
-                                Some(value.split(',').map(|w| w.trim().to_string()).collect())
-                        }
-                        "Modeling Paradigm" => {
-                            modeling_paradigm =
-                                Some(value.split(',').map(|w| w.trim().to_string()).collect())
-                        }
-                        "Smallest Temporal Scope" => {
-                            lowest_temporal_scope = match value.as_str() {
-                                "Instant" => Some(TemporalScale::Instant),
-                                "Milliseconds" => Some(TemporalScale::Milliseconds),
-                                "Seconds" => Some(TemporalScale::Seconds),
-                                "Minutes" => Some(TemporalScale::Minutes),
-                                "Hours" => Some(TemporalScale::Hours),
-                                "Days" => Some(TemporalScale::Days),
-                                "Months" => Some(TemporalScale::Months),
-                                "Years" => Some(TemporalScale::Years),
-                                "Decades" => Some(TemporalScale::Decades),
-                                _ => {
-                                    warn!("{}", value);
-                                    Some(TemporalScale::Instant)
-                                }
-                            }
-                        }
-                        "Largest Temporal Scope" => {
-                            highest_temporal_scope = match value.as_str() {
-                                "Instant" => Some(TemporalScale::Instant),
-                                "Milliseconds" => Some(TemporalScale::Milliseconds),
-                                "Seconds" => Some(TemporalScale::Seconds),
-                                "Minutes" => Some(TemporalScale::Minutes),
-                                "Hours" => Some(TemporalScale::Hours),
-                                "Days" => Some(TemporalScale::Days),
-                                "Months" => Some(TemporalScale::Months),
-                                "Years" => Some(TemporalScale::Years),
-                                "Decades" => Some(TemporalScale::Decades),
-                                _ => {
-                                    warn!("{}", value);
-                                    Some(TemporalScale::Instant)
-                                }
-                            }
-                        }
-                        "Smallest Spatial Scope" => {
-                            lowest_spatial_scope = match value.as_str() {
-                                "Component" => Some(SpatialScale::Component),
-                                "Device" => Some(SpatialScale::Device),
-                                "Facility" => Some(SpatialScale::Facility),
-                                "Municipality" => Some(SpatialScale::Municipality),
-                                "State" => Some(SpatialScale::State),
-                                "Region" => Some(SpatialScale::Region),
-                                "Country" => Some(SpatialScale::Country),
-                                "Continent" => Some(SpatialScale::Continent),
-                                "Global" => Some(SpatialScale::Global),
-                                _ => {
-                                    warn!("{}", value);
-                                    Some(SpatialScale::Component)
-                                }
-                            }
-                        }
-                        "Largest Spatial Scope" => {
-                            highest_spatial_scope = match value.as_str() {
-                                "Component" => Some(SpatialScale::Component),
-                                "Device" => Some(SpatialScale::Device),
-                                "Facility" => Some(SpatialScale::Facility),
-                                "Municipality" => Some(SpatialScale::Municipality),
-                                "State" => Some(SpatialScale::State),
-                                "Region" => Some(SpatialScale::Region),
-                                "Country" => Some(SpatialScale::Country),
-                                "Continent" => Some(SpatialScale::Continent),
-                                "Global" => Some(SpatialScale::Global),
-                                _ => {
-                                    warn!("{}", value);
-                                    Some(SpatialScale::Component)
-                                }
-                            }
-                        }
-                        "Lowest Temporal Resolution" => {
-                            lowest_temporal_resolution = match value.as_str() {
-                                "Instant" => Some(TemporalScale::Instant),
-                                "Milliseconds" => Some(TemporalScale::Milliseconds),
-                                "Seconds" => Some(TemporalScale::Seconds),
-                                "Minutes" => Some(TemporalScale::Minutes),
-                                "Hours" => Some(TemporalScale::Hours),
-                                "Days" => Some(TemporalScale::Days),
-                                "Months" => Some(TemporalScale::Months),
-                                "Years" => Some(TemporalScale::Years),
-                                "Decades" => Some(TemporalScale::Decades),
-                                _ => {
-                                    warn!("{}", value);
-                                    Some(TemporalScale::Instant)
-                                }
-                            }
-                        }
-                        "Highest Temporal Resolution" => {
-                            highest_temporal_resolution = match value.as_str() {
-                                "Instant" => Some(TemporalScale::Instant),
-                                "Milliseconds" => Some(TemporalScale::Milliseconds),
-                                "Seconds" => Some(TemporalScale::Seconds),
-                                "Minutes" => Some(TemporalScale::Minutes),
-                                "Hours" => Some(TemporalScale::Hours),
-                                "Days" => Some(TemporalScale::Days),
-                                "Months" => Some(TemporalScale::Months),
-                                "Years" => Some(TemporalScale::Years),
-                                "Decades" => Some(TemporalScale::Decades),
-                                _ => {
-                                    warn!("{}", value);
-                                    Some(TemporalScale::Instant)
-                                }
-                            }
-                        }
-                        "Lowest Spatial Resolution" => {
-                            lowest_spatial_resolution = match value.as_str() {
-                                "Component" => Some(SpatialScale::Component),
-                                "Device" => Some(SpatialScale::Device),
-                                "Facility" => Some(SpatialScale::Facility),
-                                "Municipality" => Some(SpatialScale::Municipality),
-                                "State" => Some(SpatialScale::State),
-                                "Region" => Some(SpatialScale::Region),
-                                "Country" => Some(SpatialScale::Country),
-                                "Continent" => Some(SpatialScale::Continent),
-                                "Global" => Some(SpatialScale::Global),
-                                _ => {
-                                    warn!("{}", value);
-                                    Some(SpatialScale::Component)
-                                }
-                            }
-                        }
-                        "Highest Spatial Resolution" => {
-                            highest_spatial_resolution = match value.as_str() {
-                                "Component" => Some(SpatialScale::Component),
-                                "Device" => Some(SpatialScale::Device),
-                                "Facility" => Some(SpatialScale::Facility),
-                                "Municipality" => Some(SpatialScale::Municipality),
-                                "State" => Some(SpatialScale::State),
-                                "Region" => Some(SpatialScale::Region),
-                                "Country" => Some(SpatialScale::Country),
-                                "Continent" => Some(SpatialScale::Continent),
-                                "Global" => Some(SpatialScale::Global),
-                                _ => {
-                                    warn!("{}", value);
-                                    Some(SpatialScale::Component)
-                                }
-                            }
-                        }
-                        _ => {}
                     }
+                    "Language" => {
+                        language = value.split(',').map(|w| w.trim().to_string()).collect()
+                    }
+                    "Infrastructure Sector" => {
+                        infrastructure_sector =
+                            Some(value.split(',').map(|w| w.trim().to_string()).collect())
+                    }
+                    "Capabilities" => {
+                        capabilities =
+                            Some(value.split(',').map(|w| w.trim().to_string()).collect())
+                    }
+                    "Modeling Paradigm" => {
+                        modeling_paradigm =
+                            Some(value.split(',').map(|w| w.trim().to_string()).collect())
+                    }
+                    "Smallest Temporal Scope" => {
+                        lowest_temporal_scope = match value.as_str() {
+                            "Instant" => Some(TemporalScale::Instant),
+                            "Milliseconds" => Some(TemporalScale::Milliseconds),
+                            "Seconds" => Some(TemporalScale::Seconds),
+                            "Minutes" => Some(TemporalScale::Minutes),
+                            "Hours" => Some(TemporalScale::Hours),
+                            "Days" => Some(TemporalScale::Days),
+                            "Months" => Some(TemporalScale::Months),
+                            "Years" => Some(TemporalScale::Years),
+                            "Decades" => Some(TemporalScale::Decades),
+                            _ => {
+                                warn!("{}", value);
+                                Some(TemporalScale::Instant)
+                            }
+                        }
+                    }
+                    "Largest Temporal Scope" => {
+                        highest_temporal_scope = match value.as_str() {
+                            "Instant" => Some(TemporalScale::Instant),
+                            "Milliseconds" => Some(TemporalScale::Milliseconds),
+                            "Seconds" => Some(TemporalScale::Seconds),
+                            "Minutes" => Some(TemporalScale::Minutes),
+                            "Hours" => Some(TemporalScale::Hours),
+                            "Days" => Some(TemporalScale::Days),
+                            "Months" => Some(TemporalScale::Months),
+                            "Years" => Some(TemporalScale::Years),
+                            "Decades" => Some(TemporalScale::Decades),
+                            _ => {
+                                warn!("{}", value);
+                                Some(TemporalScale::Instant)
+                            }
+                        }
+                    }
+                    "Smallest Spatial Scope" => {
+                        lowest_spatial_scope = match value.as_str() {
+                            "Component" => Some(SpatialScale::Component),
+                            "Device" => Some(SpatialScale::Device),
+                            "Facility" => Some(SpatialScale::Facility),
+                            "Municipality" => Some(SpatialScale::Municipality),
+                            "State" => Some(SpatialScale::State),
+                            "Region" => Some(SpatialScale::Region),
+                            "Country" => Some(SpatialScale::Country),
+                            "Continent" => Some(SpatialScale::Continent),
+                            "Global" => Some(SpatialScale::Global),
+                            _ => {
+                                warn!("{}", value);
+                                Some(SpatialScale::Component)
+                            }
+                        }
+                    }
+                    "Largest Spatial Scope" => {
+                        highest_spatial_scope = match value.as_str() {
+                            "Component" => Some(SpatialScale::Component),
+                            "Device" => Some(SpatialScale::Device),
+                            "Facility" => Some(SpatialScale::Facility),
+                            "Municipality" => Some(SpatialScale::Municipality),
+                            "State" => Some(SpatialScale::State),
+                            "Region" => Some(SpatialScale::Region),
+                            "Country" => Some(SpatialScale::Country),
+                            "Continent" => Some(SpatialScale::Continent),
+                            "Global" => Some(SpatialScale::Global),
+                            _ => {
+                                warn!("{}", value);
+                                Some(SpatialScale::Component)
+                            }
+                        }
+                    }
+                    "Lowest Temporal Resolution" => {
+                        lowest_temporal_resolution = match value.as_str() {
+                            "Instant" => Some(TemporalScale::Instant),
+                            "Milliseconds" => Some(TemporalScale::Milliseconds),
+                            "Seconds" => Some(TemporalScale::Seconds),
+                            "Minutes" => Some(TemporalScale::Minutes),
+                            "Hours" => Some(TemporalScale::Hours),
+                            "Days" => Some(TemporalScale::Days),
+                            "Months" => Some(TemporalScale::Months),
+                            "Years" => Some(TemporalScale::Years),
+                            "Decades" => Some(TemporalScale::Decades),
+                            _ => {
+                                warn!("{}", value);
+                                Some(TemporalScale::Instant)
+                            }
+                        }
+                    }
+                    "Highest Temporal Resolution" => {
+                        highest_temporal_resolution = match value.as_str() {
+                            "Instant" => Some(TemporalScale::Instant),
+                            "Milliseconds" => Some(TemporalScale::Milliseconds),
+                            "Seconds" => Some(TemporalScale::Seconds),
+                            "Minutes" => Some(TemporalScale::Minutes),
+                            "Hours" => Some(TemporalScale::Hours),
+                            "Days" => Some(TemporalScale::Days),
+                            "Months" => Some(TemporalScale::Months),
+                            "Years" => Some(TemporalScale::Years),
+                            "Decades" => Some(TemporalScale::Decades),
+                            _ => {
+                                warn!("{}", value);
+                                Some(TemporalScale::Instant)
+                            }
+                        }
+                    }
+                    "Lowest Spatial Resolution" => {
+                        lowest_spatial_resolution = match value.as_str() {
+                            "Component" => Some(SpatialScale::Component),
+                            "Device" => Some(SpatialScale::Device),
+                            "Facility" => Some(SpatialScale::Facility),
+                            "Municipality" => Some(SpatialScale::Municipality),
+                            "State" => Some(SpatialScale::State),
+                            "Region" => Some(SpatialScale::Region),
+                            "Country" => Some(SpatialScale::Country),
+                            "Continent" => Some(SpatialScale::Continent),
+                            "Global" => Some(SpatialScale::Global),
+                            _ => {
+                                warn!("{}", value);
+                                Some(SpatialScale::Component)
+                            }
+                        }
+                    }
+                    "Highest Spatial Resolution" => {
+                        highest_spatial_resolution = match value.as_str() {
+                            "Component" => Some(SpatialScale::Component),
+                            "Device" => Some(SpatialScale::Device),
+                            "Facility" => Some(SpatialScale::Facility),
+                            "Municipality" => Some(SpatialScale::Municipality),
+                            "State" => Some(SpatialScale::State),
+                            "Region" => Some(SpatialScale::Region),
+                            "Country" => Some(SpatialScale::Country),
+                            "Continent" => Some(SpatialScale::Continent),
+                            "Global" => Some(SpatialScale::Global),
+                            _ => {
+                                warn!("{}", value);
+                                Some(SpatialScale::Component)
+                            }
+                        }
+                    }
+                    _ => {}
                 }
             }
         }
 
-        Self {
+        Some(Self {
             id,
             number,
             name,
@@ -433,7 +429,7 @@ impl Tool {
             number_of_publications,
             operating_systems,
             maintenance_status,
-        }
+        })
     }
 }
 
@@ -636,6 +632,7 @@ async fn get_tools() -> Json<Vec<Tool>> {
         })
         .enumerate()
         .map(move |(i, issue)| Tool::issue_to_tool(issue, i))
+        .filter_map(|e| e)
         .collect();
     Json(tools)
 }
