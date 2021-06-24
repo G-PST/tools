@@ -13,7 +13,7 @@ body:
     id: name
     attributes:
       label: Tool Name
-      description: What is your software tool called
+      description: What is the software tool called?
       placeholder: XYZ
     validations:
       required: true
@@ -21,7 +21,7 @@ body:
     id: short-description
     attributes:
       label: Short Description
-      description: Describe your tool in 140 characters or less
+      description: Describe the software tool in 140 characters or less
       placeholder: XYZ is a Energy System Model for ...
     validations:
       required: true
@@ -29,7 +29,7 @@ body:
     id: long-description
     attributes:
       label: Long Description
-      description: Describe your tool in as much detail as you'd like
+      description: Describe the software tool in as much detail as you'd like
       placeholder: ...
     validations:
       required: false
@@ -67,6 +67,23 @@ body:
         - Decades
     validations:
       required: true
+  - type: dropdown
+    id: typical-temporal-resolution
+    attributes:
+      label: What is the typical resolution supported by the tool?
+      multiple: false
+      options:
+        - Instant
+        - Milliseconds
+        - Seconds
+        - Minutes
+        - Hours
+        - Days
+        - Months
+        - Years
+        - Decades
+    validations:
+      required: false
   - type: input
     id: contact
     attributes:
