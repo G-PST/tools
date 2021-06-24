@@ -24,7 +24,11 @@
             <router-link class="nav-link" to="/About">About</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/Submit">Submit</router-link>
+            <a
+              class="nav-link"
+              to="https://github.com/kdheepak/tools/issues/new?template=tools.yml"
+              >Submit</a
+            >
           </li>
         </ul>
       </div>

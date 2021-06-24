@@ -4,7 +4,11 @@
       <p>
         <i
           >Is your tool not listed? Click
-          <router-link to="/Submit">here</router-link> to submit it.</i
+          <a
+            href="https://github.com/kdheepak/tools/issues/new?template=tools.yml"
+            >here</a
+          >
+          to submit it.</i
         >
       </p>
     </div>
