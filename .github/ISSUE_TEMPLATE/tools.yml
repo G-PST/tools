@@ -511,6 +511,6 @@ body:
     attributes:
       label: Publications
       description: How many works have been published as a direct result of the tool?
-      placeholder: 0
+      placeholder: "0"
     validations:
       required: false
