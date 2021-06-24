@@ -18,6 +18,1564 @@ body:
     validations:
       required: true
   - type: input
+    id: website
+    attributes:
+      label: Website
+      description: Landing page for your software tool
+      placeholder: https://xyz.com/
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source
+      description: Source code for your software tool
+      placeholder: https://github.com/XYZ/xyz
+    validations:
+      required: false
+  - type: checkboxes
+    id: infrastructure-sector
+    attributes:
+      label: Infrastructure Sector
+      description: What Infrastructure Sector does this software tool model?
+      options:
+        - label: Electric
+        - label: Natural Gas
+        - label: Transportation
+        - label: Buildings
+        - label: Communications
+        - label: Water
+        - label: Hydrogen
+        - label: Liquid fuels
+        - label: Biomass
+  - type: checkboxes
+    id: modeling-paradigm
+    attributes:
+      label: Modeling Paradigm
+      description: What modeling Paradigm does this software tool follow?
+      options:
+        - label: Optimization
+        - label: Discrete Simulation
+        - label: Dynamic Simulation
+        - label: Analytics
+        - label: Visualization
+        - label: Data
+        - label: Engineering/Design
+  - type: checkboxes
+    id: programming-language
+    attributes:
+      label: Programming Language
+      description: What is the software tool written in?
+      options:
+        - label: A.NET (A#/A sharp)
+        - label: A-0 System
+        - label: A+ (A (plus)
+        - label: ABAP
+        - label: ABC
+        - label: ABC ALGOL
+        - label: ACC
+        - label: Accent (Rational Synergy)
+        - label: Ace DASL (Distributed Application Specification Language)
+        - label: Action!
+        - label: ActionScript
+        - label: Actor
+        - label: Ada
+        - label: Adenine (Haystack)
+        - label: AdvPL
+        - label: Agda
+        - label: Agilent VEE (Keysight VEE)
+        - label: Agora
+        - label: AIMMS
+        - label: Aldor
+        - label: Alef
+        - label: ALF
+        - label: ALGOL 58
+        - label: ALGOL 60
+        - label: ALGOL 68
+        - label: ALGOL W
+        - label: Alice (Alice ML)
+        - label: Alma-0
+        - label: AmbientTalk
+        - label: Amiga E
+        - label: AMOS (AMOS BASIC)
+        - label: AMPL
+        - label: AngelScript
+        - label: Apache Pig latin
+        - label: Apex (Salesforce.com, Inc)
+        - label: APL
+        - label: App Inventor for Android's visual block language (MIT App Inventor)
+        - label: AppleScript
+        - label: APT
+        - label: Arc
+        - label: ARexx
+        - label: Argus
+        - label: Assembly language (ASM)
+        - label: AutoIt
+        - label: AutoLISP / Visual LISP
+        - label: Averest
+        - label: AWK
+        - label: Axum
+        - label: B
+        - label: Babbage
+        - label: Ballerina
+        - label: Bash
+        - label: BASIC
+        - label: Batch file (Windows/MS-DOS)
+        - label: bc (basic calculator)
+        - label: BCPL
+        - label: BeanShell
+        - label: Bertrand
+        - label: BETA
+        - label: BLISS
+        - label: Blockly
+        - label: BlooP
+        - label: Boo
+        - label: Boomerang
+        - label: Bosque
+        - label: C – ISO/IEC 9899
+        - label: C-- (C minus minus)
+        - label: C++ (C plus plus) – ISO/IEC 14882
+        - label: C*
+        - label: C# (C sharp) – ISO/IEC 23270
+        - label: C/AL
+        - label: Caché ObjectScript
+        - label: C Shell (csh)
+        - label: Caml
+        - label: Cayenne (Lennart Augustsson)
+        - label: CDuce
+        - label: Cecil
+        - label: CESIL (Computer Education in Schools Instruction Language)
+        - label: Céu
+        - label: Ceylon
+        - label: CFEngine
+        - label: Cg (High-Level Shader/Shading Language [HLSL])
+        - label: Ch
+        - label: Chapel (Cascade High Productivity Language)
+        - label: Charm
+        - label: CHILL
+        - label: CHIP-8
+        - label: ChucK
+        - label: Cilk (also Cilk++ and Cilk plus)
+        - label: Control Language
+        - label: Claire
+        - label: Clarion
+        - label: Clean
+        - label: Clipper
+        - label: CLIPS
+        - label: CLIST
+        - label: Clojure
+        - label: CLU
+        - label: CMS-2
+        - label: COBOL – ISO/IEC 1989
+        - label: CobolScript – COBOL Scripting language
+        - label: Cobra
+        - label: CoffeeScript
+        - label: ColdFusion
+        - label: COMAL
+        - label: Combined Programming Language (CPL)
+        - label: COMIT
+        - label: Common Intermediate Language (CIL)
+        - label: Common Lisp (also known as CL)
+        - label: COMPASS
+        - label: Component Pascal
+        - label: Constraint Handling Rules (CHR)
+        - label: COMTRAN
+        - label: Cool
+        - label: Coq
+        - label: Coral 66
+        - label: CorVision
+        - label: COWSEL
+        - label: CPL
+        - label: Cryptol
+        - label: Crystal
+        - label: Csound
+        - label: Cuneiform
+        - label: Curl
+        - label: Curry
+        - label: Cybil
+        - label: Cyclone
+        - label: Cypher Query Language
+        - label: Cython
+        - label: CEEMAC
+        - label: D
+        - label: Dart
+        - label: Darwin
+        - label: DataFlex
+        - label: Datalog
+        - label: DATATRIEVE
+        - label: dBase
+        - label: dc
+        - label: DCL (DIGITAL Command Language)
+        - label: Delphi
+        - label: DinkC
+        - label: DIBOL
+        - label: Dog
+        - label: Draco
+        - label: DRAKON
+        - label: Dylan
+        - label: DYNAMO
+        - label: DAX (Data Analysis Expressions)
+        - label: E
+        - label: Ease
+        - label: Easy PL/I
+        - label: EASYTRIEVE PLUS
+        - label: eC
+        - label: ECMAScript
+        - label: Edinburgh IMP
+        - label: EGL
+        - label: Eiffel
+        - label: ELAN
+        - label: Elixir
+        - label: Elm
+        - label: Emacs Lisp
+        - label: Emerald
+        - label: Epigram
+        - label: EPL (Easy Programming Language)
+        - label: EPL (Eltron Programming Language)
+        - label: Erlang
+        - label: es
+        - label: Escher
+        - label: ESPOL
+        - label: Esterel
+        - label: Etoys
+        - label: Euclid
+        - label: Euler
+        - label: Euphoria
+        - label: EusLisp Robot Programming Language
+        - label: CMS EXEC (EXEC)
+        - label: EXEC 2
+        - label: Executable UML
+        - label: Ezhil
+        - label: F
+        - label: F# (F sharp)
+        - label: F*
+        - label: Factor
+        - label: Fantom
+        - label: FAUST
+        - label: FFP
+        - label: fish
+        - label: Fjölnir
+        - label: FL
+        - label: Flavors
+        - label: Flex
+        - label: Flix
+        - label: FlooP
+        - label: FLOW-MASTIC (B0)
+        - label: FOCAL (Formulating On-Line Calculations in Algebraic Language/FOrmula CALculator)
+        - label: FOCUS
+        - label: FOIL
+        - label: FORMAC (FORMula MAnipulation Compiler)
+        - label: Formula
+        - label: Forth
+        - label: Fortran – ISO/IEC 1539
+        - label: Fortress
+        - label: FP
+        - label: Franz Lisp
+        - label: Futhark
+        - label: F-Script
+        - label: Game Maker Language (Scripting language)
+        - label: GameMonkey Script
+        - label: GAMS (General Algebraic Modeling System)
+        - label: GAP
+        - label: G-code
+        - label: GDScript (Godot)
+        - label: Genie
+        - label: GDL (Geometric Description Language)
+        - label: GEORGE
+        - label: GLSL (OpenGL Shading Language)
+        - label: GNU E
+        - label: GNU Guile (GNU Ubiquitous Intelligent Language for Extensions)
+        - label: Go
+        - label: Go!
+        - label: GOAL (Game Oriented Assembly Lisp)
+        - label: Gödel
+        - label: Golo
+        - label: GOM (Good Old Mad)
+        - label: Google Apps Script
+        - label: Gosu
+        - label: GOTRAN (IBM 1620)
+        - label: GPSS (General Purpose Simulation System)
+        - label: GraphTalk (Computer Sciences Corporation)
+        - label: GRASS
+        - label: Grasshopper
+        - label: Groovy (programming language)|Groovy (Apache Groovy)
+        - label: Hack
+        - label: HAGGIS
+        - label: HAL/S
+        - label: Halide (programming language)
+        - label: Hamilton C shell
+        - label: Harbour
+        - label: Hartmann pipelines
+        - label: Haskell
+        - label: Haxe
+        - label: Hermes
+        - label: High Level Assembly (HLA)
+        - label: HLSL
+        - label: Hollywood
+        - label: HolyC (TempleOS)
+        - label: Hop
+        - label: Hopscotch
+        - label: Hope
+        - label: Hugo (Interactive Fiction/IF)
+        - label: Hume
+        - label: HyperTalk
+        - label: Io
+        - label: Icon
+        - label: IBM Basic assembly language
+        - label: IBM HAScript
+        - label: IBM Informix-4GL
+        - label: IBM RPG
+        - label: IDL
+        - label: Idris
+        - label: Inform
+        - label: ISLISP
+        - label: J
+        - label: J# (J sharp)
+        - label: J++ (J plus plus)
+        - label: JADE
+        - label: Jai
+        - label: JAL
+        - label: Janus (concurrent constraint programming language)
+        - label: Janus (time-reversible computing programming language)
+        - label: JASS
+        - label: Java
+        - label: JavaFX Script
+        - label: JavaScript(Scripting language)
+        - label: Jess (programming language)
+        - label: JCL
+        - label: JEAN
+        - label: Join Java
+        - label: JOSS
+        - label: Joule
+        - label: JOVIAL
+        - label: Joy
+        - label: JScript
+        - label: JScript .NET
+        - label: Julia
+        - label: Jython
+        - label: K
+        - label: Kaleidoscope
+        - label: Karel
+        - label: KEE
+        - label: Kixtart
+        - label: Klerer-May System
+        - label: KIF (Knowledge Interchange Format)
+        - label: Kojo
+        - label: Kotlin
+        - label: KRC
+        - label: KRL
+        - label: KRL (KUKA Robot Language)
+        - label: KRYPTON
+        - label: KornShell (ksh)
+        - label: Kodu
+        - label: Kv (Kivy)
+        - label: LabVIEW
+        - label: Ladder
+        - label: LANSA
+        - label: Lasso
+        - label: Lava
+        - label: LC-3
+        - label: Lean
+        - label: Legoscript
+        - label: LIL
+        - label: LilyPond
+        - label: Limbo
+        - label: Limnor
+        - label: LINC
+        - label: Lingo
+        - label: LINQ
+        - label: LIS
+        - label: LISA
+        - label: Language H
+        - label: Lisp – ISO/IEC 13816
+        - label: Lite-C
+        - label: Lithe
+        - label: Little b
+        - label: LLL
+        - label: Logo
+        - label: Logtalk
+        - label: LotusScript
+        - label: LPC
+        - label: LSE
+        - label: LSL
+        - label: LiveCode
+        - label: LiveScript
+        - label: Lua
+        - label: Lucid
+        - label: Lustre
+        - label: LYaPAS
+        - label: Lynx
+        - label: M2001
+        - label: M4
+        - label: M#
+        - label: Machine code
+        - label: MAD (Michigan Algorithm Decoder)
+        - label: MAD/I
+        - label: Magik
+        - label: Magma
+        - label: Máni
+        - label: Maple
+        - label: MAPPER (now part of BIS)
+        - label: MARK-IV (now VISION:BUILDER)
+        - label: Mary
+        - label: MATLAB
+        - label: MASM Microsoft Assembly x86
+        - label: MATH-MATIC
+        - label: Maude system
+        - label: Maxima (see also Macsyma)
+        - label: Max (Max Msp – Graphical Programming Environment)
+        - label: MaxScript internal language 3D Studio Max
+        - label: Maya (MEL)
+        - label: MDL
+        - label: Mercury
+        - label: Mesa
+        - label: MHEG-5 (Interactive TV programming language)
+        - label: Microcode
+        - label: MicroScript
+        - label: Microsoft Power Fx
+        - label: MIIS
+        - label: Milk (programming language)
+        - label: MIMIC
+        - label: Mirah
+        - label: Miranda
+        - label: MIVA Script
+        - label: ML
+        - label: Model 204
+        - label: Modelica
+        - label: Modula
+        - label: Modula-2
+        - label: Modula-3
+        - label: Mohol
+        - label: MOO
+        - label: Mortran
+        - label: Mouse
+        - label: MPD
+        - label: MSL
+        - label: MUMPS
+        - label: MuPAD
+        - label: Mutan
+        - label: Mystic Programming Language (MPL)
+        - label: NASM
+        - label: Napier88
+        - label: Neko
+        - label: Nemerle
+        - label: NESL
+        - label: Net.Data
+        - label: NetLogo
+        - label: NetRexx
+        - label: NewLISP
+        - label: NEWP
+        - label: Newspeak
+        - label: NewtonScript
+        - label: Nial
+        - label: Nickle (NITIN)
+        - label: Nim
+        - label: Nix (Systems configuration language)
+        - label: NPL
+        - label: Not eXactly C (NXC)
+        - label: Not Quite C (NQC)
+        - label: NSIS
+        - label: Nu
+        - label: NWScript
+        - label: NXT-G
+        - label: o:XML
+        - label: Oak
+        - label: Oberon
+        - label: OBJ2
+        - label: Object Lisp
+        - label: ObjectLOGO
+        - label: Object REXX
+        - label: Object Pascal
+        - label: Objective-C
+        - label: Objective-J
+        - label: Obliq
+        - label: OCaml
+        - label: occam
+        - label: occam-π
+        - label: Octave
+        - label: OmniMark
+        - label: Opa
+        - label: Opal
+        - label: OpenCL
+        - label: OpenEdge ABL
+        - label: OPL
+        - label: OpenVera
+        - label: OPS5
+        - label: OptimJ
+        - label: Orc
+        - label: ORCA/Modula-2
+        - label: Oriel
+        - label: Orwell
+        - label: Oxygene
+        - label: Oz
+        - label: P
+        - label: P4
+        - label: P′′
+        - label: ParaSail (programming language)
+        - label: PARI/GP
+        - label: Pascal – ISO 7185
+        - label: Pascal Script
+        - label: PCASTL
+        - label: PCF
+        - label: PEARL
+        - label: PeopleCode
+        - label: Perl
+        - label: PDL
+        - label: Pharo
+        - label: PHP
+        - label: Pico
+        - label: Picolisp
+        - label: Pict
+        - label: Pike
+        - label: PILOT
+        - label: Pipelines
+        - label: Pizza
+        - label: PL-11
+        - label: PL/0
+        - label: PL/B
+        - label: PL/C
+        - label: PL/I – ISO 6160
+        - label: PL/M
+        - label: PL/P
+        - label: PL/SQL
+        - label: PL360
+        - label: PLANC
+        - label: Plankalkül
+        - label: Planner
+        - label: PLEX
+        - label: PLEXIL
+        - label: Plus
+        - label: POP-11
+        - label: POP-2
+        - label: PostScript
+        - label: PortablE
+        - label: POV-Ray SDL
+        - label: Powerhouse
+        - label: PowerBuilder – 4GL GUI application generator from Sybase
+        - label: PowerShell
+        - label: PPL
+        - label: Processing
+        - label: Processing.js
+        - label: Prograph
+        - label: PROIV
+        - label: Project Verona
+        - label: Prolog
+        - label: PROMAL
+        - label: Promela
+        - label: PROSE modeling language
+        - label: PROTEL
+        - label: ProvideX
+        - label: Pro*C
+        - label: Pure
+        - label: Pure Data
+        - label: PureScript
+        - label: Python
+        - label: Q (programming language from Kx Systems)
+        - label: Q# (Microsoft programming language)
+        - label: Qalb
+        - label: Quantum Computation Language
+        - label: QtScript
+        - label: QuakeC
+        - label: QPL
+        - label: .QL
+        - label: R
+        - label: R++
+        - label: Racket
+        - label: Raku
+        - label: RAPID
+        - label: Rapira
+        - label: Ratfiv
+        - label: Ratfor
+        - label: RemObjects Mercury
+        - label: rc
+        - label: Reason
+        - label: REBOL
+        - label: Red
+        - label: Redcode
+        - label: REFAL
+        - label: REXX
+        - label: Rlab
+        - label: ROOP
+        - label: RPG
+        - label: RPL
+        - label: RSL
+        - label: RTL/2
+        - label: Ruby
+        - label: Rust
+        - label: S
+        - label: S2
+        - label: S3
+        - label: S-Lang
+        - label: S-PLUS
+        - label: SA-C
+        - label: SabreTalk
+        - label: SAIL
+        - label: SAS
+        - label: SASL
+        - label: Sather
+        - label: Sawzall
+        - label: Scala
+        - label: Scheme
+        - label: Scilab
+        - label: Scratch
+        - label: Script.NET
+        - label: Sed
+        - label: Seed7
+        - label: Self
+        - label: SenseTalk
+        - label: SequenceL
+        - label: Serpent
+        - label: SETL
+        - label: SIMPOL
+        - label: SIGNAL
+        - label: SiMPLE
+        - label: SIMSCRIPT
+        - label: Simula
+        - label: Simulink
+        - label: Singularity
+        - label: SISAL
+        - label: SLIP
+        - label: SMALL
+        - label: Smalltalk
+        - label: SML
+        - label: Strongtalk
+        - label: Snap!
+        - label: SNOBOL (SPITBOL)
+        - label: Snowball
+        - label: SOL
+        - label: Solidity
+        - label: SOPHAEROS
+        - label: Source
+        - label: SPARK
+        - label: Speakeasy
+        - label: Speedcode
+        - label: SPIN
+        - label: SP/k
+        - label: SPS
+        - label: SQL
+        - label: SQR
+        - label: Squeak
+        - label: Squirrel
+        - label: SR
+        - label: S/SL
+        - label: Starlogo
+        - label: Strand
+        - label: Stata
+        - label: Stateflow
+        - label: Subtext
+        - label: SBL
+        - label: SuperCollider
+        - label: SuperTalk
+        - label: Swift (Apple programming language)
+        - label: Swift (parallel scripting language)
+        - label: SYMPL
+        - label: SystemVerilog
+        - label: T
+        - label: TACL
+        - label: TACPOL
+        - label: TADS (Text Adventure Development System)
+        - label: TAL
+        - label: Tcl
+        - label: Tea
+        - label: TECO (text Editor and Corrector)
+        - label: TELCOMP
+        - label: TeX
+        - label: TEX (Text Executive Programming Language)
+        - label: TIE
+        - label: TMG (TransMo Griffer), compiler-compiler
+        - label: Tom
+        - label: Toi
+        - label: Topspeed (Clarion)
+        - label: TPU (text Processing Utility)
+        - label: Trac
+        - label: TTM
+        - label: T-SQL (Transact-SQL)
+        - label: Transcript (LiveCode)
+        - label: TTCN (Tree and Tabular Combined Notation)
+        - label: Turing
+        - label: TUTOR (PLATO Author Language)
+        - label: TXL
+        - label: TypeScript
+        - label: Tynker
+        - label: Ubercode
+        - label: UCSD Pascal
+        - label: Umple
+        - label: Unicon
+        - label: Uniface
+        - label: UNITY
+        - label: UnrealScript
+        - label: Vala
+        - label: Verilog
+        - label: VHDL
+        - label: Vim script
+        - label: Viper (Ethereum/Ether (ETH))
+        - label: Visual DataFlex
+        - label: Visual DialogScript
+        - label: Visual FoxPro
+        - label: Visual J++ (Visual J plus plus)
+        - label: Visual LISP
+        - label: Visual Objects
+        - label: Visual Prolog
+        - label: WATFIV, WATFOR (WATerloo FORtran IV)
+        - label: WebAssembly
+        - label: WebDNA
+        - label: Whiley
+        - label: Winbatch
+        - label: Wolfram Language
+        - label: Wyvern
+        - label: X++ (X plus plus/Microsoft Dynamics AX)
+        - label: X10
+        - label: xBase
+        - label: xBase++ (xBase plus plus)
+        - label: XBL
+        - label: XC (targets XMOS architecture)
+        - label: xHarbour
+        - label: XL
+        - label: Xojo
+        - label: XOTcl
+        - label: Xod
+        - label: XPL
+        - label: XPL0
+        - label: XQuery
+        - label: XSB
+        - label: XSharp (X#)
+        - label: XSLT
+        - label: Xtend
+        - label: Yorick
+        - label: YQL
+        - label: Yoix
+        - label: YUI
+        - label: Z notation
+        - label: Zebra, ZPL, ZPL2
+        - label: Zeno
+        - label: ZetaLisp
+        - label: Zig
+        - label: ZOPL
+        - label: ZPL
+        - label: Z++
+  - type: checkboxes
+    id: operating-system-support
+    attributes:
+      label: Operating System Support
+      description: What languages are directly supported by the software tool?
+      options:
+  - type: input
+    id: short-description
+    attributes:
+      label: Short Description
+      description: Describe the software tool in 140 characters or less
+      placeholder: XYZ is a Energy System Model for ...
+    validations:
+      required: true
+  - type: textarea
+    id: long-description
+    attributes:
+      label: Long Description
+      description: Describe the software tool in as much detail as you'd like
+      placeholder: ...
+    validations:
+      required: false
+  - type: dropdown
+    id: license
+    attributes:
+      label: What is the software tool's license?
+      multiple: false
+      options:
+        - Commerical
+        - 0-clause BSD License (0BSD)
+        - 1-clause BSD License (BSD-1-Clause)
+        - 2-clause BSD License (BSD-2-Clause)
+        - 3-clause BSD License (BSD-3-Clause)
+        - Academic Free License 3.0 (AFL-3.0)
+        - Adaptive Public License (APL-1.0)
+        - Apache License 2.0 (Apache-2.0)
+        - Apple Public Source License (APSL-2.0)
+        - Artistic License 2.0 (Artistic-2.0)
+        - Attribution Assurance License (AAL)
+        - Boost Software License (BSL-1.0)
+        - BSD+Patent (BSD-2-Clause-Patent)
+        - CERN Open Hardware Licence Version 2 - Permissive
+        - CERN Open Hardware Licence Version 2 - Weakly Reciprocal
+        - CERN Open Hardware Licence Version 2 - Strongly Reciprocal
+        - CeCILL License 2.1 (CECILL-2.1)
+        - Common Development and Distribution License 1.0 (CDDL-1.0)
+        - Common Public Attribution License 1.0 (CPAL-1.0)
+        - Computer Associates Trusted Open Source License 1.1 (CATOSL-1.1)
+        - Cryptographic Autonomy License v.1.0 (CAL-1.0)
+        - CUA Office Public License Version 1.0 (CUA-OPL-1.0) (retired)
+        - Eclipse Public License 2.0 (EPL-2.0)
+        - eCos License version 2.0 (eCos-2.0)
+        - Educational Community License, Version 2.0 (ECL-2.0)
+        - Eiffel Forum License V2.0 (EFL-2.0)
+        - Entessa Public License (Entessa)
+        - EU DataGrid Software License (EUDatagrid)
+        - European Union Public License 1.2 (EUPL-1.2) (links to every language's version on their site)
+        - Fair License (Fair)
+        - Frameworx License (Frameworx-1.0)
+        - Free Public License 1.0.0 (0BSD)
+        - GNU Affero General Public License version 3 (AGPL-3.0)
+        - GNU General Public License version 2 (GPL-2.0)
+        - GNU General Public License version 3 (GPL-3.0)
+        - GNU Lesser General Public License version 2.1 (LGPL-2.1)
+        - GNU Lesser General Public License version 3 (LGPL-3.0)
+        - Historical Permission Notice and Disclaimer (HPND)
+        - IBM Public License 1.0 (IPL-1.0)
+        - Intel Open Source License (Intel) (retired)
+        - IPA Font License (IPA)
+        - ISC License (ISC)
+        - Jabber Open Source License (retired)
+        - LaTeX Project Public License 1.3c (LPPL-1.3c)
+        - Lawrence Berkeley National Labs BSD Variant License (BSD-3-Clause-LBNL)
+        - Licence Libre du Québec – Permissive (LiLiQ-P) version 1.1 (LiliQ-P)
+        - Licence Libre du Québec – Réciprocité (LiLiQ-R) version 1.1 (LiliQ-R)
+        - Licence Libre du Québec – Réciprocité forte (LiLiQ-R+) version 1.1 (LiliQ-R+)
+        - Lucent Public License Version 1.02 (LPL-1.02)
+        - Microsoft Public License (MS-PL)
+        - Microsoft Reciprocal License (MS-RL)
+        - MirOS Licence (MirOS)
+        - MIT License (MIT)
+        - MIT No Attribution License (MIT-0)
+        - MITRE Collaborative Virtual Workspace License (CVW) (retired)
+        - Motosoto License (Motosoto)
+        - Mozilla Public License 2.0 (MPL-2.0)
+        - Mulan Permissive Software License v2 (MulanPSL - 2.0)
+        - Multics License (Multics)
+        - NASA Open Source Agreement 1.3 (NASA-1.3)
+        - Naumen Public License (Naumen)
+        - Nethack General Public License (NGPL)
+        - Nokia Open Source License (Nokia)
+        - Non-Profit Open Software License 3.0 (NPOSL-3.0)
+        - NTP License (NTP)
+        - OCLC Research Public License 2.0 (OCLC-2.0)
+        - Open Group Test Suite License (OGTSL)
+        - Open Software License 3.0 (OSL-3.0)
+        - OpenLDAP Public License Version 2.8 (OLDAP-2.8)
+        - OSET Public License version 2.1
+        - PHP License 3.01 (PHP-3.01)
+        - The PostgreSQL License (PostgreSQL)
+        - Python License (Python-2.0) (overall Python license)
+        - CNRI Python license (CNRI-Python) (CNRI portion of Python License)
+        - Q Public License (QPL-1.0)
+        - RealNetworks Public Source License V1.0 (RPSL-1.0)
+        - Reciprocal Public License 1.5 (RPL-1.5)
+        - Ricoh Source Code Public License (RSCPL)
+        - SIL Open Font License 1.1 (OFL-1.1)
+        - Simple Public License 2.0 (SimPL-2.0)
+        - Sleepycat License (Sleepycat)
+        - Sun Industry Standards Source License (SISSL) (retired)
+        - Sun Public License 1.0 (SPL-1.0)
+        - Sybase Open Watcom Public License 1.0 (Watcom-1.0)
+        - Universal Permissive License (UPL)
+        - University of Illinois/NCSA Open Source License (NCSA)
+        - Upstream Compatibility License v1.0
+        - Unicode Data Files and Software License
+        - The Unlicense
+        - Vovida Software License v. 1.0 (VSL-1.0)
+        - W3C License (W3C)
+        - wxWindows Library License (WXwindows)
+        - X.Net License (Xnet)
+        - Zero-Clause BSD (0BSD)
+        - Zope Public License 2.0 (ZPL-2.0)
+        - zlib/libpng license (Zlib)
+  - type: checkboxes
+    id: programming-language-support
+    attributes:
+      label: Programming Language Support
+      description: What languages are directly supported by the software tool?
+      options:
+        - label: A.NET (A#/A sharp)
+        - label: A-0 System
+        - label: A+ (A (plus)
+        - label: ABAP
+        - label: ABC
+        - label: ABC ALGOL
+        - label: ACC
+        - label: Accent (Rational Synergy)
+        - label: Ace DASL (Distributed Application Specification Language)
+        - label: Action!
+        - label: ActionScript
+        - label: Actor
+        - label: Ada
+        - label: Adenine (Haystack)
+        - label: AdvPL
+        - label: Agda
+        - label: Agilent VEE (Keysight VEE)
+        - label: Agora
+        - label: AIMMS
+        - label: Aldor
+        - label: Alef
+        - label: ALF
+        - label: ALGOL 58
+        - label: ALGOL 60
+        - label: ALGOL 68
+        - label: ALGOL W
+        - label: Alice (Alice ML)
+        - label: Alma-0
+        - label: AmbientTalk
+        - label: Amiga E
+        - label: AMOS (AMOS BASIC)
+        - label: AMPL
+        - label: AngelScript
+        - label: Apache Pig latin
+        - label: Apex (Salesforce.com, Inc)
+        - label: APL
+        - label: App Inventor for Android's visual block language (MIT App Inventor)
+        - label: AppleScript
+        - label: APT
+        - label: Arc
+        - label: ARexx
+        - label: Argus
+        - label: Assembly language (ASM)
+        - label: AutoIt
+        - label: AutoLISP / Visual LISP
+        - label: Averest
+        - label: AWK
+        - label: Axum
+        - label: B
+        - label: Babbage
+        - label: Ballerina
+        - label: Bash
+        - label: BASIC
+        - label: Batch file (Windows/MS-DOS)
+        - label: bc (basic calculator)
+        - label: BCPL
+        - label: BeanShell
+        - label: Bertrand
+        - label: BETA
+        - label: BLISS
+        - label: Blockly
+        - label: BlooP
+        - label: Boo
+        - label: Boomerang
+        - label: Bosque
+        - label: C – ISO/IEC 9899
+        - label: C-- (C minus minus)
+        - label: C++ (C plus plus) – ISO/IEC 14882
+        - label: C*
+        - label: C# (C sharp) – ISO/IEC 23270
+        - label: C/AL
+        - label: Caché ObjectScript
+        - label: C Shell (csh)
+        - label: Caml
+        - label: Cayenne (Lennart Augustsson)
+        - label: CDuce
+        - label: Cecil
+        - label: CESIL (Computer Education in Schools Instruction Language)
+        - label: Céu
+        - label: Ceylon
+        - label: CFEngine
+        - label: Cg (High-Level Shader/Shading Language [HLSL])
+        - label: Ch
+        - label: Chapel (Cascade High Productivity Language)
+        - label: Charm
+        - label: CHILL
+        - label: CHIP-8
+        - label: ChucK
+        - label: Cilk (also Cilk++ and Cilk plus)
+        - label: Control Language
+        - label: Claire
+        - label: Clarion
+        - label: Clean
+        - label: Clipper
+        - label: CLIPS
+        - label: CLIST
+        - label: Clojure
+        - label: CLU
+        - label: CMS-2
+        - label: COBOL – ISO/IEC 1989
+        - label: CobolScript – COBOL Scripting language
+        - label: Cobra
+        - label: CoffeeScript
+        - label: ColdFusion
+        - label: COMAL
+        - label: Combined Programming Language (CPL)
+        - label: COMIT
+        - label: Common Intermediate Language (CIL)
+        - label: Common Lisp (also known as CL)
+        - label: COMPASS
+        - label: Component Pascal
+        - label: Constraint Handling Rules (CHR)
+        - label: COMTRAN
+        - label: Cool
+        - label: Coq
+        - label: Coral 66
+        - label: CorVision
+        - label: COWSEL
+        - label: CPL
+        - label: Cryptol
+        - label: Crystal
+        - label: Csound
+        - label: Cuneiform
+        - label: Curl
+        - label: Curry
+        - label: Cybil
+        - label: Cyclone
+        - label: Cypher Query Language
+        - label: Cython
+        - label: CEEMAC
+        - label: D
+        - label: Dart
+        - label: Darwin
+        - label: DataFlex
+        - label: Datalog
+        - label: DATATRIEVE
+        - label: dBase
+        - label: dc
+        - label: DCL (DIGITAL Command Language)
+        - label: Delphi
+        - label: DinkC
+        - label: DIBOL
+        - label: Dog
+        - label: Draco
+        - label: DRAKON
+        - label: Dylan
+        - label: DYNAMO
+        - label: DAX (Data Analysis Expressions)
+        - label: E
+        - label: Ease
+        - label: Easy PL/I
+        - label: EASYTRIEVE PLUS
+        - label: eC
+        - label: ECMAScript
+        - label: Edinburgh IMP
+        - label: EGL
+        - label: Eiffel
+        - label: ELAN
+        - label: Elixir
+        - label: Elm
+        - label: Emacs Lisp
+        - label: Emerald
+        - label: Epigram
+        - label: EPL (Easy Programming Language)
+        - label: EPL (Eltron Programming Language)
+        - label: Erlang
+        - label: es
+        - label: Escher
+        - label: ESPOL
+        - label: Esterel
+        - label: Etoys
+        - label: Euclid
+        - label: Euler
+        - label: Euphoria
+        - label: EusLisp Robot Programming Language
+        - label: CMS EXEC (EXEC)
+        - label: EXEC 2
+        - label: Executable UML
+        - label: Ezhil
+        - label: F
+        - label: F# (F sharp)
+        - label: F*
+        - label: Factor
+        - label: Fantom
+        - label: FAUST
+        - label: FFP
+        - label: fish
+        - label: Fjölnir
+        - label: FL
+        - label: Flavors
+        - label: Flex
+        - label: Flix
+        - label: FlooP
+        - label: FLOW-MASTIC (B0)
+        - label: FOCAL (Formulating On-Line Calculations in Algebraic Language/FOrmula CALculator)
+        - label: FOCUS
+        - label: FOIL
+        - label: FORMAC (FORMula MAnipulation Compiler)
+        - label: Formula
+        - label: Forth
+        - label: Fortran – ISO/IEC 1539
+        - label: Fortress
+        - label: FP
+        - label: Franz Lisp
+        - label: Futhark
+        - label: F-Script
+        - label: Game Maker Language (Scripting language)
+        - label: GameMonkey Script
+        - label: GAMS (General Algebraic Modeling System)
+        - label: GAP
+        - label: G-code
+        - label: GDScript (Godot)
+        - label: Genie
+        - label: GDL (Geometric Description Language)
+        - label: GEORGE
+        - label: GLSL (OpenGL Shading Language)
+        - label: GNU E
+        - label: GNU Guile (GNU Ubiquitous Intelligent Language for Extensions)
+        - label: Go
+        - label: Go!
+        - label: GOAL (Game Oriented Assembly Lisp)
+        - label: Gödel
+        - label: Golo
+        - label: GOM (Good Old Mad)
+        - label: Google Apps Script
+        - label: Gosu
+        - label: GOTRAN (IBM 1620)
+        - label: GPSS (General Purpose Simulation System)
+        - label: GraphTalk (Computer Sciences Corporation)
+        - label: GRASS
+        - label: Grasshopper
+        - label: Groovy (programming language)|Groovy (Apache Groovy)
+        - label: Hack
+        - label: HAGGIS
+        - label: HAL/S
+        - label: Halide (programming language)
+        - label: Hamilton C shell
+        - label: Harbour
+        - label: Hartmann pipelines
+        - label: Haskell
+        - label: Haxe
+        - label: Hermes
+        - label: High Level Assembly (HLA)
+        - label: HLSL
+        - label: Hollywood
+        - label: HolyC (TempleOS)
+        - label: Hop
+        - label: Hopscotch
+        - label: Hope
+        - label: Hugo (Interactive Fiction/IF)
+        - label: Hume
+        - label: HyperTalk
+        - label: Io
+        - label: Icon
+        - label: IBM Basic assembly language
+        - label: IBM HAScript
+        - label: IBM Informix-4GL
+        - label: IBM RPG
+        - label: IDL
+        - label: Idris
+        - label: Inform
+        - label: ISLISP
+        - label: J
+        - label: J# (J sharp)
+        - label: J++ (J plus plus)
+        - label: JADE
+        - label: Jai
+        - label: JAL
+        - label: Janus (concurrent constraint programming language)
+        - label: Janus (time-reversible computing programming language)
+        - label: JASS
+        - label: Java
+        - label: JavaFX Script
+        - label: JavaScript(Scripting language)
+        - label: Jess (programming language)
+        - label: JCL
+        - label: JEAN
+        - label: Join Java
+        - label: JOSS
+        - label: Joule
+        - label: JOVIAL
+        - label: Joy
+        - label: JScript
+        - label: JScript .NET
+        - label: Julia
+        - label: Jython
+        - label: K
+        - label: Kaleidoscope
+        - label: Karel
+        - label: KEE
+        - label: Kixtart
+        - label: Klerer-May System
+        - label: KIF (Knowledge Interchange Format)
+        - label: Kojo
+        - label: Kotlin
+        - label: KRC
+        - label: KRL
+        - label: KRL (KUKA Robot Language)
+        - label: KRYPTON
+        - label: KornShell (ksh)
+        - label: Kodu
+        - label: Kv (Kivy)
+        - label: LabVIEW
+        - label: Ladder
+        - label: LANSA
+        - label: Lasso
+        - label: Lava
+        - label: LC-3
+        - label: Lean
+        - label: Legoscript
+        - label: LIL
+        - label: LilyPond
+        - label: Limbo
+        - label: Limnor
+        - label: LINC
+        - label: Lingo
+        - label: LINQ
+        - label: LIS
+        - label: LISA
+        - label: Language H
+        - label: Lisp – ISO/IEC 13816
+        - label: Lite-C
+        - label: Lithe
+        - label: Little b
+        - label: LLL
+        - label: Logo
+        - label: Logtalk
+        - label: LotusScript
+        - label: LPC
+        - label: LSE
+        - label: LSL
+        - label: LiveCode
+        - label: LiveScript
+        - label: Lua
+        - label: Lucid
+        - label: Lustre
+        - label: LYaPAS
+        - label: Lynx
+        - label: M2001
+        - label: M4
+        - label: M#
+        - label: Machine code
+        - label: MAD (Michigan Algorithm Decoder)
+        - label: MAD/I
+        - label: Magik
+        - label: Magma
+        - label: Máni
+        - label: Maple
+        - label: MAPPER (now part of BIS)
+        - label: MARK-IV (now VISION:BUILDER)
+        - label: Mary
+        - label: MATLAB
+        - label: MASM Microsoft Assembly x86
+        - label: MATH-MATIC
+        - label: Maude system
+        - label: Maxima (see also Macsyma)
+        - label: Max (Max Msp – Graphical Programming Environment)
+        - label: MaxScript internal language 3D Studio Max
+        - label: Maya (MEL)
+        - label: MDL
+        - label: Mercury
+        - label: Mesa
+        - label: MHEG-5 (Interactive TV programming language)
+        - label: Microcode
+        - label: MicroScript
+        - label: Microsoft Power Fx
+        - label: MIIS
+        - label: Milk (programming language)
+        - label: MIMIC
+        - label: Mirah
+        - label: Miranda
+        - label: MIVA Script
+        - label: ML
+        - label: Model 204
+        - label: Modelica
+        - label: Modula
+        - label: Modula-2
+        - label: Modula-3
+        - label: Mohol
+        - label: MOO
+        - label: Mortran
+        - label: Mouse
+        - label: MPD
+        - label: MSL
+        - label: MUMPS
+        - label: MuPAD
+        - label: Mutan
+        - label: Mystic Programming Language (MPL)
+        - label: NASM
+        - label: Napier88
+        - label: Neko
+        - label: Nemerle
+        - label: NESL
+        - label: Net.Data
+        - label: NetLogo
+        - label: NetRexx
+        - label: NewLISP
+        - label: NEWP
+        - label: Newspeak
+        - label: NewtonScript
+        - label: Nial
+        - label: Nickle (NITIN)
+        - label: Nim
+        - label: Nix (Systems configuration language)
+        - label: NPL
+        - label: Not eXactly C (NXC)
+        - label: Not Quite C (NQC)
+        - label: NSIS
+        - label: Nu
+        - label: NWScript
+        - label: NXT-G
+        - label: o:XML
+        - label: Oak
+        - label: Oberon
+        - label: OBJ2
+        - label: Object Lisp
+        - label: ObjectLOGO
+        - label: Object REXX
+        - label: Object Pascal
+        - label: Objective-C
+        - label: Objective-J
+        - label: Obliq
+        - label: OCaml
+        - label: occam
+        - label: occam-π
+        - label: Octave
+        - label: OmniMark
+        - label: Opa
+        - label: Opal
+        - label: OpenCL
+        - label: OpenEdge ABL
+        - label: OPL
+        - label: OpenVera
+        - label: OPS5
+        - label: OptimJ
+        - label: Orc
+        - label: ORCA/Modula-2
+        - label: Oriel
+        - label: Orwell
+        - label: Oxygene
+        - label: Oz
+        - label: P
+        - label: P4
+        - label: P′′
+        - label: ParaSail (programming language)
+        - label: PARI/GP
+        - label: Pascal – ISO 7185
+        - label: Pascal Script
+        - label: PCASTL
+        - label: PCF
+        - label: PEARL
+        - label: PeopleCode
+        - label: Perl
+        - label: PDL
+        - label: Pharo
+        - label: PHP
+        - label: Pico
+        - label: Picolisp
+        - label: Pict
+        - label: Pike
+        - label: PILOT
+        - label: Pipelines
+        - label: Pizza
+        - label: PL-11
+        - label: PL/0
+        - label: PL/B
+        - label: PL/C
+        - label: PL/I – ISO 6160
+        - label: PL/M
+        - label: PL/P
+        - label: PL/SQL
+        - label: PL360
+        - label: PLANC
+        - label: Plankalkül
+        - label: Planner
+        - label: PLEX
+        - label: PLEXIL
+        - label: Plus
+        - label: POP-11
+        - label: POP-2
+        - label: PostScript
+        - label: PortablE
+        - label: POV-Ray SDL
+        - label: Powerhouse
+        - label: PowerBuilder – 4GL GUI application generator from Sybase
+        - label: PowerShell
+        - label: PPL
+        - label: Processing
+        - label: Processing.js
+        - label: Prograph
+        - label: PROIV
+        - label: Project Verona
+        - label: Prolog
+        - label: PROMAL
+        - label: Promela
+        - label: PROSE modeling language
+        - label: PROTEL
+        - label: ProvideX
+        - label: Pro*C
+        - label: Pure
+        - label: Pure Data
+        - label: PureScript
+        - label: Python
+        - label: Q (programming language from Kx Systems)
+        - label: Q# (Microsoft programming language)
+        - label: Qalb
+        - label: Quantum Computation Language
+        - label: QtScript
+        - label: QuakeC
+        - label: QPL
+        - label: .QL
+        - label: R
+        - label: R++
+        - label: Racket
+        - label: Raku
+        - label: RAPID
+        - label: Rapira
+        - label: Ratfiv
+        - label: Ratfor
+        - label: RemObjects Mercury
+        - label: rc
+        - label: Reason
+        - label: REBOL
+        - label: Red
+        - label: Redcode
+        - label: REFAL
+        - label: REXX
+        - label: Rlab
+        - label: ROOP
+        - label: RPG
+        - label: RPL
+        - label: RSL
+        - label: RTL/2
+        - label: Ruby
+        - label: Rust
+        - label: S
+        - label: S2
+        - label: S3
+        - label: S-Lang
+        - label: S-PLUS
+        - label: SA-C
+        - label: SabreTalk
+        - label: SAIL
+        - label: SAS
+        - label: SASL
+        - label: Sather
+        - label: Sawzall
+        - label: Scala
+        - label: Scheme
+        - label: Scilab
+        - label: Scratch
+        - label: Script.NET
+        - label: Sed
+        - label: Seed7
+        - label: Self
+        - label: SenseTalk
+        - label: SequenceL
+        - label: Serpent
+        - label: SETL
+        - label: SIMPOL
+        - label: SIGNAL
+        - label: SiMPLE
+        - label: SIMSCRIPT
+        - label: Simula
+        - label: Simulink
+        - label: Singularity
+        - label: SISAL
+        - label: SLIP
+        - label: SMALL
+        - label: Smalltalk
+        - label: SML
+        - label: Strongtalk
+        - label: Snap!
+        - label: SNOBOL (SPITBOL)
+        - label: Snowball
+        - label: SOL
+        - label: Solidity
+        - label: SOPHAEROS
+        - label: Source
+        - label: SPARK
+        - label: Speakeasy
+        - label: Speedcode
+        - label: SPIN
+        - label: SP/k
+        - label: SPS
+        - label: SQL
+        - label: SQR
+        - label: Squeak
+        - label: Squirrel
+        - label: SR
+        - label: S/SL
+        - label: Starlogo
+        - label: Strand
+        - label: Stata
+        - label: Stateflow
+        - label: Subtext
+        - label: SBL
+        - label: SuperCollider
+        - label: SuperTalk
+        - label: Swift (Apple programming language)
+        - label: Swift (parallel scripting language)
+        - label: SYMPL
+        - label: SystemVerilog
+        - label: T
+        - label: TACL
+        - label: TACPOL
+        - label: TADS (Text Adventure Development System)
+        - label: TAL
+        - label: Tcl
+        - label: Tea
+        - label: TECO (text Editor and Corrector)
+        - label: TELCOMP
+        - label: TeX
+        - label: TEX (Text Executive Programming Language)
+        - label: TIE
+        - label: TMG (TransMo Griffer), compiler-compiler
+        - label: Tom
+        - label: Toi
+        - label: Topspeed (Clarion)
+        - label: TPU (text Processing Utility)
+        - label: Trac
+        - label: TTM
+        - label: T-SQL (Transact-SQL)
+        - label: Transcript (LiveCode)
+        - label: TTCN (Tree and Tabular Combined Notation)
+        - label: Turing
+        - label: TUTOR (PLATO Author Language)
+        - label: TXL
+        - label: TypeScript
+        - label: Tynker
+        - label: Ubercode
+        - label: UCSD Pascal
+        - label: Umple
+        - label: Unicon
+        - label: Uniface
+        - label: UNITY
+        - label: UnrealScript
+        - label: Vala
+        - label: Verilog
+        - label: VHDL
+        - label: Vim script
+        - label: Viper (Ethereum/Ether (ETH))
+        - label: Visual DataFlex
+        - label: Visual DialogScript
+        - label: Visual FoxPro
+        - label: Visual J++ (Visual J plus plus)
+        - label: Visual LISP
+        - label: Visual Objects
+        - label: Visual Prolog
+        - label: WATFIV, WATFOR (WATerloo FORtran IV)
+        - label: WebAssembly
+        - label: WebDNA
+        - label: Whiley
+        - label: Winbatch
+        - label: Wolfram Language
+        - label: Wyvern
+        - label: X++ (X plus plus/Microsoft Dynamics AX)
+        - label: X10
+        - label: xBase
+        - label: xBase++ (xBase plus plus)
+        - label: XBL
+        - label: XC (targets XMOS architecture)
+        - label: xHarbour
+        - label: XL
+        - label: Xojo
+        - label: XOTcl
+        - label: Xod
+        - label: XPL
+        - label: XPL0
+        - label: XQuery
+        - label: XSB
+        - label: XSharp (X#)
+        - label: XSLT
+        - label: Xtend
+        - label: Yorick
+        - label: YQL
+        - label: Yoix
+        - label: YUI
+        - label: Z notation
+        - label: Zebra, ZPL, ZPL2
+        - label: Zeno
+        - label: ZetaLisp
+        - label: Zig
+        - label: ZOPL
+        - label: ZPL
+        - label: Z++
+  - type: checkboxes
+    id: operating-system-support
+    attributes:
+      label: Operating System Support
+      description: What languages are directly supported by the software tool?
+      options:
+  - type: input
     id: short-description
     attributes:
       label: Short Description
