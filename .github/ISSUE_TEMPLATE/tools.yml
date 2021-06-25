@@ -5,6 +5,8 @@ assignees:
   - kdheepak
 body:
   - type: markdown
+    value: "## Welcome!"
+  - type: markdown
     attributes:
       value: |
         Thanks for taking the time to submit your tool for consideration!
@@ -82,6 +84,19 @@ body:
         - label: Visualization
         - label: Data
         - label: Engineering/Design
+  - type: textarea
+    id: capabilities
+    attributes:
+      label: Capabilities
+      description: "Describe the software tool capabilities."
+      value: |
+        1.
+        2.
+        3.
+        ...
+      render: markdown
+    validations:
+      required: false
   - type: checkboxes
     id: programming-language
     attributes:
