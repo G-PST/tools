@@ -24,6 +24,7 @@ tokio = { version = "0.2", features = ["macros", "rt-threaded", "rt-util", "time
 uuid = {version = "0.8", features = ["v4"]}
 strum = "0.21"
 strum_macros = "0.21"
+pulldown-cmark = "0.8.0"
 
 [build-dependencies]
 which = "4"

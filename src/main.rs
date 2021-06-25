@@ -50,6 +50,15 @@ use anyhow::anyhow;
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
+use pulldown_cmark::{Event, Parser, Tag};
+
+#[derive(Debug, Clone, Copy)]
+enum Location {
+    NotImportant,
+    Heading,
+    Section,
+}
+
 #[get("/")]
 async fn index() -> Option<NamedFile> {
     NamedFile::open("frontend/dist/index.html").await.ok()
@@ -150,6 +159,42 @@ fn split_once(haystack: &str, needle: &str) -> Option<(String, String)> {
 }
 
 impl Tool {
+    fn parse(&self, heading: &str) -> Option<String> {
+        let markdown = Parser::new(&self.issue_body);
+        let mut location = Location::NotImportant;
+
+        for event in markdown {
+            match (event, location) {
+                (Event::Start(Tag::Heading(3)), Location::NotImportant) => {
+                    location = Location::Heading;
+                }
+                (Event::Text(s), Location::Heading) => {
+                    if s.to_string().as_str() == heading {
+                        location = Location::Section;
+                    }
+                }
+                (Event::Text(s), Location::Section) => {
+                    return Some(s.to_string());
+                }
+                _ => (),
+            }
+        }
+        return None;
+    }
+
+    fn parse_body(&mut self) {
+        if let Some(s) = self.parse("Tool Name") {
+            self.name = s;
+        }
+        if let Some(s) = self.parse("Website") {
+            self.website = s;
+        }
+        if let Some(s) = self.parse("Documentation") {
+            self.documentation = s;
+        }
+        self.source = self.parse("Source");
+    }
+
     fn issue_to_tool(issue: &hubcaps::issues::Issue, id: usize) -> Option<Self> {
         let number = issue.number;
         let name = issue.title.clone();
@@ -632,7 +677,7 @@ async fn get_tools() -> Json<Vec<Tool>> {
         })
         .enumerate()
         .map(move |(i, issue)| Tool::issue_to_tool(issue, i))
-        .filter_map(|e| e)
+        .filter_map(|t| t)
         .collect();
     Json(tools)
 }

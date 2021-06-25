@@ -17,6 +17,20 @@ body:
     validations:
       required: true
   - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: Give a short description of the tool
+      placeholder: ...
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Give a long description of the tool
+      placeholder: ...
+  - type: input
     id: website
     attributes:
       label: Website
