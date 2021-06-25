@@ -102,8 +102,10 @@ var dedupeLabels = (dedupLabels) => {
   };
 
   var move = 1;
-  while (move > 0 && move < 500) {
+  var count = 0;
+  while (move > 0 && count < 200) {
     move = 0;
+    count = count + 1;
     dedupLabels.each(function (d, i) {
       // Get bounding box
       var thisBBox = this.getBBox();
