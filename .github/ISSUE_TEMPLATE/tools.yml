@@ -27,7 +27,7 @@ body:
   - type: input
     id: documentation
     attributes:
-      label: documentation
+      label: Documentation
       description: Documentation for your software tool
       placeholder: https://docs.xyz.com/
     validations:
