@@ -331,6 +331,23 @@ impl Tool {
                             }
                         }
                     }
+                    "Typical Temporal Scope" => {
+                        typical_temporal_scope = match value.as_str() {
+                            "Instant" => Some(TemporalScale::Instant),
+                            "Milliseconds" => Some(TemporalScale::Milliseconds),
+                            "Seconds" => Some(TemporalScale::Seconds),
+                            "Minutes" => Some(TemporalScale::Minutes),
+                            "Hours" => Some(TemporalScale::Hours),
+                            "Days" => Some(TemporalScale::Days),
+                            "Months" => Some(TemporalScale::Months),
+                            "Years" => Some(TemporalScale::Years),
+                            "Decades" => Some(TemporalScale::Decades),
+                            _ => {
+                                warn!("{}", value);
+                                Some(TemporalScale::Instant)
+                            }
+                        }
+                    }
                     "Smallest Spatial Scope" => {
                         lowest_spatial_scope = match value.as_str() {
                             "Component" => Some(SpatialScale::Component),
@@ -350,6 +367,23 @@ impl Tool {
                     }
                     "Largest Spatial Scope" => {
                         highest_spatial_scope = match value.as_str() {
+                            "Component" => Some(SpatialScale::Component),
+                            "Device" => Some(SpatialScale::Device),
+                            "Facility" => Some(SpatialScale::Facility),
+                            "Municipality" => Some(SpatialScale::Municipality),
+                            "State" => Some(SpatialScale::State),
+                            "Region" => Some(SpatialScale::Region),
+                            "Country" => Some(SpatialScale::Country),
+                            "Continent" => Some(SpatialScale::Continent),
+                            "Global" => Some(SpatialScale::Global),
+                            _ => {
+                                warn!("{}", value);
+                                Some(SpatialScale::Component)
+                            }
+                        }
+                    }
+                    "Typical Spatial Scope" => {
+                        typical_spatial_scope = match value.as_str() {
                             "Component" => Some(SpatialScale::Component),
                             "Device" => Some(SpatialScale::Device),
                             "Facility" => Some(SpatialScale::Facility),
@@ -399,6 +433,23 @@ impl Tool {
                             }
                         }
                     }
+                    "Typical Temporal Resolution" => {
+                        typical_temporal_resolution = match value.as_str() {
+                            "Instant" => Some(TemporalScale::Instant),
+                            "Milliseconds" => Some(TemporalScale::Milliseconds),
+                            "Seconds" => Some(TemporalScale::Seconds),
+                            "Minutes" => Some(TemporalScale::Minutes),
+                            "Hours" => Some(TemporalScale::Hours),
+                            "Days" => Some(TemporalScale::Days),
+                            "Months" => Some(TemporalScale::Months),
+                            "Years" => Some(TemporalScale::Years),
+                            "Decades" => Some(TemporalScale::Decades),
+                            _ => {
+                                warn!("{}", value);
+                                Some(TemporalScale::Instant)
+                            }
+                        }
+                    }
                     "Lowest Spatial Resolution" => {
                         lowest_spatial_resolution = match value.as_str() {
                             "Component" => Some(SpatialScale::Component),
@@ -418,6 +469,23 @@ impl Tool {
                     }
                     "Highest Spatial Resolution" => {
                         highest_spatial_resolution = match value.as_str() {
+                            "Component" => Some(SpatialScale::Component),
+                            "Device" => Some(SpatialScale::Device),
+                            "Facility" => Some(SpatialScale::Facility),
+                            "Municipality" => Some(SpatialScale::Municipality),
+                            "State" => Some(SpatialScale::State),
+                            "Region" => Some(SpatialScale::Region),
+                            "Country" => Some(SpatialScale::Country),
+                            "Continent" => Some(SpatialScale::Continent),
+                            "Global" => Some(SpatialScale::Global),
+                            _ => {
+                                warn!("{}", value);
+                                Some(SpatialScale::Component)
+                            }
+                        }
+                    }
+                    "Typical Spatial Resolution" => {
+                        typical_spatial_resolution = match value.as_str() {
                             "Component" => Some(SpatialScale::Component),
                             "Device" => Some(SpatialScale::Device),
                             "Facility" => Some(SpatialScale::Facility),
