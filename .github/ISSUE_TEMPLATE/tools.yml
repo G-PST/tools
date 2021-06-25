@@ -89,12 +89,11 @@ body:
     attributes:
       label: Capabilities
       description: "Describe the software tool capabilities."
-      value: |
+      placeholder: |
         1.
         2.
         3.
         ...
-      render: markdown
     validations:
       required: false
   - type: checkboxes
