@@ -320,6 +320,39 @@ impl Tool {
         }
     }
 
+    fn get_github_stars(&mut self) {
+        if self.source.is_none() {
+            return;
+        }
+        let value = self.source.as_ref().unwrap();
+        if value.contains("github.com") {
+            let re = Regex::new(
+                r"^(?:git|ssh|https?|git)(://|@)(.*)[:/]((.*)/(.*))(\.git)?(/?|\#[-\d\w._]+?)$",
+            )
+            .unwrap();
+            if let Some(captures) = re.captures(&value) {
+                let mut s = captures[3].split('/');
+                let username = s.next().unwrap().to_string();
+                let repository = s.next().unwrap().to_string();
+                info!("{} {}", username, repository);
+                let github = Github::new(
+                    concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION")),
+                    Credentials::Token(env::var("TOOLS_GITHUB_PAT").unwrap()),
+                )
+                .unwrap();
+                let repo = std::thread::spawn(move || {
+                    let rt = tokio::runtime::Runtime::new().unwrap();
+                    rt.block_on(async { github.repo(username, repository).get().await })
+                })
+                .join()
+                .unwrap();
+                if let Ok(repo) = repo {
+                    self.github_stars = Some(repo.stargazers_count);
+                }
+            }
+        }
+    }
+
     fn issue_to_tool(issue: &hubcaps::issues::Issue, id: usize) -> Option<Self> {
         let number = issue.number;
         let name = issue.title.clone();
@@ -381,31 +414,6 @@ impl Tool {
                     "License" => license = value,
                     "Source" => {
                         source = Some(value.clone());
-                        if value.contains("github.com") {
-                            let re = Regex::new(r"^(?:git|ssh|https?|git)(://|@)(.*)[:/]((.*)/(.*))(\.git)?(/?|\#[-\d\w._]+?)$").unwrap();
-                            if let Some(captures) = re.captures(&value) {
-                                let mut s = captures[3].split('/');
-                                let username = s.next().unwrap().to_string();
-                                let repository = s.next().unwrap().to_string();
-                                info!("{} {}", username, repository);
-                                let github = Github::new(
-                                    concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION")),
-                                    Credentials::Token(env::var("TOOLS_GITHUB_PAT").unwrap()),
-                                )
-                                .unwrap();
-                                let repo = std::thread::spawn(move || {
-                                    let rt = tokio::runtime::Runtime::new().unwrap();
-                                    rt.block_on(async {
-                                        github.repo(username, repository).get().await
-                                    })
-                                })
-                                .join()
-                                .unwrap();
-                                if let Ok(repo) = repo {
-                                    github_stars = Some(repo.stargazers_count);
-                                }
-                            }
-                        }
                     }
                     "Language" => {
                         language = value.split(',').map(|w| w.trim().to_string()).collect()
@@ -704,6 +712,7 @@ async fn get_tools() -> Json<Vec<Tool>> {
         .map(move |(i, issue)| {
             if let Some(mut t) = Tool::issue_to_tool(issue, i) {
                 t.parse_body();
+                t.get_github_stars();
                 Some(t)
             } else {
                 None
