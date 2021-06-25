@@ -711,9 +711,6 @@ async fn get_tools() -> Json<Vec<Tool>> {
         .enumerate()
         .map(move |(i, issue)| {
             if let Some(mut t) = Tool::issue_to_tool(issue, i) {
-                dbg!(&t.name);
-                dbg!(&t.highest_spatial_resolution);
-                dbg!(&t.highest_temporal_resolution);
                 t.parse_body();
                 t.get_github_stars();
                 Some(t)
