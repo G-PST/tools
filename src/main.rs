@@ -47,8 +47,10 @@ use log::{info, trace, warn};
 use regex::Regex;
 
 use anyhow::anyhow;
+use std::str::FromStr;
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
+use strum_macros::EnumString;
 
 use pulldown_cmark::{Event, Parser, Tag};
 
@@ -82,7 +84,7 @@ struct Options<'r> {
     name: Option<&'r str>,
 }
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, EnumIter)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, EnumIter, EnumString)]
 #[serde(crate = "rocket::serde", rename_all = "lowercase")]
 enum TemporalScale {
     Instant,
@@ -96,7 +98,7 @@ enum TemporalScale {
     Decades,
 }
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, EnumIter)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, EnumIter, EnumString)]
 #[serde(crate = "rocket::serde", rename_all = "lowercase")]
 enum SpatialScale {
     Component,
@@ -159,7 +161,7 @@ fn split_once(haystack: &str, needle: &str) -> Option<(String, String)> {
 }
 
 impl Tool {
-    fn parse(&self, heading: &str) -> Option<String> {
+    fn parse_input(&self, heading: &str) -> Option<String> {
         let markdown = Parser::new(&self.issue_body);
         let mut location = Location::NotImportant;
 
@@ -182,17 +184,140 @@ impl Tool {
         return None;
     }
 
+    fn parse_checkboxes(&self, heading: &str) -> Option<Vec<String>> {
+        let markdown = Parser::new(&self.issue_body);
+        let mut location = Location::NotImportant;
+
+        let mut items = Default::default();
+        let mut string: String = Default::default();
+
+        for event in markdown {
+            match (event, location) {
+                (Event::Start(Tag::Heading(3)), Location::NotImportant) => {
+                    location = Location::Heading;
+                }
+                (Event::Text(s), Location::Heading) => {
+                    if s.to_string().as_str() == heading {
+                        location = Location::Section;
+                    }
+                }
+                (Event::Start(Tag::List(None)), Location::Section) => {
+                    items = Vec::new();
+                }
+                (Event::Start(Tag::Item), Location::Section) => {
+                    string = "".to_string();
+                }
+                (Event::Text(s), Location::Section) => {
+                    string = format!("{}{}", string, s);
+                }
+                (Event::End(Tag::Item), Location::Section) => {
+                    if string.starts_with("[X] ") {
+                        items.push(string.replace("[X] ", "").trim().to_string());
+                    }
+                }
+                (Event::End(Tag::List(None)), Location::Section) => {
+                    return Some(items);
+                }
+                _ => (),
+            }
+        }
+
+        return None;
+    }
+
     fn parse_body(&mut self) {
-        if let Some(s) = self.parse("Tool Name") {
+        if let Some(s) = self.parse_input("Tool Name") {
             self.name = s;
         }
-        if let Some(s) = self.parse("Website") {
+        if let Some(s) = self.parse_input("Website") {
             self.website = s;
         }
-        if let Some(s) = self.parse("Documentation") {
+        if let Some(s) = self.parse_input("Documentation") {
             self.documentation = s;
         }
-        self.source = self.parse("Source");
+        if let Some(s) = self.parse_input("Summary") {
+            self.short_description = s;
+        }
+        if let Some(s) = self.parse_input("Source") {
+            self.source = Some(s)
+        }
+        if let Some(s) = self.parse_input("Contact") {
+            self.point_of_contact = Some(s)
+        }
+        if let Some(s) =
+            self.parse_input("What is the highest temporal resolution supported by the tool?")
+        {
+            self.highest_temporal_resolution = TemporalScale::from_str(&s).ok();
+        }
+        if let Some(s) =
+            self.parse_input("What is the lowest temporal resolution supported by the tool?")
+        {
+            self.lowest_temporal_resolution = TemporalScale::from_str(&s).ok();
+        }
+        if let Some(s) =
+            self.parse_input("What is the typical temporal resolution supported by the tool?")
+        {
+            self.typical_temporal_resolution = TemporalScale::from_str(&s).ok();
+        }
+        if let Some(s) =
+            self.parse_input("What is the highest temporal scope supported by the tool?")
+        {
+            self.highest_temporal_scope = TemporalScale::from_str(&s).ok();
+        }
+        if let Some(s) =
+            self.parse_input("What is the lowest temporal scope supported by the tool?")
+        {
+            self.lowest_temporal_scope = TemporalScale::from_str(&s).ok();
+        }
+        if let Some(s) =
+            self.parse_input("What is the typical temporal scope supported by the tool?")
+        {
+            self.typical_temporal_scope = TemporalScale::from_str(&s).ok();
+        }
+        if let Some(s) =
+            self.parse_input("What is the highest spatial resolution supported by the tool?")
+        {
+            self.highest_spatial_resolution = SpatialScale::from_str(&s).ok();
+        }
+        if let Some(s) =
+            self.parse_input("What is the lowest spatial resolution supported by the tool?")
+        {
+            self.lowest_spatial_resolution = SpatialScale::from_str(&s).ok();
+        }
+        if let Some(s) =
+            self.parse_input("What is the typical spatial resolution supported by the tool?")
+        {
+            self.typical_spatial_resolution = SpatialScale::from_str(&s).ok();
+        }
+        if let Some(s) =
+            self.parse_input("What is the highest spatial scope supported by the tool?")
+        {
+            self.highest_spatial_scope = SpatialScale::from_str(&s).ok();
+        }
+        if let Some(s) = self.parse_input("What is the lowest spatial scope supported by the tool?")
+        {
+            self.lowest_spatial_scope = SpatialScale::from_str(&s).ok();
+        }
+        if let Some(s) =
+            self.parse_input("What is the typical spatial scope supported by the tool?")
+        {
+            self.typical_spatial_scope = SpatialScale::from_str(&s).ok();
+        }
+        if let Some(s) = self.parse_input("Publications") {
+            self.number_of_publications = s.parse::<u64>().ok();
+        }
+        if let Some(v) = self.parse_checkboxes("Infrastructure Sector") {
+            self.infrastructure_sector = Some(v);
+        }
+        if let Some(v) = self.parse_checkboxes("Modeling Paradigm") {
+            self.modeling_paradigm = Some(v);
+        }
+        if let Some(v) = self.parse_checkboxes("Programming Language") {
+            self.language = v;
+        }
+        if let Some(v) = self.parse_checkboxes("Operating System Support") {
+            self.operating_systems = v;
+        }
     }
 
     fn issue_to_tool(issue: &hubcaps::issues::Issue, id: usize) -> Option<Self> {
@@ -298,208 +423,40 @@ impl Tool {
                             Some(value.split(',').map(|w| w.trim().to_string()).collect())
                     }
                     "Smallest Temporal Scope" => {
-                        lowest_temporal_scope = match value.as_str() {
-                            "Instant" => Some(TemporalScale::Instant),
-                            "Milliseconds" => Some(TemporalScale::Milliseconds),
-                            "Seconds" => Some(TemporalScale::Seconds),
-                            "Minutes" => Some(TemporalScale::Minutes),
-                            "Hours" => Some(TemporalScale::Hours),
-                            "Days" => Some(TemporalScale::Days),
-                            "Months" => Some(TemporalScale::Months),
-                            "Years" => Some(TemporalScale::Years),
-                            "Decades" => Some(TemporalScale::Decades),
-                            _ => {
-                                warn!("{}", value);
-                                Some(TemporalScale::Instant)
-                            }
-                        }
+                        lowest_temporal_scope = TemporalScale::from_str(&value).ok();
                     }
                     "Largest Temporal Scope" => {
-                        highest_temporal_scope = match value.as_str() {
-                            "Instant" => Some(TemporalScale::Instant),
-                            "Milliseconds" => Some(TemporalScale::Milliseconds),
-                            "Seconds" => Some(TemporalScale::Seconds),
-                            "Minutes" => Some(TemporalScale::Minutes),
-                            "Hours" => Some(TemporalScale::Hours),
-                            "Days" => Some(TemporalScale::Days),
-                            "Months" => Some(TemporalScale::Months),
-                            "Years" => Some(TemporalScale::Years),
-                            "Decades" => Some(TemporalScale::Decades),
-                            _ => {
-                                warn!("{}", value);
-                                Some(TemporalScale::Instant)
-                            }
-                        }
+                        highest_temporal_scope = TemporalScale::from_str(&value).ok();
                     }
                     "Typical Temporal Scope" => {
-                        typical_temporal_scope = match value.as_str() {
-                            "Instant" => Some(TemporalScale::Instant),
-                            "Milliseconds" => Some(TemporalScale::Milliseconds),
-                            "Seconds" => Some(TemporalScale::Seconds),
-                            "Minutes" => Some(TemporalScale::Minutes),
-                            "Hours" => Some(TemporalScale::Hours),
-                            "Days" => Some(TemporalScale::Days),
-                            "Months" => Some(TemporalScale::Months),
-                            "Years" => Some(TemporalScale::Years),
-                            "Decades" => Some(TemporalScale::Decades),
-                            _ => {
-                                warn!("{}", value);
-                                Some(TemporalScale::Instant)
-                            }
-                        }
+                        typical_temporal_scope = TemporalScale::from_str(&value).ok();
                     }
                     "Smallest Spatial Scope" => {
-                        lowest_spatial_scope = match value.as_str() {
-                            "Component" => Some(SpatialScale::Component),
-                            "Device" => Some(SpatialScale::Device),
-                            "Facility" => Some(SpatialScale::Facility),
-                            "Municipality" => Some(SpatialScale::Municipality),
-                            "State" => Some(SpatialScale::State),
-                            "Region" => Some(SpatialScale::Region),
-                            "Country" => Some(SpatialScale::Country),
-                            "Continent" => Some(SpatialScale::Continent),
-                            "Global" => Some(SpatialScale::Global),
-                            _ => {
-                                warn!("{}", value);
-                                Some(SpatialScale::Component)
-                            }
-                        }
+                        lowest_spatial_scope = SpatialScale::from_str(&value).ok();
                     }
                     "Largest Spatial Scope" => {
-                        highest_spatial_scope = match value.as_str() {
-                            "Component" => Some(SpatialScale::Component),
-                            "Device" => Some(SpatialScale::Device),
-                            "Facility" => Some(SpatialScale::Facility),
-                            "Municipality" => Some(SpatialScale::Municipality),
-                            "State" => Some(SpatialScale::State),
-                            "Region" => Some(SpatialScale::Region),
-                            "Country" => Some(SpatialScale::Country),
-                            "Continent" => Some(SpatialScale::Continent),
-                            "Global" => Some(SpatialScale::Global),
-                            _ => {
-                                warn!("{}", value);
-                                Some(SpatialScale::Component)
-                            }
-                        }
+                        highest_spatial_scope = SpatialScale::from_str(&value).ok();
                     }
                     "Typical Spatial Scope" => {
-                        typical_spatial_scope = match value.as_str() {
-                            "Component" => Some(SpatialScale::Component),
-                            "Device" => Some(SpatialScale::Device),
-                            "Facility" => Some(SpatialScale::Facility),
-                            "Municipality" => Some(SpatialScale::Municipality),
-                            "State" => Some(SpatialScale::State),
-                            "Region" => Some(SpatialScale::Region),
-                            "Country" => Some(SpatialScale::Country),
-                            "Continent" => Some(SpatialScale::Continent),
-                            "Global" => Some(SpatialScale::Global),
-                            _ => {
-                                warn!("{}", value);
-                                Some(SpatialScale::Component)
-                            }
-                        }
+                        typical_spatial_scope = SpatialScale::from_str(&value).ok();
                     }
-                    "Lowest Temporal Resolution" => {
-                        lowest_temporal_resolution = match value.as_str() {
-                            "Instant" => Some(TemporalScale::Instant),
-                            "Milliseconds" => Some(TemporalScale::Milliseconds),
-                            "Seconds" => Some(TemporalScale::Seconds),
-                            "Minutes" => Some(TemporalScale::Minutes),
-                            "Hours" => Some(TemporalScale::Hours),
-                            "Days" => Some(TemporalScale::Days),
-                            "Months" => Some(TemporalScale::Months),
-                            "Years" => Some(TemporalScale::Years),
-                            "Decades" => Some(TemporalScale::Decades),
-                            _ => {
-                                warn!("{}", value);
-                                Some(TemporalScale::Instant)
-                            }
-                        }
+                    "Smallest Temporal Resolution" => {
+                        lowest_temporal_resolution = TemporalScale::from_str(&value).ok();
                     }
-                    "Highest Temporal Resolution" => {
-                        highest_temporal_resolution = match value.as_str() {
-                            "Instant" => Some(TemporalScale::Instant),
-                            "Milliseconds" => Some(TemporalScale::Milliseconds),
-                            "Seconds" => Some(TemporalScale::Seconds),
-                            "Minutes" => Some(TemporalScale::Minutes),
-                            "Hours" => Some(TemporalScale::Hours),
-                            "Days" => Some(TemporalScale::Days),
-                            "Months" => Some(TemporalScale::Months),
-                            "Years" => Some(TemporalScale::Years),
-                            "Decades" => Some(TemporalScale::Decades),
-                            _ => {
-                                warn!("{}", value);
-                                Some(TemporalScale::Instant)
-                            }
-                        }
+                    "Largest Temporal Resolution" => {
+                        highest_temporal_resolution = TemporalScale::from_str(&value).ok();
                     }
                     "Typical Temporal Resolution" => {
-                        typical_temporal_resolution = match value.as_str() {
-                            "Instant" => Some(TemporalScale::Instant),
-                            "Milliseconds" => Some(TemporalScale::Milliseconds),
-                            "Seconds" => Some(TemporalScale::Seconds),
-                            "Minutes" => Some(TemporalScale::Minutes),
-                            "Hours" => Some(TemporalScale::Hours),
-                            "Days" => Some(TemporalScale::Days),
-                            "Months" => Some(TemporalScale::Months),
-                            "Years" => Some(TemporalScale::Years),
-                            "Decades" => Some(TemporalScale::Decades),
-                            _ => {
-                                warn!("{}", value);
-                                Some(TemporalScale::Instant)
-                            }
-                        }
+                        typical_temporal_resolution = TemporalScale::from_str(&value).ok();
                     }
-                    "Lowest Spatial Resolution" => {
-                        lowest_spatial_resolution = match value.as_str() {
-                            "Component" => Some(SpatialScale::Component),
-                            "Device" => Some(SpatialScale::Device),
-                            "Facility" => Some(SpatialScale::Facility),
-                            "Municipality" => Some(SpatialScale::Municipality),
-                            "State" => Some(SpatialScale::State),
-                            "Region" => Some(SpatialScale::Region),
-                            "Country" => Some(SpatialScale::Country),
-                            "Continent" => Some(SpatialScale::Continent),
-                            "Global" => Some(SpatialScale::Global),
-                            _ => {
-                                warn!("{}", value);
-                                Some(SpatialScale::Component)
-                            }
-                        }
+                    "Smallest Spatial Resolution" => {
+                        lowest_spatial_resolution = SpatialScale::from_str(&value).ok();
                     }
-                    "Highest Spatial Resolution" => {
-                        highest_spatial_resolution = match value.as_str() {
-                            "Component" => Some(SpatialScale::Component),
-                            "Device" => Some(SpatialScale::Device),
-                            "Facility" => Some(SpatialScale::Facility),
-                            "Municipality" => Some(SpatialScale::Municipality),
-                            "State" => Some(SpatialScale::State),
-                            "Region" => Some(SpatialScale::Region),
-                            "Country" => Some(SpatialScale::Country),
-                            "Continent" => Some(SpatialScale::Continent),
-                            "Global" => Some(SpatialScale::Global),
-                            _ => {
-                                warn!("{}", value);
-                                Some(SpatialScale::Component)
-                            }
-                        }
+                    "Largest Spatial Resolution" => {
+                        highest_spatial_resolution = SpatialScale::from_str(&value).ok();
                     }
                     "Typical Spatial Resolution" => {
-                        typical_spatial_resolution = match value.as_str() {
-                            "Component" => Some(SpatialScale::Component),
-                            "Device" => Some(SpatialScale::Device),
-                            "Facility" => Some(SpatialScale::Facility),
-                            "Municipality" => Some(SpatialScale::Municipality),
-                            "State" => Some(SpatialScale::State),
-                            "Region" => Some(SpatialScale::Region),
-                            "Country" => Some(SpatialScale::Country),
-                            "Continent" => Some(SpatialScale::Continent),
-                            "Global" => Some(SpatialScale::Global),
-                            _ => {
-                                warn!("{}", value);
-                                Some(SpatialScale::Component)
-                            }
-                        }
+                        typical_spatial_resolution = SpatialScale::from_str(&value).ok();
                     }
                     _ => {}
                 }
@@ -744,7 +701,14 @@ async fn get_tools() -> Json<Vec<Tool>> {
                 .contains(&"tool".to_string())
         })
         .enumerate()
-        .map(move |(i, issue)| Tool::issue_to_tool(issue, i))
+        .map(move |(i, issue)| {
+            if let Some(mut t) = Tool::issue_to_tool(issue, i) {
+                t.parse_body();
+                Some(t)
+            } else {
+                None
+            }
+        })
         .filter_map(|t| t)
         .collect();
     Json(tools)
