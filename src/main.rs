@@ -448,19 +448,19 @@ impl Tool {
                     "Typical Spatial Scope" => {
                         typical_spatial_scope = SpatialScale::from_str(&value).ok();
                     }
-                    "Smallest Temporal Resolution" => {
+                    "Lowest Temporal Resolution" => {
                         lowest_temporal_resolution = TemporalScale::from_str(&value).ok();
                     }
-                    "Largest Temporal Resolution" => {
+                    "Highest Temporal Resolution" => {
                         highest_temporal_resolution = TemporalScale::from_str(&value).ok();
                     }
                     "Typical Temporal Resolution" => {
                         typical_temporal_resolution = TemporalScale::from_str(&value).ok();
                     }
-                    "Smallest Spatial Resolution" => {
+                    "Lowest Spatial Resolution" => {
                         lowest_spatial_resolution = SpatialScale::from_str(&value).ok();
                     }
-                    "Largest Spatial Resolution" => {
+                    "Highest Spatial Resolution" => {
                         highest_spatial_resolution = SpatialScale::from_str(&value).ok();
                     }
                     "Typical Spatial Resolution" => {
@@ -711,6 +711,9 @@ async fn get_tools() -> Json<Vec<Tool>> {
         .enumerate()
         .map(move |(i, issue)| {
             if let Some(mut t) = Tool::issue_to_tool(issue, i) {
+                dbg!(&t.name);
+                dbg!(&t.highest_spatial_resolution);
+                dbg!(&t.highest_temporal_resolution);
                 t.parse_body();
                 t.get_github_stars();
                 Some(t)
