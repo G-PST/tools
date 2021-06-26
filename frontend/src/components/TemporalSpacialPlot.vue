@@ -103,7 +103,7 @@ var dedupeLabels = (dedupLabels) => {
 
   var move = 1;
   var count = 0;
-  while (move > 0 && count < 200) {
+  while (move > 0 && count < 2000) {
     move = 0;
     count = count + 1;
     dedupLabels.each(function (d, i) {
@@ -252,10 +252,20 @@ export default {
           return this.selectedTools.includes(d.name);
         })
         .map((d) => {
-          d.x_min = this.x(d["highest_" + this.selection1]);
-          d.x_max = this.x(d["lowest_" + this.selection1]);
-          d.y_min = this.y(d["highest_" + this.selection2]);
-          d.y_max = this.y(d["lowest_" + this.selection2]);
+          if (this.selection1.includes("resolution")) {
+            d.x_min = this.x(d["highest_" + this.selection1]);
+            d.x_max = this.x(d["lowest_" + this.selection1]);
+          } else {
+            d.x_min = this.x(d["lowest_" + this.selection1]);
+            d.x_max = this.x(d["highest_" + this.selection1]);
+          }
+          if (this.selection2.includes("resolution")) {
+            d.y_min = this.y(d["highest_" + this.selection2]);
+            d.y_max = this.y(d["lowest_" + this.selection2]);
+          } else {
+            d.y_min = this.y(d["lowest_" + this.selection2]);
+            d.y_max = this.y(d["highest_" + this.selection2]);
+          }
           d.w = Math.abs(d.x_min - d.x_max);
           d.h = Math.abs(d.y_min - d.y_max);
           d.label_x = d.x_min + Math.abs(d.x_min - d.x_max) / 2;
