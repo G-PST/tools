@@ -56,20 +56,47 @@ var treeData = [
 				"parent": "Proprietary (commercial)"
 				},
 				{
-				"name": "PLEXOS2",
+				"name": "xxx",
 				"parent": "Proprietary (commercial)"
 				}
 			]
           },
           {
-            "name": "John",
-			"parent": "null",
-            "parent": "Tim"
+            "name": "Permissive (e.g., BSD)",
+			"parent": "License",
+            "children": [
+				{
+				"name": "GridLAB-D",
+				"parent": "Permissive (e.g., BSD)"
+				},
+				{
+				"name": "MATPOWER",
+				"parent": "Permissive (e.g., BSD)"
+				},
+				{
+				"name": "PowerModels.jl",
+				"parent": "Permissive (e.g., BSD)"
+				}
+			]
+          },
+          {
+            "name": "Private",
+			"parent": "License",
+            "children": [
+				{
+				"name": "ReEDS",
+				"parent": "Private"
+				},
+				{
+				"name": "32",
+				"parent": "Private"
+				}
+			]
           }
         ]
       },
       {
-        "name": "Infrastructure sector",
+        "name": "Infrastructure Sector",
 		"parent": "Models",
 		"children": [
           {
@@ -78,25 +105,33 @@ var treeData = [
 			"children": [
 				{
 				"name": "PLEXOS",
-				"parent": "Proprietary (commercial)"
+				"parent": "Electric"
 				},
 				{
-				"name": "PLEXOS2",
-				"parent": "Proprietary (commercial)"
+				"name": "ReEDS",
+				"parent": "Electric"
+				},
+				{
+				"name": "MATPOWER",
+				"parent": "Electric"
+				},
+				{
+				"name": "PowerModels.jl",
+				"parent": "Electric"
 				}
 			]
           },
           {
-            "name": "Modeling Paradigm",
+            "name": "Buildings",
 			"parent": "Infrastructure sector",
 			"children": [
 				{
-				"name": "PLEXOS",
-				"parent": "Proprietary (commercial)"
+				"name": "GridLAB-D",
+				"parent": "Buildings"
 				},
 				{
-				"name": "PLEXOS2",
-				"parent": "Proprietary (commercial)"
+				"name": "442",
+				"parent": "Buildings"
 				}
 			]
           }
@@ -107,23 +142,78 @@ var treeData = [
         "parent": "Models",
         "children": [
           {
-            "name": "Proprietary (commercial)",
-			"parent": "License",
+            "name": "Optimization",
+			"parent": "Modeling Prardigm",
 			"children": [
 				{
 				"name": "PLEXOS",
-				"parent": "Proprietary (commercial)"
+				"parent": "Optimization"
 				},
 				{
-				"name": "PLEXOS2",
-				"parent": "Proprietary (commercial)"
+				"name": "GridLAB-D",
+				"parent": "Optimization"
+				},
+				{
+				"name": "ReEDS",
+				"parent": "Optimization"
+				},
+				{
+				"name": "PowerModels.jl",
+				"parent": "Optimization"
 				}
 			]
           },
-          {
-            "name": "John",
-			"parent": "null",
-            "parent": "Tim"
+		  {
+            "name": "Discrete Simulation",
+			"parent": "Modeling Prardigm",
+			"children": [
+				{
+				"name": "GridLAB-D",
+				"parent": "Discrete Simulation"
+				}
+			]
+          },
+		  {
+            "name": "Visualization",
+			"parent": "Modeling Prardigm",
+			"children": [
+				{
+				"name": "GridLAB-D",
+				"parent": "Visualization"
+				},
+				{
+				"name": "ReEDS",
+				"parent": "Optimization"
+				}
+			]
+          },
+		  {
+            "name": "Data",
+			"parent": "Modeling Prardigm",
+			"children": [
+				{
+				"name": "GridLAB-D",
+				"parent": "Data"
+				},
+				{
+				"name": "ReEDS",
+				"parent": "Optimization"
+				}
+			]
+          },
+		  {
+            "name": "Engineering/Design",
+			"parent": "Modeling Prardigm",
+			"children": [
+				{
+				"name": "GridLAB-D",
+				"parent": "Engineering/Design"
+				},
+				{
+				"name": "ReEDS",
+				"parent": "Optimization"
+				}
+			]
           }
         ]
       },
@@ -140,22 +230,226 @@ var treeData = [
 				"parent": "Capacity Expansion"
 				},
 				{
-				"name": "PLEXOS2",
+				"name": "ReEDS",
 				"parent": "Capacity Expansion"
 				}
 			]
           },
+		  {
+            "name": "Unit Commitment",
+			"parent": "Capabilities",
+			"children": [
+				{
+				"name": "ReEDS",
+				"parent": "Capacity Expansion"
+				},
+				{
+				"name": "MATPOWER",
+				"parent": "Unit Commitment"
+				}
+			]
+          },
+		  {
+            "name": "Investment",
+			"parent": "Capabilities",
+			"children": [
+				{
+				"name": "ReEDS",
+				"parent": "Investment"
+				}
+			]
+          },
           {
-            "name": "Capacity Expansion",
+            "name": "Production Cost Modeling",
 			"parent": "Capabilities",
 			"children": [
 				{
 				"name": "PLEXOS",
-				"parent": "Capacity Expansion"
+				"parent": "Production Cost Modeling"
 				},
 				{
-				"name": "PLEXOS2",
-				"parent": "Capacity Expansion"
+				"name": "41",
+				"parent": "Production Cost Modeling"
+				}
+			]
+          },
+		  {
+            "name": "Reliability",
+			"parent": "Capabilities",
+			"children": [
+				{
+				"name": "GridLAB-D",
+				"parent": "Reliability"
+				}
+			]
+          },
+		  {
+            "name": "Optimal Power Flow",
+			"parent": "Capabilities",
+			"children": [
+				{
+				"name": "PowerModels.jl",
+				"parent": "Optimal Power Flow"
+				}
+			]
+          }
+        ]
+      },
+	  {
+        "name": "Interface",
+        "parent": "Models",
+        "children": [
+          {
+            "name": "GUI",
+			"parent": "Interface",
+			"children": [
+				{
+				"name": "PLEXOS",
+				"parent": "Windows"
+				}
+			]
+          },
+          {
+            "name": "API",
+			"parent": "Interface",
+			"children": [
+				{
+				"name": "GridLAB-D",
+				"parent": "API"
+				}
+			]
+          },
+		  {
+            "name": "Terminal",
+			"parent": "Interface",
+			"children": [
+				{
+				"name": "ReEDS",
+				"parent": "Terminal"
+				},
+				{
+				"name": "PowerModels.jl",
+				"parent": "Terminal"
+				}
+			]
+          },
+		  {
+            "name": "MATLAB/Octave prompt",
+			"parent": "Interface",
+			"children": [
+				{
+				"name": "MATPOWER",
+				"parent": "MATLAB/Octave prompt"
+				}
+			]
+          }
+        ]
+      },
+	  {
+        "name": "Operating Systemsm",
+        "parent": "Models",
+        "children": [
+          {
+            "name": "Windows",
+			"parent": "Operating Systemsm",
+			"children": [
+				{
+				"name": "PLEXOS",
+				"parent": "Windows"
+				},
+				{
+				"name": "ReEDS",
+				"parent": "Windows"
+				},
+				{
+				"name": "MATPOWER",
+				"parent": "Windows"
+				},
+				{
+				"name": "PowerModels.jl",
+				"parent": "Windows"
+				}
+			]
+          },
+          {
+            "name": "MacOS",
+			"parent": "Operating Systemsm",
+			"children": [
+				{
+				"name": "GridLAB-D",
+				"parent": "MacOS"
+				},
+				{
+				"name": "ReEDS",
+				"parent": "MacOS"
+				},
+				{
+				"name": "MATPOWER",
+				"parent": "MacOS"
+				},
+				{
+				"name": "PowerModels.jl",
+				"parent": "MacOS"
+				}
+			]
+          },
+		  {
+            "name": "Linux",
+			"parent": "Operating Systemsm",
+			"children": [
+				{
+				"name": "GridLAB-D",
+				"parent": "Linux"
+				},
+				{
+				"name": "ReEDS",
+				"parent": "Linux"
+				},
+				{
+				"name": "MATPOWER",
+				"parent": "Linux"
+				},
+				{
+				"name": "PowerModels.jl",
+				"parent": "Linux"
+				}
+			]
+          }
+        ]
+      },
+	  {
+        "name": "Actively Maintaine",
+        "parent": "Models",
+        "children": [
+          {
+            "name": "Yes",
+			"parent": "Actively Maintaine",
+			"children": [
+				{
+				"name": "PLEXOS",
+				"parent": "Yes"
+				},
+				{
+				"name": "GridLAB-D",
+				"parent": "Yes"
+				},
+				{
+				"name": "ReEDS",
+				"parent": "Yes"
+				},
+				{
+				"name": "MATPOWER",
+				"parent": "Yes"
+				}
+			]
+          },
+          {
+            "name": "No",
+			"parent": "Actively Maintaine",
+			"children": [
+				{
+				"name": "NA",
+				"parent": "No"
 				}
 			]
           }
@@ -168,8 +462,8 @@ var treeData = [
 
 // ************** Generate the tree diagram	 *****************
 var margin = {top: 20, right: 120, bottom: 20, left: 120},
-	width = 960 - margin.right - margin.left,
-	height = 500 - margin.top - margin.bottom;
+	width = 2500 - margin.right - margin.left,
+	height = 2500 - margin.top - margin.bottom;
 	
 var i = 0,
 	duration = 750,
