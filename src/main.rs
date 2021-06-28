@@ -181,7 +181,7 @@ impl Tool {
                 _ => (),
             }
         }
-        return None;
+        None
     }
 
     fn parse_checkboxes(&self, heading: &str) -> Option<Vec<String>> {
@@ -222,7 +222,7 @@ impl Tool {
             }
         }
 
-        return None;
+        None
     }
 
     fn parse_body(&mut self) {
@@ -368,7 +368,6 @@ impl Tool {
         let mut modeling_paradigm = Default::default();
         let mut capabilities = Default::default();
         let mut language = Default::default();
-        let mut issue_body = Default::default();
         let mut documentation = Default::default();
         let mut maintenance_status = Default::default();
         let mut input_data_formats = Default::default();
@@ -393,7 +392,7 @@ impl Tool {
 
         let body = body?;
 
-        issue_body = body.clone();
+        let issue_body = body.clone();
         for line in body.lines() {
             if !line.starts_with("- ") {
                 continue;
@@ -470,7 +469,6 @@ impl Tool {
                 }
             }
         }
-
         Some(Self {
             id,
             number,
@@ -480,6 +478,13 @@ impl Tool {
             website,
             license,
             language,
+            interface,
+            documentation,
+            maintenance_status,
+            number_of_publications,
+            input_data_formats,
+            output_data_formats,
+            operating_systems,
             source,
             github_stars,
             infrastructure_sector,
@@ -487,11 +492,7 @@ impl Tool {
             capabilities,
             issue_body,
             issue_url,
-            interface,
-            documentation,
             point_of_contact,
-            input_data_formats,
-            output_data_formats,
             lowest_temporal_resolution,
             typical_temporal_resolution,
             highest_temporal_resolution,
@@ -504,9 +505,6 @@ impl Tool {
             lowest_spatial_scope,
             typical_spatial_scope,
             highest_spatial_scope,
-            number_of_publications,
-            operating_systems,
-            maintenance_status,
         })
     }
 }
@@ -673,7 +671,7 @@ async fn post_tool(tool: Json<Tool>) -> status::Accepted<String> {
         status::Accepted(Some(format!("{:?}", r)))
     } else {
         // TODO: do not return status::Accepted here
-        status::Accepted(Some(format!("{:?}", r)))
+        status::Accepted(Some(format!("Something went wrong: {:?}", r)))
     }
 }
 
@@ -705,8 +703,7 @@ async fn get_tools() -> Json<Vec<Tool>> {
                 .labels
                 .iter()
                 .map(|l| l.name.clone())
-                .collect::<Vec<String>>()
-                .contains(&"tool".to_string())
+                .any(|t| t.contains(&"tool".to_string()))
         })
         .enumerate()
         .map(move |(i, issue)| {
@@ -718,7 +715,7 @@ async fn get_tools() -> Json<Vec<Tool>> {
                 None
             }
         })
-        .filter_map(|t| t)
+        .flatten()
         .collect();
     Json(tools)
 }
