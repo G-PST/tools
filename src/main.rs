@@ -706,14 +706,13 @@ async fn get_tools() -> Json<Vec<Tool>> {
                 .any(|t| t.contains(&"tool".to_string()))
         })
         .enumerate()
-        .map(move |(i, issue)| {
-            if let Some(mut t) = Tool::issue_to_tool(issue, i) {
+        .map(move |(i, issue)| match Tool::issue_to_tool(issue, i) {
+            Some(mut t) => {
                 t.parse_body();
                 t.get_github_stars();
                 Some(t)
-            } else {
-                None
             }
+            None => None,
         })
         .flatten()
         .collect();
