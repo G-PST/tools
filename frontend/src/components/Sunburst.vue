@@ -162,7 +162,6 @@ export default {
       }
       let data = { name: "Flare", children: [] };
       for (var language of this.getLanguages) {
-        console.log(language);
         let children = this.getToolsQuery
           .filter((tool) => tool.language.includes(language))
           .map((tool) => ({ name: tool.name, value: 1 }));
@@ -313,14 +312,14 @@ export default {
         .classed("svg-container", true)
         .append("svg")
         .attr("preserveAspectRatio", "xMinYMin meet")
-        .attr("viewBox", `0 0 ${this.width * 1.5} ${this.height * 1.25}`)
+        .attr("viewBox", `0 0 ${this.width * 1.5} ${this.height * 5}`)
         .classed("svg-content-responsive", true);
 
       this.svg = svg
         .append("g")
         .style(
           "transform",
-          `translate(${this.margin.left}px, ${this.margin.top}px)`
+          `translate(${this.margin.left * 7.5}px, ${this.margin.top * 7.5}px)`
         );
     },
     ...mapActions("tools", ["fetchTools", "clearTools"]),
