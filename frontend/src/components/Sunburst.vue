@@ -129,7 +129,12 @@ export default {
         this.setSelectedTools(value);
       },
     },
-    ...mapGetters("tools", ["getTools", "getToolsQuery", "getToolsLoaded"]),
+    ...mapGetters("tools", [
+      "getTools",
+      "getToolsQuery",
+      "getToolsLoaded",
+      "getLanguages",
+    ]),
   },
 
   created() {
@@ -155,7 +160,14 @@ export default {
       if (!this.svg) {
         return;
       }
-      let data = {};
+      let data = { name: "Flare", children: [] };
+      for (var language of this.getLanguages) {
+        console.log(language);
+        let children = this.getToolsQuery
+          .filter((tool) => tool.language.includes(language))
+          .map((tool) => ({ name: tool.name, value: 1 }));
+        data.children.push({ name: language, children: children });
+      }
       let partition = (data) => {
         const root = d3
           .hierarchy(data)
