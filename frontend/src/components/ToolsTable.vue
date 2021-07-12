@@ -17,6 +17,7 @@
   <div id="toolbar">
     <button
       class="btn btn-secondary"
+      title="Spacial Temporal Visualization"
       style="margin-left: 1em"
       v-on:click="visualizeSpaceTime"
     >
@@ -24,6 +25,7 @@
     </button>
     <button
       class="btn btn-secondary"
+      title="Sunburst of Languages"
       style="margin-left: 1em"
       v-on:click="visualizeSunburst"
     >

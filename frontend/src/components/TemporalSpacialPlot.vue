@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row text-center">
       <div class="col">
-        <h1>Visualization</h1>
+        <h1>Spatial Temporal Visualization</h1>
       </div>
     </div>
 
