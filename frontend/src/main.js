@@ -31,6 +31,7 @@ import About from "./components/About.vue";
 import Submit from "./components/Submit.vue";
 import Tool from "./components/Tool.vue";
 import TemporalSpacialPlot from "./components/TemporalSpacialPlot.vue";
+import Sunburst from "./components/Sunburst.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -42,6 +43,7 @@ const routes = [
     props: (route) => ({ query: route.query.q }),
   },
   { path: "/Viz/SpaceTime", component: TemporalSpacialPlot },
+  { path: "/Viz/Sunburst", component: Sunburst },
 ];
 
 const router = createRouter({

@@ -18,7 +18,14 @@
     <button
       class="btn btn-secondary"
       style="margin-left: 1em"
-      v-on:click="visualize"
+      v-on:click="visualizeSpaceTime"
+    >
+      <i class="fa fa-chart-bar"></i>
+    </button>
+    <button
+      class="btn btn-secondary"
+      style="margin-left: 1em"
+      v-on:click="visualizeSunburst"
     >
       <i class="fa fa-chart-bar"></i>
     </button>
@@ -128,8 +135,11 @@ export default defineComponent({
     this.getLocalData();
   },
   methods: {
-    visualize() {
+    visualizeSpaceTime() {
       this.$router.push("/Viz/SpaceTime");
+    },
+    visualizeSunburst() {
+      this.$router.push("/Viz/Sunburst");
     },
     reset() {
       this.clearTools();
