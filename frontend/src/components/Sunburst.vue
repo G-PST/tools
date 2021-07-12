@@ -210,22 +210,22 @@ export default {
         .style("cursor", "pointer")
         .on("click", clicked);
 
-      path.append("title").text(
-        (d) =>
-          `${d
-            .ancestors()
-            .map((d) => d.data.name)
-            .reverse()
-            .join("/")}\n${format(d.value)}`
-      );
+      path
+        .enter()
+        .append("title")
+        .text(
+          (d) =>
+            `${d
+              .ancestors()
+              .map((d) => d.data.name)
+              .reverse()
+              .join("/")}\n${format(d.value)}`
+        );
 
-      const label = this.svg
-        .append("g")
-        .attr("pointer-events", "none")
-        .attr("text-anchor", "middle")
-        .style("user-select", "none")
+      this.label
         .selectAll("text")
         .data(root.descendants().slice(1))
+        .enter()
         .join("text")
         .attr("dy", "0.35em")
         .attr("fill-opacity", (d) => +labelVisible(d.current))
@@ -321,6 +321,12 @@ export default {
           "transform",
           `translate(${this.margin.left * 7.5}px, ${this.margin.top * 7.5}px)`
         );
+
+      this.label = this.svg
+        .append("g")
+        .attr("pointer-events", "none")
+        .attr("text-anchor", "middle")
+        .style("user-select", "none");
     },
     ...mapActions("tools", ["fetchTools", "clearTools"]),
     ...mapMutations("tools", ["setSelectedTools"]),
