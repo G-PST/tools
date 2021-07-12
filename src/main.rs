@@ -722,7 +722,7 @@ async fn get_tools() -> Json<Vec<Tool>> {
 #[launch]
 fn rocket() -> _ {
     // The default demonstrates the "All" serialization of several of the settings
-    let default: CorsOptions = Default::default();
+    let default_options: CorsOptions = Default::default();
 
     let allowed_origins =
         AllowedOrigins::some(&["https://tools.kdheepak.com"], &["http://localhost:3000"]);
