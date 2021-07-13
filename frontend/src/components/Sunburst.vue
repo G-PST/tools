@@ -317,7 +317,7 @@ export default {
         .append("g")
         .attr(
           "transform",
-          `translate(${this.width / 2}, ${this.height / 1.5})`
+          `translate(${this.width / 2}, ${this.height / 1.25})`
         );
       this.path = this.svg.append("g");
       this.text = this.svg
