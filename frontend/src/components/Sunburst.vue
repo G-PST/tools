@@ -310,12 +310,15 @@ export default {
         .classed("svg-container", true)
         .append("svg")
         .attr("preserveAspectRatio", "xMinYMin meet")
-        .attr("viewBox", `0 0 ${this.width} ${this.height}`)
+        .attr("viewBox", `0 0 ${this.width} ${this.height * 1.5}`)
         .classed("svg-content-responsive", true);
 
       this.svg = svg
         .append("g")
-        .attr("transform", `translate(${this.width / 2}, ${this.height / 2})`);
+        .attr(
+          "transform",
+          `translate(${this.width / 2}, ${this.height / 1.5})`
+        );
       this.path = this.svg.append("g");
       this.text = this.svg
         .append("g")
