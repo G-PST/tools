@@ -160,6 +160,7 @@ export default {
       if (!this.svg) {
         return;
       }
+
       let data = { name: "Languages", children: [] };
       for (var language of this.getLanguages) {
         let children = this.getToolsQuery
@@ -179,9 +180,11 @@ export default {
           .sort((a, b) => b.value - a.value);
         return d3.partition().size([2 * Math.PI, root.height + 1])(root);
       };
+
       let color = d3.scaleOrdinal(
         d3.quantize(d3.interpolateRainbow, data.children.length + 1)
       );
+
       let format = d3.format(",d");
       let radius = this.width / 8;
       let arc = d3
@@ -244,7 +247,6 @@ export default {
 
       function clicked(event, p) {
         parent.datum(p.parent || root);
-
         root.each(
           (d) =>
             (d.target = {
