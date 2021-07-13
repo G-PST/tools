@@ -134,6 +134,7 @@ export default {
       "getToolsQuery",
       "getToolsLoaded",
       "getLanguages",
+      "getSelectedLanguages",
     ]),
   },
 
@@ -162,7 +163,7 @@ export default {
       }
 
       let data = { name: "Languages", children: [] };
-      for (var language of this.getLanguages) {
+      for (var language of this.getSelectedLanguages) {
         let children = this.getToolsQuery
           .filter((tool) => tool.language.includes(language))
           .filter((tool) => this.selectedTools.includes(tool.name))
