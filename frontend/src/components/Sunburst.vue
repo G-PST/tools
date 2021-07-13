@@ -160,7 +160,7 @@ export default {
       if (!this.svg) {
         return;
       }
-      let data = { name: "Flare", children: [] };
+      let data = { name: "Languages", children: [] };
       for (var language of this.getLanguages) {
         let children = this.getToolsQuery
           .filter((tool) => tool.language.includes(language))
@@ -218,7 +218,7 @@ export default {
             .ancestors()
             .map((d) => d.data.name)
             .reverse()
-            .join("/")}\n${format(d.value)}`
+            .join(" -> ")}`
       );
 
       const label = this.text
@@ -287,11 +287,11 @@ export default {
       }
 
       function arcVisible(d) {
-        return d.y1 <= 3 && d.y0 >= 1 && d.x1 > d.x0;
+        return d.y1 <= 3 && d.y0 >= 0 && d.x1 > d.x0;
       }
 
       function labelVisible(d) {
-        return d.y1 <= 3 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
+        return d.y1 <= 3 && d.y0 >= 0 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
       }
 
       function labelTransform(d) {
