@@ -169,6 +169,7 @@ export default {
           .map((tool) => ({
             name: tool.name,
             value: 1 / tool.language.length,
+            obj: tool,
           }));
         data.children.push({ name: language, children: children });
       }
@@ -214,6 +215,32 @@ export default {
         .attr("d", (d) => arc(d.current));
 
       path
+        .filter((d) => !d.children)
+        .style("cursor", "pointer")
+        .on("click", arcClick)
+        .on("mouseover", arcMouseOver)
+        .on("mouseout", arcMouseOut);
+
+      function arcClick(event, d) {
+        that.$router.push(`/Tool/${d.data.obj.number}`);
+      }
+      function arcMouseOver(event, p) {
+        d3.select(this)
+          .attr("fill-opacity", 1)
+          .attr("stroke-width", 1)
+          .attr("stroke", "black");
+      }
+      function arcMouseOut(event, d) {
+        d3.select(this)
+          .attr(
+            "fill-opacity",
+            arcVisible(d.current) ? (d.data.children ? 0.6 : 0.4) : 0
+          )
+          .attr("stroke-width", null)
+          .attr("stroke", null);
+      }
+
+      path
         .filter((d) => d.children)
         .style("cursor", "pointer")
         .on("click", clicked);
@@ -241,11 +268,21 @@ export default {
         .attr("r", radius)
         .attr("fill", "none")
         .attr("pointer-events", "all")
+        .on("mouseover", function (d, i) {
+          d3.select(this).attr("stroke-width", 1).attr("stroke", "black");
+        })
+        .on("mousemove", function (d, i) {
+          d3.select(this).attr("stroke-width", 1).attr("stroke", "black");
+        })
+        .on("mouseout", function (d, i) {
+          d3.select(this).attr("stroke-width", null).attr("stroke", null);
+        })
         .on("click", clicked);
 
       let that = this;
 
       function clicked(event, p) {
+        d3.select(this).attr("stroke-width", null).attr("stroke", null);
         parent.datum(p.parent || root);
         root.each(
           (d) =>
