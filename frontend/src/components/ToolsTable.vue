@@ -29,7 +29,7 @@
       style="margin-left: 1em"
       v-on:click="visualizeSunburst"
     >
-      <i class="fa fa-chart-bar"></i>
+      <i class="fas fa-chart-pie"></i>
     </button>
     <button
       v-on:click="reset"
