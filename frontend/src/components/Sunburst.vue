@@ -303,7 +303,7 @@ export default {
         const x = (((d.x0 + d.x1) / 2) * 180) / Math.PI;
         const y = ((d.y0 + d.y1) / 2) * radius;
         return `rotate(${x - 90}) translate(${y},0) rotate(${
-          x < 180 ? 0 : 180
+          x < 90 || x > 270 ? 0 : 180
         })`;
       }
     },
@@ -320,9 +320,10 @@ export default {
 
       this.svg = svg
         .append("g")
+        .attr("transform-origin", "50% 50%")
         .attr(
           "transform",
-          `translate(${this.width / 2}, ${this.height / 1.25})`
+          `rotate(90) translate(${this.width / 2}, ${this.height / 1.25})`
         );
       this.path = this.svg.append("g");
       this.text = this.svg
@@ -330,7 +331,7 @@ export default {
         .attr("pointer-events", "none")
         .attr("text-anchor", "middle")
         .style("user-select", "none")
-        .attr("font-size", 7.5)
+        .attr("font-size", 10)
         .attr("font-family", "sans-serif");
       this.parent = this.svg.append("circle");
     },
