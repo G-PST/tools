@@ -181,7 +181,7 @@ export default {
         d3.quantize(d3.interpolateRainbow, data.children.length + 1)
       );
       let format = d3.format(",d");
-      let radius = this.width / 2;
+      let radius = this.width / 3;
       let arc = d3
         .arc()
         .startAngle((d) => d.x0)
@@ -238,14 +238,14 @@ export default {
         .classed("svg-container", true)
         .append("svg")
         .attr("preserveAspectRatio", "xMinYMin meet")
-        .attr("viewBox", `0 0 ${this.width * 1.5} ${this.height * 1.5}`)
+        .attr("viewBox", `0 0 ${this.width} ${this.height * 1.25}`)
         .classed("svg-content-responsive", true);
 
       this.svg = svg
         .append("g")
         .style(
           "transform",
-          `translate(${this.margin.left * 5.5}px, ${this.margin.top * 4}px)`
+          `translate(${this.margin.left * 5.5}px, ${this.margin.top * 3.75}px)`
         );
 
       this.path = this.svg.append("g").attr("fill-opacity", 0.6);
