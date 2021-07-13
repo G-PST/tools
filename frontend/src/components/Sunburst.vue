@@ -165,7 +165,10 @@ export default {
         let children = this.getToolsQuery
           .filter((tool) => tool.language.includes(language))
           .filter((tool) => this.selectedTools.includes(tool.name))
-          .map((tool) => ({ name: tool.name, value: 1 }));
+          .map((tool) => ({
+            name: tool.name,
+            value: 1 / tool.language.length,
+          }));
         data.children.push({ name: language, children: children });
       }
 
