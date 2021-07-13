@@ -330,7 +330,7 @@ export default {
         .attr("pointer-events", "none")
         .attr("text-anchor", "middle")
         .style("user-select", "none")
-        .attr("font-size", 8)
+        .attr("font-size", 7.5)
         .attr("font-family", "sans-serif");
       this.parent = this.svg.append("circle");
     },
