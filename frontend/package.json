@@ -12,6 +12,7 @@
     "d3-scale-chromatic": "^3.0.0",
     "datatables": "^1.10.18",
     "jquery": "^3.6.0",
+    "plotly": "^1.0.6",
     "popper": "^1.0.1",
     "roboto-fontface": "*",
     "showdown": "^1.9.1",
