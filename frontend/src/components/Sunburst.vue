@@ -139,9 +139,6 @@ export default {
 
   created() {
     this.getLocalData();
-  },
-
-  mounted() {
     this.generatePlot();
     this.updatePlot();
   },
