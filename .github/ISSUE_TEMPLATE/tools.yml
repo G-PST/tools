@@ -564,3 +564,9 @@ body:
         ...
     validations:
       required: false
+  - type: textarea
+    id: interfaces
+    attributes:
+      label: Tool Interfaces
+      description: References to the GitHub issue of interfaced tool (ex. `#24`)
+      placeholder: ...
