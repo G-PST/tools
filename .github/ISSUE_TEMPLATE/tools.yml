@@ -465,6 +465,12 @@ body:
     validations:
       required: false
   - type: textarea
+    id: mathematical-description
+    attributes:
+      label: Mathematical Description
+      description: Describe the mathematic problem represented by the tool
+      placeholder: e.g. "cost minimizing linear program with economic objective"
+  - type: textarea
     id: interfaces
     attributes:
       label: Tool Interfaces
