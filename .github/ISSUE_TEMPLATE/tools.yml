@@ -343,23 +343,6 @@ body:
     validations:
       required: true
   - type: dropdown
-    id: lowest-temporal-resolution
-    attributes:
-      label: What is the lowest temporal resolution supported by the tool?
-      multiple: false
-      options:
-        - Instant
-        - Milliseconds
-        - Seconds
-        - Minutes
-        - Hours
-        - Days
-        - Months
-        - Years
-        - Decades
-    validations:
-      required: true
-  - type: dropdown
     id: typical-temporal-resolution
     attributes:
       label: What is the typical temporal resolution supported by the tool?
@@ -377,26 +360,9 @@ body:
     validations:
       required: false
   - type: dropdown
-    id: highest-temporal-scope
+    id: largest-temporal-scope
     attributes:
-      label: What is the highest temporal scope supported by the tool?
-      multiple: false
-      options:
-        - Instant
-        - Milliseconds
-        - Seconds
-        - Minutes
-        - Hours
-        - Days
-        - Months
-        - Years
-        - Decades
-    validations:
-      required: true
-  - type: dropdown
-    id: lowest-temporal-scope
-    attributes:
-      label: What is the lowest temporal scope supported by the tool?
+      label: What is the largest temporal scope supported by the tool?
       multiple: false
       options:
         - Instant
@@ -446,24 +412,6 @@ body:
     validations:
       required: true
   - type: dropdown
-    id: lowest-spatial-resolution
-    attributes:
-      label: What is the lowest spatial resolution supported by the tool?
-      multiple: false
-      options:
-        - Component
-        - Device
-        - Facility
-        - Municipality
-        - County
-        - State
-        - Region
-        - Country
-        - Continent
-        - Global
-    validations:
-      required: true
-  - type: dropdown
     id: typical-spatial-resolution
     attributes:
       label: What is the typical spatial resolution supported by the tool?
@@ -482,27 +430,9 @@ body:
     validations:
       required: false
   - type: dropdown
-    id: highest-spatial-scope
+    id: largest-spatial-scope
     attributes:
-      label: What is the highest spatial scope supported by the tool?
-      multiple: false
-      options:
-        - Component
-        - Device
-        - Facility
-        - Municipality
-        - County
-        - State
-        - Region
-        - Country
-        - Continent
-        - Global
-    validations:
-      required: true
-  - type: dropdown
-    id: lowest-spatial-scope
-    attributes:
-      label: What is the lowest spatial scope supported by the tool?
+      label: What is the largest spatial scope supported by the tool?
       multiple: false
       options:
         - Component
