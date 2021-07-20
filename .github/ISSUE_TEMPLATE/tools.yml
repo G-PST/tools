@@ -62,7 +62,7 @@ body:
     attributes:
       label: Year
       description: Year the tool was originally created or released
-      placeholder: 2000
+      placeholder: "2000"
     validations:
       required: true
   - type: input
