@@ -476,7 +476,7 @@ body:
     attributes:
       label: Input Data Format
       description: What is the input data formats supported by your tool?
-      placeholder: JSON,CSV
+      placeholder: e.g. JSON,CSV
     validations:
       required: true
   - type: input
@@ -484,7 +484,7 @@ body:
     attributes:
       label: Output Data Format
       description: What is the output data formats supported by your tool?
-      placeholder: JSON,CSV,XML
+      placeholder: e.g. CSV,XML
     validations:
       required: true
   - type: input
