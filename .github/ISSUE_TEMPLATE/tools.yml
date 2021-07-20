@@ -283,7 +283,7 @@ body:
     id: parallel-computing
     attributes:
       label: Parallel Computing Paradigm
-      description: Classification of parallel computing paradigm used in tool
+      description: Classification of parallel computing paradigm used in tool (https://en.wikipedia.org/wiki/Parallel_computing#Classes_of_parallel_computers)
       options:
         - label: Multi-core computing
         - label: Distributed computing
