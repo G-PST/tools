@@ -499,10 +499,10 @@ body:
     attributes:
       label: Tool Interfaces
       description: References to the GitHub issue of interfaced tool
-      placeholder: (#24,#6)
+      placeholder: e.g. #24,#6
   - type: textarea
     id: use_cases
     attributes:
       label: Tool Use Cases
       description: Describe the use cases for the tool, include descriptions of region, study question, and other details.
-      placeholder: (UC modeling for renewable integration in North America)
+      placeholder: e.g. UC modeling for renewable integration in North America
