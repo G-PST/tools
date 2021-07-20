@@ -279,6 +279,21 @@ body:
         - label: Linux
         - label: iOS
         - label: Android
+  - type: checkboxes
+    id: parallel-computing
+    attributes:
+      label: Parallel Computing Paradigm
+      description: Classification of parallel computing paradigm used in tool
+      options:
+        - label: Multi-core computing
+        - label: Distributed computing
+        - label: Cluster computing
+        - label: Massively parallel computing
+        - label: Grid computing
+        - label: Reconfigurable computing with field-programmable gate arrays (FPGA)
+        - label: General-purpose computing on graphics processing units
+        - label: Application-specific integrated circuits
+        - label: Vector processors
   - type: dropdown
     id: highest-temporal-resolution
     attributes:
