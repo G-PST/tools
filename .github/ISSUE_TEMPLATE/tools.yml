@@ -499,7 +499,7 @@ body:
     attributes:
       label: Tool Interfaces
       description: References to the GitHub issue of interfaced tool
-      placeholder: e.g. #24,#6
+      placeholder: e.g. \#24,#6
   - type: textarea
     id: use_cases
     attributes:
