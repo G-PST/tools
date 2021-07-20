@@ -87,6 +87,27 @@ body:
       placeholder: e.g. DOE
     validations:
       required: false
+  - type: input
+    id: publications
+    attributes:
+      label: Publications
+      description: How many works have been published as a direct result of the tool?
+      placeholder: "Enter integer number of publications here (e.g. 10)"
+      value: "0"
+    validations:
+      required: false
+  - type: textarea
+    id: publications-list
+    attributes:
+      label: Publication List
+      description: List of publications
+      placeholder: |
+        1.
+        2.
+        3.
+        ...
+    validations:
+      required: false
   - type: checkboxes
     id: infrastructure-sector
     attributes:
@@ -449,27 +470,6 @@ body:
       placeholder: email@example.com
     validations:
       required: true
-  - type: input
-    id: publications
-    attributes:
-      label: Publications
-      description: How many works have been published as a direct result of the tool?
-      placeholder: "Enter integer number of publications here (e.g. 10)"
-      value: "0"
-    validations:
-      required: false
-  - type: textarea
-    id: publications-list
-    attributes:
-      label: Publication List
-      description: List of publications
-      placeholder: |
-        1.
-        2.
-        3.
-        ...
-    validations:
-      required: false
   - type: textarea
     id: interfaces
     attributes:
