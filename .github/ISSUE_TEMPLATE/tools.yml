@@ -186,7 +186,6 @@ body:
         - label: Lua
         - label: MATLAB
         - label: Modelica
-        - label: MUMPS
         - label: Nim
         - label: Object Pascal
         - label: Octave
