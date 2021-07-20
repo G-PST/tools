@@ -97,6 +97,17 @@ body:
         - label: Liquid fuels
         - label: Biomass
   - type: checkboxes
+    id: represented-behavior
+    attributes:
+      label: Represented Behavior
+      description: What is the represented behavior that the tool is modeling?
+      options:
+        - label: Earth Systems
+        - label: Built Infrastructure
+        - label: Financial
+        - label: Social
+        - label: Policy
+  - type: checkboxes
     id: modeling-paradigm
     attributes:
       label: Modeling Paradigm
