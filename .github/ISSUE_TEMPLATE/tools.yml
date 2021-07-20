@@ -57,6 +57,30 @@ body:
       placeholder: https://github.com/XYZ/xyz
     validations:
       required: false
+  - type: input
+    id: year
+    attributes:
+      label: Year
+      description: Year the tool was originally created or released
+      placeholder: 2000
+    validations:
+      required: true
+  - type: input
+    id: institution
+    attributes:
+      label: Institution
+      description: Institution affiliation
+      placeholder: ABC
+    validations:
+      required: true
+  - type: input
+    id: funding
+    attributes:
+      label: Funding Source
+      description: Primary Funding Source
+      placeholder: e.g. DOE
+    validations:
+      required: true
   - type: checkboxes
     id: infrastructure-sector
     attributes:
