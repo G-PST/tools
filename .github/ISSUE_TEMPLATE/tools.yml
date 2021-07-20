@@ -72,7 +72,7 @@ body:
       description: Institution affiliation
       placeholder: ABC
     validations:
-      required: true
+      required: false
   - type: input
     id: funding
     attributes:
@@ -80,7 +80,7 @@ body:
       description: Primary Funding Source
       placeholder: e.g. DOE
     validations:
-      required: true
+      required: false
   - type: checkboxes
     id: infrastructure-sector
     attributes:
