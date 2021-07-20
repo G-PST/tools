@@ -504,5 +504,5 @@ body:
     id: use_cases
     attributes:
       label: Tool Use Cases
-      description: Describe the use cases for the tool, including: region, study question, and other details.
+      description: Describe the use cases for the tool, include descriptions of region, study question, and other details.
       placeholder: (UC modeling for renewable integration in North America)
