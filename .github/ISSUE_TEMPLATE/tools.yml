@@ -190,7 +190,6 @@ body:
         - label: Object Pascal
         - label: Octave
         - label: Pascal Script
-        - label: PureScript
         - label: Python
         - label: R
         - label: Rust
