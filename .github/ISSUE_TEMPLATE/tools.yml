@@ -343,6 +343,7 @@ body:
         - Months
         - Years
         - Decades
+        - Not Applicable
     validations:
       required: true
   - type: dropdown
@@ -377,6 +378,7 @@ body:
         - Months
         - Years
         - Decades
+        - Not Applicable
     validations:
       required: true
   - type: dropdown
@@ -412,6 +414,7 @@ body:
         - Country
         - Continent
         - Global
+        - Not Applicable
     validations:
       required: true
   - type: dropdown
@@ -448,6 +451,7 @@ body:
         - Country
         - Continent
         - Global
+        - Not Applicable
     validations:
       required: true
   - type: dropdown
