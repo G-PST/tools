@@ -1,0 +1,207 @@
+[
+{
+  "name": "main.Model.PLEXO",
+  "imports": ["main.Capabilities.Capacity Expansion","main.InfraSec.Electric","main.OutputDataFormat.CSV Output","main.Paradigm.Optimization"]
+},{
+  "name": "main.Model.GridLAB-D",
+  "imports": ["main.InfraSec.Buildings","main.InfraSec.Electric","main.Paradigm.Discrete Simulation","main.Paradigm.Visualization","main.Paradigm.Engineering/Design","main.Paradigm.Optimization"]
+},{
+  "name": "main.Model.ReEDS",
+  "imports": ["main.Paradigm.Optimization","main.InfraSec.Electric","main.Paradigm.Discrete Simulation","main.Paradigm.Visualization","main.OutputDataFormat.GDX Output"]
+},{
+  "name": "main.Model.MATPOWER",
+  "imports": ["main.Paradigm.Optimization","main.Paradigm.Discrete Simulation","main.Paradigm.Visualization","main.InfraSec.Electric","main.OutputDataFormat.M-File Output"]
+},{
+  "name": "main.Model.PowerModels",
+  "imports": ["main.Paradigm.Optimization"]
+}
+,
+{
+  "name": "main.License.Proprietary",
+  "imports": ["main.Model.PLEXO"]
+},{
+  "name": "main.License.Permissive",
+  "imports": ["main.Model.GridLAB-D","main.Model.MATPOWER","main.Model.PowerModels"]
+},
+{
+  "name": "main.License.Private",
+  "imports": ["main.Model.ReEDS"]
+}
+,
+{
+  "name": "main.InfraSec.Electric",
+  "imports": []
+},{
+  "name": "main.InfraSec.Buildings",
+  "imports": []
+}
+,
+{
+  "name": "main.Paradigm.Optimization",
+  "imports": []
+},{
+  "name": "main.Paradigm.Discrete Simulation",
+  "imports": []
+},{
+  "name": "main.Paradigm.Visualization",
+  "imports": []
+},{
+  "name": "main.Paradigm.Engineering/Design",
+  "imports": []
+}
+,
+{
+  "name": "main.Capabilities.Capacity Expansion",
+  "imports": []
+},{
+  "name": "main.Capabilities.ACOPF",
+  "imports": []
+},{
+  "name": "main.Capabilities.Topology Control",
+  "imports": []
+},{
+  "name": "main.Capabilities.Transmission Switching",
+  "imports": []
+}
+,
+{
+  "name": "main.TempRes.Instantly Temporal Resolution",
+  "imports": ["main.Paradigm.Optimization","main.Model.PowerModels"]
+},{
+  "name": "main.TempRes.Secondly Temporal Resolution",
+  "imports": ["main.Paradigm.Optimization","main.Model.GridLAB-D"]
+},{
+  "name": "main.TempRes.Minutely Temporal Resolution",
+  "imports": ["main.Model.PLEXO","main.Paradigm.Optimization","main.Model.MATPOWER"]
+},{
+  "name": "main.TempRes.Hourly Temporal Resolution",
+  "imports": ["main.Model.PLEXO","main.Paradigm.Optimization","main.Model.GridLAB-D","main.Model.ReEDS","main.Model.MATPOWER","main.Model.PowerModels"]
+},{
+  "name": "main.TempRes.Weekly Temporal Resolution",
+  "imports": ["main.Paradigm.Optimization"]
+},{
+  "name": "main.TempRes.Yearly Temporal Resolution",
+  "imports": ["main.Model.PLEXO","main.Paradigm.Optimization","main.Model.GridLAB-D","main.Model.MATPOWER"]
+},{
+  "name": "main.TempRes.Decadally Temporal Resolution",
+  "imports": ["main.Paradigm.Optimization","main.Model.ReEDS"]
+}
+,
+{
+  "name": "main.SpatialRes.Component Spatial Resolution",
+  "imports": ["main.Paradigm.Optimization"]
+},{
+  "name": "main.SpatialRes.Device Spatial Resolution",
+  "imports": ["main.Paradigm.Optimization","main.Model.GridLAB-D","main.Model.PowerModels"]
+},{
+  "name": "main.SpatialRes.Facility Spatial Resolution",
+  "imports": ["main.Paradigm.Optimization","main.Model.PowerModels"]
+},{
+  "name": "main.SpatialRes.Municipality Spatial Resolution",
+  "imports": ["main.Paradigm.Optimization"]
+},{
+  "name": "main.SpatialRes.County Spatial Resolution",
+  "imports": ["main.Paradigm.Optimization","main.Model.ReEDS"]
+},{
+  "name": "main.SpatialRes.State Spatial Resolution",
+  "imports": ["main.Paradigm.Optimization"]
+},{
+  "name": "main.SpatialRes.Region Spatial Resolution",
+  "imports": ["main.Paradigm.Optimization","main.Model.GridLAB-D","main.Model.ReEDS","main.Model.MATPOWER"]
+},{
+  "name": "main.SpatialRes.Country Spatial Resolution",
+  "imports": ["main.Paradigm.Optimization"]
+},{
+  "name": "main.SpatialRes.Continent Spatial Resolution",
+  "imports": ["main.Paradigm.Optimization"]
+},{
+  "name": "main.SpatialRes.Global Spatial Resolution",
+  "imports": ["main.Paradigm.Optimization"]
+}
+,
+{
+  "name": "main.Language.GAMS",
+  "imports": ["main.Model.ReEDS","main.Paradigm.Optimization","main.OutputDataFormat.CSV Output"]
+},{
+  "name": "main.Language.NET",
+  "imports": ["main.Model.PLEXO"]
+},{
+  "name": "main.Language.Python",
+  "imports": ["main.Model.ReEDS"]
+},{
+  "name": "main.Language.MATLAB",
+  "imports": ["main.Model.MATPOWER"]
+},{
+  "name": "main.Language.C++",
+  "imports": []
+},{
+  "name": "main.Language.C",
+  "imports": ["main.Model.MATPOWER"]
+},
+{
+  "name": "main.Language.Julia",
+  "imports": ["main.Model.PowerModels"]
+}
+,
+{
+  "name": "main.Interface.GUI",
+  "imports": ["main.Model.PLEXO"]
+},{
+  "name": "main.Interface.API",
+  "imports": ["main.Model.GridLAB-D"]
+},{
+  "name": "main.Interface.Terminal",
+  "imports": ["main.Model.ReEDS","main.Model.PowerModels"]
+},{
+  "name": "main.Interface.MATLAB",
+  "imports": ["main.Model.MATPOWER"]
+}
+,
+{
+  "name": "main.OS.MAC OS",
+  "imports": ["main.Language.GAMS","main.Model.GridLAB-D","main.Model.ReEDS","main.Model.MATPOWER","main.Model.PowerModels"]
+},{
+  "name": "main.OS.Windows",
+  "imports": ["main.Model.PLEXO","main.Language.GAMS","main.Model.GridLAB-D","main.Model.ReEDS","main.Model.MATPOWER","main.Model.PowerModels"]
+},{
+  "name": "main.OS.Linux",
+  "imports": ["main.Language.GAMS","main.Model.GridLAB-D","main.Model.ReEDS","main.Model.MATPOWER","main.Model.PowerModels"]
+}
+,
+{
+  "name": "main.InputDataFormat.XML Input",
+  "imports": ["main.Paradigm.Optimization","main.Model.PLEXO"]
+},{
+  "name": "main.InputDataFormat.CSV Input",
+  "imports": ["main.Language.GAMS","main.Paradigm.Optimization","main.Model.GridLAB-D","main.Model.ReEDS"]
+},{
+  "name": "main.InputDataFormat.GLM Input",
+  "imports": ["main.Model.GridLAB-D"]
+},{
+  "name": "main.InputDataFormat.M-File Input",
+  "imports": ["main.Model.MATPOWER"]
+},{
+  "name": "main.InputDataFormat.MATPOWER Input",
+  "imports": ["main.Model.MATPOWER"]
+},{
+  "name": "main.InputDataFormat.RAW Input",
+  "imports": ["main.Model.PowerModels"]
+}
+,
+{
+  "name": "main.OutputDataFormat.XML Output",
+  "imports": ["main.Paradigm.Optimization"]
+},{
+  "name": "main.OutputDataFormat.CSV Output",
+  "imports": ["main.Paradigm.Optimization","main.Model.ReEDS"]
+},{
+  "name": "main.OutputDataFormat.GDX Output",
+  "imports": ["main.Paradigm.Optimization"]
+},{
+  "name": "main.OutputDataFormat.M-File Output",
+  "imports": []
+},{
+  "name": "main.OutputDataFormat.Json Output",
+  "imports": []
+}
+]
