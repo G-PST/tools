@@ -51,7 +51,7 @@
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
 
-var diameter = 960,
+var diameter = 850, //960, ***
     radius = diameter / 2,
     innerRadius = radius - 120;
 
@@ -61,7 +61,7 @@ var cluster = d3.cluster()
 var line = d3.radialLine()
     .curve(d3.curveBundle.beta(0.85))
     .radius(function(d) { return d.y; })
-    .angle(function(d) { return d.x / 180 * Math.PI; });
+    .angle(function(d) { return d.x / 180 * Math.PI; }); 
 
 var svg = d3.select("body").append("svg")
     .attr("width", diameter)
@@ -72,7 +72,7 @@ var svg = d3.select("body").append("svg")
 var link = svg.append("g").selectAll(".link"),
     node = svg.append("g").selectAll(".node");
 
-d3.json("flare.json", function(error, classes) {
+d3.json("flare_2.json", function(error, classes) {
   if (error) throw error;
 
   var root = packageHierarchy(classes)
