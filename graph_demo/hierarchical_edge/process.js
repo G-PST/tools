@@ -1016,20 +1016,15 @@ group_language = group_language.map(i => "main.group_language." + i);
 
 
 
-
-
-
-
-
 // ----- "All Groups" -----
 // add together multiple array to create node
 var group_all = [   ...group_name, 
+                    ...group_license,
+                    ...group_language,
                     ...group_temporal_scope,
                     ...group_temporal_resolution,
                     ...group_spatial_resolution,
-                    ...group_spatial_scope,
-                    ...group_license,
-                    ...group_language
+                    ...group_spatial_scope
                 ];
 
 
@@ -1084,3 +1079,10 @@ const myJSON = JSON.stringify(group_all);
 console.log(myJSON);
 
 
+const fs = require('fs');
+fs.writeFile("/Users/pchanpiw/Documents/Git_PTN111/tools/graph_demo/hierarchical_edge/flare_3.json", JSON.stringify(group_all), function(err) {
+    if(err) {
+        return console.log(err);
+    }
+    console.log("The file was saved!");
+}); 
