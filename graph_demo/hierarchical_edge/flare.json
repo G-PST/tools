@@ -163,11 +163,7 @@
 },{
   "name": "main.OS.Windows",
   "imports": ["main.Model.PLEXO","main.Language.GAMS","main.Model.GridLAB-D","main.Model.ReEDS","main.Model.MATPOWER","main.Model.PowerModels"]
-},{
-  "name": "main.OS.Linux",
-  "imports": ["main.Language.GAMS","main.Model.GridLAB-D","main.Model.ReEDS","main.Model.MATPOWER","main.Model.PowerModels"]
-}
-,
+},
 {
   "name": "main.InputDataFormat.XML Input",
   "imports": ["main.Paradigm.Optimization","main.Model.PLEXO"]
@@ -200,8 +196,8 @@
 },{
   "name": "main.OutputDataFormat.M-File Output",
   "imports": []
-},{
-  "name": "main.OutputDataFormat.Json Output",
-  "imports": []
+}
+,{
+  "name": "main.OutputDataFormat.Json Output"
 }
 ]
