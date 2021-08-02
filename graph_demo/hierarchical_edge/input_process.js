@@ -784,16 +784,18 @@ var all_highest_temporal_resolution = [];
 var all_lowest_spatial_resolution = [];
 var all_typical_spatial_resolution = [];
 var all_lowest_spatial_scope = [];
+var all_typical_spatial_scope = [];
 
 var all_modeling_paradigm = [];
 var all_operating_systems = [];
 var all_infrastructure_sector = [];
+var all_license = [];
 
 // var all_pair = {};
 var all_pair = [];
 
 
-
+// fix missing null value
 for (i in jsonObject) {
     for (j in jsonObject[i]) {
     
@@ -805,7 +807,34 @@ for (i in jsonObject) {
     }
 }
 
+
 // console.log(jsonObject)
+
+
+
+// const swapValue = (obj) => {
+//     Object.keys(obj).forEach(key => {
+//        if(!obj[key]){
+//           obj[key] = '-';
+//        }
+//     });
+//  };
+
+
+// // replace "." with "-"
+// for (i in jsonObject) {
+
+//     // console.log(jsonObject[i].license)
+
+//     Object.keys(jsonObject[i]).forEach( if(obj[key]){} => {
+//         if(!obj[key]){
+//            obj[key] = '-';
+//         }
+//      });
+
+//      console.log(jsonObject[i].license)
+
+// }
 
 
 
@@ -826,12 +855,13 @@ all_highest_temporal_resolution.push(jsonObject[i].highest_temporal_resolution);
 all_lowest_spatial_resolution.push(jsonObject[i].lowest_spatial_resolution);
 all_typical_spatial_resolution.push(jsonObject[i].typical_spatial_resolution);
 all_lowest_spatial_scope.push(jsonObject[i].lowest_spatial_scope);
+all_typical_spatial_scope.push(jsonObject[i].typical_spatial_scope);
 
 
 all_modeling_paradigm.push(jsonObject[i].modeling_paradigm);
 all_operating_systems.push(jsonObject[i].operating_systems);
 all_infrastructure_sector.push(jsonObject[i].infrastructure_sector);
-
+all_license.push(jsonObject[i].license);
 
 // console.log(all_lowest_spatial_resolution);
 
@@ -873,6 +903,12 @@ all_pair[jsonObject[i].name] =
             
                 "plt.lowest_spatial_scope.low_spa_sco-" 
                     + jsonObject[i].lowest_spatial_scope, // it only has one element
+            
+                "plt.typical_spatial_scope.typ_spa_sco-" 
+                    + jsonObject[i].typical_spatial_scope, // it only has one element
+            
+                "plt.license." 
+                    + jsonObject[i].license, // it only has one element
             
 
             ...jsonObject[i].modeling_paradigm.map(j => "plt.modeling_paradigm." + j),
@@ -925,6 +961,8 @@ for (i in all_pair) {
 }
 
 
+// console.log(getPair);
+
 
 // #4
 //--- Merge Elements in Array ---//
@@ -938,6 +976,8 @@ all_modeling_paradigm = Array.prototype.concat.apply([], all_modeling_paradigm);
 // all_lowest_spatial_resolution  --> no need to merge
 // all_typical_spatial_resolution --> no need to merge
 // all_lowest_spatial_scope --> no need to merge
+// all_typical_spatial_scope --> no need to merge
+// all_license --> no need to merge
 all_operating_systems       = Array.prototype.concat.apply([], all_operating_systems);
 all_infrastructure_sector   = Array.prototype.concat.apply([], all_infrastructure_sector);
 
@@ -954,11 +994,12 @@ all_highest_temporal_resolution = remove_duplicates(all_highest_temporal_resolut
 all_lowest_spatial_resolution   = remove_duplicates(all_lowest_spatial_resolution)
 all_typical_spatial_resolution  = remove_duplicates(all_typical_spatial_resolution)
 all_lowest_spatial_scope        = remove_duplicates(all_lowest_spatial_scope)
+all_typical_spatial_scope       = remove_duplicates(all_typical_spatial_scope)
 
 
 all_operating_systems           = remove_duplicates(all_operating_systems)
 all_infrastructure_sector       = remove_duplicates(all_infrastructure_sector)
-
+all_license                     = remove_duplicates(all_license)
 
 // #6
 //--- remove null ---//
@@ -970,11 +1011,13 @@ all_typical_temporal_resolution = all_typical_temporal_resolution.filter(functio
 all_highest_temporal_resolution = all_highest_temporal_resolution.filter(function (element) { return element != null; });
 all_lowest_spatial_resolution   = all_lowest_spatial_resolution.filter(function (element) { return element != null; });
 all_typical_spatial_resolution  = all_typical_spatial_resolution.filter(function (element) { return element != null; });
-all_lowest_spatial_scope       = all_lowest_spatial_scope.filter(function (element) { return element != null; });
+all_lowest_spatial_scope        = all_lowest_spatial_scope.filter(function (element) { return element != null; });
+all_typical_spatial_scope       = all_typical_spatial_scope.filter(function (element) { return element != null; });
 
 
 all_operating_systems       = all_operating_systems.filter(function (element) { return element != null; });
 all_infrastructure_sector   = all_infrastructure_sector.filter(function (element) { return element != null; });
+all_license   = all_license.filter(function (element) { return element != null; });
 
 
 // #7
@@ -987,17 +1030,20 @@ all_typical_temporal_resolution  = all_typical_temporal_resolution.map(j => "plt
 all_highest_temporal_resolution  = all_highest_temporal_resolution.map(j => "plt.highest_temporal_resolution.hig_tem_res-" + j);
 all_lowest_spatial_resolution    = all_lowest_spatial_resolution.map(j => "plt.lowest_spatial_resolution.low_spa_res-" + j);
 all_typical_spatial_resolution   = all_typical_spatial_resolution.map(j => "plt.typical_spatial_resolution.typ_spa_res-" + j);
-all_lowest_spatial_scope        = all_lowest_spatial_scope.map(j => "plt.lowest_spatial_scope.low_spa_sco-" + j);
+all_lowest_spatial_scope         = all_lowest_spatial_scope.map(j => "plt.lowest_spatial_scope.low_spa_sco-" + j);
+all_typical_spatial_scope        = all_typical_spatial_scope.map(j => "plt.typical_spatial_scope.typ_spa_sco-" + j);
 
 
 all_operating_systems       = all_operating_systems.map(j => "plt.operating_systems." + j);
 all_infrastructure_sector   = all_infrastructure_sector.map(j => "plt.infrastructure_sector." + j);
+all_license   = all_license.map(j => "plt.license." + j);
 
 
 
 // #8 - last one
 //--- Make Individual Node ---//
 var arrayNode = [
+                // no need for all name 
                 ...all_language,
                 ...all_modeling_paradigm,
                 ...all_typical_temporal_scope,
@@ -1007,9 +1053,11 @@ var arrayNode = [
                 ...all_lowest_spatial_resolution,
                 ...all_typical_spatial_resolution,
                 ...all_lowest_spatial_scope,
+                ...all_typical_spatial_scope,
 
                 ...all_operating_systems,
-                ...all_infrastructure_sector
+                ...all_infrastructure_sector,
+                ...all_license
               ];
 
 
