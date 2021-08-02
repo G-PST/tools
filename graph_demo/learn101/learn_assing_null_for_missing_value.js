@@ -751,95 +751,33 @@ var jsonObject = [{
 }
 ];
 
-
-
-
-
-
-
-
-function remove_duplicates(arr) {
-    var seen = {};
-    var ret_arr = [];
-    for (var i = 0; i < arr.length; i++) {
-        if (!(arr[i] in seen)) {
-            ret_arr.push(arr[i]);
-            seen[arr[i]] = true;
-        }
-    }
-    return ret_arr;
-}
-
-
-// #1
-//--- Extact Values of Each Key ---//
-var all_name = [];
-var all_language = [];
-var all_typical_temporal_scope = [];
-var all_highest_temporal_scope = [];
-var all_typical_temporal_resolution = [];
-var all_highest_temporal_resolution = [];
-
 var all_modeling_paradigm = [];
 var all_operating_systems = [];
 var all_infrastructure_sector = [];
 
-// var all_pair = {};
 var all_pair = [];
 
-
-
 for (i in jsonObject) {
-    for (j in jsonObject[i]) {
     
-        // console.log("++++++++++++++++");
-    
-        jsonObject[i][j] = ((jsonObject[i][j]) == null ? [] : (jsonObject[i][j]));
-    }
+
+for (j in jsonObject[i]) {
+
+    // console.log("++++++++++++++++");
+
+    // console.log(  (jsonObject[i][j]) == null ? "[]" : (jsonObject[i][j]));
+    jsonObject[i][j] = ((jsonObject[i][j]) == null ? [] : (jsonObject[i][j]));
+    // jsonObject[i][j] = ((jsonObject[i][j]) == [] ? "null_value" : (jsonObject[i][j]));
 }
 
-
-
-//-----------------------------//
-//--- Loop: Extracting Data ---//
-//-----------------------------//
-for (var i = 0; i < jsonObject.length; i++){
-
-
-// #2
-//--- loop name for node ---//
-all_name.push(jsonObject[i].name);
-all_language.push(jsonObject[i].language);
-all_typical_temporal_scope.push(jsonObject[i].typical_temporal_scope);
-all_highest_temporal_scope.push(jsonObject[i].highest_temporal_scope);
-all_typical_temporal_resolution.push(jsonObject[i].typical_temporal_resolution);
-all_highest_temporal_resolution.push(jsonObject[i].highest_temporal_resolution);
 
 all_modeling_paradigm.push(jsonObject[i].modeling_paradigm);
 all_operating_systems.push(jsonObject[i].operating_systems);
 all_infrastructure_sector.push(jsonObject[i].infrastructure_sector);
 
 
-// #3
-//--- loop pair for directed graphs ---//
-// add string to be compatible for the format of flare plot ---//
-
 //- name ---
 all_pair[jsonObject[i].name] = 
             [...jsonObject[i].language.map(j => "plt.language." + j),
-
-                "plt.typical_temporal_scope.typ_tem_sco-" 
-                    + jsonObject[i].typical_temporal_scope, // it only has one element
-                
-                "plt.highest_temporal_scope.hig_tem_sco-" 
-                    + jsonObject[i].highest_temporal_scope, // it only has one element
-                
-                "plt.typical_temporal_resolution.typ_tem_res-" 
-                    + jsonObject[i].typical_temporal_resolution, // it only has one element
-  
-                "plt.highest_temporal_resolution.hig_tem_res-" 
-                    + jsonObject[i].highest_temporal_resolution, // it only has one element
-            
 
             ...jsonObject[i].modeling_paradigm.map(j => "plt.modeling_paradigm." + j),
 
@@ -850,159 +788,56 @@ all_pair[jsonObject[i].name] =
 
 }
 
-//--- remove null value out of all_pair ---//
-// only work if there is only one value like in highest_temp_scope
-for (i in all_pair) {
-    var PATTERN = 'null',
-    filtered = all_pair[i].filter(function (str) { return str.indexOf(PATTERN) === -1; });
-    all_pair[i] = filtered
-}
+// console.log(jsonObject);
+console.log()
+console.log(...all_modeling_paradigm);
+console.log()
+console.log(...all_operating_systems);
+console.log()
+console.log(...all_infrastructure_sector);
+console.log()
+console.log(all_pair)
 
-
-
-
-
-//--- End Loop ---//
-
-
-//--- Make all_pair into Name and Import Format ---//
-var getPair = [];
-
-for (i in all_pair) {
-    var obj = {};
-    
-    for (j in all_pair[i]) {
-    // replace "." with "-" in the model's name
-    var dummy_name = [i];   
-    dummy_name = dummy_name.map(function (value) {
-        return value.replace(".","-")});
-
-    obj['name'] = "plt.name."+ dummy_name ;
-    obj['imports'] = all_pair[i];
-    }
-
-    getPair.push(obj);
-
-}
-
-
-
-// #4
-//--- Merge Elements in Array ---//
-// merge for each key if having multiple values
-all_language          = Array.prototype.concat.apply([], all_language);
-all_modeling_paradigm = Array.prototype.concat.apply([], all_modeling_paradigm);
-// all_typical_temporal_scope  --> no need to merge
-// all_highest_temporal_scope  --> no need to merge
-// all_typical_temporal_resolution  --> no need to merge
-// all_highest_temporal_resolution  --> no need to merge
-all_operating_systems       = Array.prototype.concat.apply([], all_operating_systems);
-all_infrastructure_sector   = Array.prototype.concat.apply([], all_infrastructure_sector);
-
-
-
-// #5
-//--- remove duplicate ---//
-all_language                = remove_duplicates(all_language)
-all_modeling_paradigm       = remove_duplicates(all_modeling_paradigm)
-all_typical_temporal_scope  = remove_duplicates(all_typical_temporal_scope)
-all_highest_temporal_scope  = remove_duplicates(all_highest_temporal_scope)
-all_typical_temporal_resolution  = remove_duplicates(all_typical_temporal_resolution)
-all_highest_temporal_resolution  = remove_duplicates(all_highest_temporal_resolution)
-
-all_operating_systems       = remove_duplicates(all_operating_systems)
-all_infrastructure_sector   = remove_duplicates(all_infrastructure_sector)
-
-
-// #6
-//--- remove null ---//
-all_language                = all_language.filter(function (element) { return element != null; });
-all_modeling_paradigm       = all_modeling_paradigm.filter(function (element) { return element != null; });
-all_typical_temporal_scope  = all_typical_temporal_scope.filter(function (element) { return element != null; });
-all_highest_temporal_scope  = all_highest_temporal_scope.filter(function (element) { return element != null; });
-all_typical_temporal_resolution  = all_typical_temporal_resolution.filter(function (element) { return element != null; });
-all_highest_temporal_resolution  = all_highest_temporal_resolution.filter(function (element) { return element != null; });
-
-all_operating_systems       = all_operating_systems.filter(function (element) { return element != null; });
-all_infrastructure_sector   = all_infrastructure_sector.filter(function (element) { return element != null; });
-
-
-// #7
-//--- add prefix to each element ---//
-all_language                = all_language.map(j => "plt.language." + j);
-all_modeling_paradigm       = all_modeling_paradigm.map(j => "plt.modeling_paradigm." + j);
-all_typical_temporal_scope  = all_typical_temporal_scope.map(j => "plt.typical_temporal_scope.typ_tem_sco-" + j);
-all_highest_temporal_scope  = all_highest_temporal_scope.map(j => "plt.highest_temporal_scope.hig_tem_sco-" + j);
-all_typical_temporal_resolution  = all_typical_temporal_resolution.map(j => "plt.typical_temporal_resolution.typ_tem_res-" + j);
-all_highest_temporal_resolution  = all_highest_temporal_resolution.map(j => "plt.highest_temporal_resolution.hig_tem_res-" + j);
-
-all_operating_systems       = all_operating_systems.map(j => "plt.operating_systems." + j);
-all_infrastructure_sector   = all_infrastructure_sector.map(j => "plt.infrastructure_sector." + j);
-
-
-
-// #8 - last one
-//--- Make Individual Node ---//
-var arrayNode = [
-                ...all_language,
-                ...all_modeling_paradigm,
-                ...all_typical_temporal_scope,
-                ...all_highest_temporal_scope,
-                ...all_typical_temporal_resolution,
-                ...all_highest_temporal_resolution,
-
-                ...all_operating_systems,
-                ...all_infrastructure_sector
-              ];
-
-
-var getNode = [];
-for (i in arrayNode) {
-    var objNode = {};
-    objNode['name'] = arrayNode[i];
-    getNode.push(objNode);
-}
-
-// console.log();
-// console.log(arrayNode);
-// console.log([...getPair,...getNode]);
-
-
-//--------------//
-//--- output ---//
-//--------------//
-
-// output
-var data_final = [...getNode,...getPair];
-
-
-
-
-
-
-
-
-
-
-
-
-// console.log( JSON.stringify(data_final, undefined, 2) );
-// console.log("original data:");
 // console.log(jsonObject);
 
 
-const fs = require('fs');
-fs.writeFile("/Users/pchanpiw/Documents/Git_PTN111/tools/graph_demo/hierarchical_edge/flare2.json", JSON.stringify(data_final), function(err) {
-    if(err) {
-        return console.log(err);
-    }
-    console.log("The file was saved!");
-}); 
+// //---  replace "null" string with "[]" instead ---//
+// //--- Make all_pair into Name and Import Format ---//
+// var getPair = [];
+
+// for (i in jsonObject) {
+//     var obj = {};
+    
+    
+
+//     for (j in jsonObject[i]) {
 
 
 
-console.log(data_final);
+//         // replace "." with "-" in the model's name
 
+//         // var dummy_name = jsonObject[i][j];
 
+//         // var dummy_name = jsonObject[i][j].map(function (value) {
+//         //         return value.replace("null","[]")});   
 
-// ****    'plt.highest_temporal_resolution.hig_tem_res-null',
+//         console.log("++++++++++++++++");
+//         // console.log(dummy_name);
+//         // dummy_name = dummy_name.map(function (value) {
+//         //     return value.replace("null","[]")});
+
+//         // jsonObject[i][j] = dummy_name;
+//         // obj['name'] = "plt.name."+ dummy_name ;
+//         // obj['imports'] = all_pair[i];
+
+//         // console.log("++++++++++++++++");
+//         console.log(  (jsonObject[i][j]) == null ? "null" : "[]");
+//     }
+
+//     // getPair.push(obj);
+
+// }
+
+// // console.log(jsonObject);
+
+// jsonObject[1][1].replaceAll(t => jsonObject[1][1].isNull(t) ? "" : t);

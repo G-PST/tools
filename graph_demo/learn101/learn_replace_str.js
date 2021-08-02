@@ -4,3 +4,5 @@ dummy_name = dummy_name.map(function (value) {
 return value.replace(".","-")});
 
 console.log(dummy_name)
+
+
