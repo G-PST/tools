@@ -775,10 +775,15 @@ function remove_duplicates(arr) {
 //--- Extact Values of Each Key ---//
 var all_name = [];
 var all_language = [];
+// scope
 var all_typical_temporal_scope = [];
 var all_highest_temporal_scope = [];
 var all_typical_temporal_resolution = [];
 var all_highest_temporal_resolution = [];
+// spatial 
+var all_lowest_spatial_resolution = [];
+var all_typical_spatial_resolution = [];
+var all_lowest_spatial_scope = [];
 
 var all_modeling_paradigm = [];
 var all_operating_systems = [];
@@ -794,9 +799,13 @@ for (i in jsonObject) {
     
         // console.log("++++++++++++++++");
     
-        jsonObject[i][j] = ((jsonObject[i][j]) == null ? [] : (jsonObject[i][j]));
+        // jsonObject[i][j] = ( jsonObject[i][j].length < 1 ? "blank_value" : (jsonObject[i][j]) );
+        jsonObject[i][j] = ( (jsonObject[i][j]) == null ? [] : (jsonObject[i][j]) );
+        // jsonObject[i][j] = ((jsonObject[i][j]) == [] ? 'blank_value' : (jsonObject[i][j]));
     }
 }
+
+// console.log(jsonObject)
 
 
 
@@ -814,10 +823,24 @@ all_typical_temporal_scope.push(jsonObject[i].typical_temporal_scope);
 all_highest_temporal_scope.push(jsonObject[i].highest_temporal_scope);
 all_typical_temporal_resolution.push(jsonObject[i].typical_temporal_resolution);
 all_highest_temporal_resolution.push(jsonObject[i].highest_temporal_resolution);
+all_lowest_spatial_resolution.push(jsonObject[i].lowest_spatial_resolution);
+all_typical_spatial_resolution.push(jsonObject[i].typical_spatial_resolution);
+all_lowest_spatial_scope.push(jsonObject[i].lowest_spatial_scope);
+
 
 all_modeling_paradigm.push(jsonObject[i].modeling_paradigm);
 all_operating_systems.push(jsonObject[i].operating_systems);
 all_infrastructure_sector.push(jsonObject[i].infrastructure_sector);
+
+
+// console.log(all_lowest_spatial_resolution);
+
+}
+
+// all_lowest_spatial_resolution  = all_lowest_spatial_resolution.filter(function (element) { return element.length >0; });
+// console.log(all_lowest_spatial_resolution);
+
+
 
 
 // #3
@@ -825,6 +848,8 @@ all_infrastructure_sector.push(jsonObject[i].infrastructure_sector);
 // add string to be compatible for the format of flare plot ---//
 
 //- name ---
+for (var i = 0; i < jsonObject.length; i++){
+
 all_pair[jsonObject[i].name] = 
             [...jsonObject[i].language.map(j => "plt.language." + j),
 
@@ -840,6 +865,15 @@ all_pair[jsonObject[i].name] =
                 "plt.highest_temporal_resolution.hig_tem_res-" 
                     + jsonObject[i].highest_temporal_resolution, // it only has one element
             
+                "plt.lowest_spatial_resolution.low_spa_res-" 
+                    + jsonObject[i].lowest_spatial_resolution, // it only has one element
+            
+                "plt.typical_spatial_resolution.typ_spa_res-" 
+                    + jsonObject[i].typical_spatial_resolution, // it only has one element
+            
+                "plt.lowest_spatial_scope.low_spa_sco-" 
+                    + jsonObject[i].lowest_spatial_scope, // it only has one element
+            
 
             ...jsonObject[i].modeling_paradigm.map(j => "plt.modeling_paradigm." + j),
 
@@ -849,6 +883,11 @@ all_pair[jsonObject[i].name] =
 
 
 }
+
+
+// console.log(all_pair);
+
+
 
 //--- remove null value out of all_pair ---//
 // only work if there is only one value like in highest_temp_scope
@@ -896,6 +935,9 @@ all_modeling_paradigm = Array.prototype.concat.apply([], all_modeling_paradigm);
 // all_highest_temporal_scope  --> no need to merge
 // all_typical_temporal_resolution  --> no need to merge
 // all_highest_temporal_resolution  --> no need to merge
+// all_lowest_spatial_resolution  --> no need to merge
+// all_typical_spatial_resolution --> no need to merge
+// all_lowest_spatial_scope --> no need to merge
 all_operating_systems       = Array.prototype.concat.apply([], all_operating_systems);
 all_infrastructure_sector   = Array.prototype.concat.apply([], all_infrastructure_sector);
 
@@ -903,15 +945,19 @@ all_infrastructure_sector   = Array.prototype.concat.apply([], all_infrastructur
 
 // #5
 //--- remove duplicate ---//
-all_language                = remove_duplicates(all_language)
-all_modeling_paradigm       = remove_duplicates(all_modeling_paradigm)
-all_typical_temporal_scope  = remove_duplicates(all_typical_temporal_scope)
-all_highest_temporal_scope  = remove_duplicates(all_highest_temporal_scope)
-all_typical_temporal_resolution  = remove_duplicates(all_typical_temporal_resolution)
-all_highest_temporal_resolution  = remove_duplicates(all_highest_temporal_resolution)
+all_language                    = remove_duplicates(all_language)
+all_modeling_paradigm           = remove_duplicates(all_modeling_paradigm)
+all_typical_temporal_scope      = remove_duplicates(all_typical_temporal_scope)
+all_highest_temporal_scope      = remove_duplicates(all_highest_temporal_scope)
+all_typical_temporal_resolution = remove_duplicates(all_typical_temporal_resolution)
+all_highest_temporal_resolution = remove_duplicates(all_highest_temporal_resolution)
+all_lowest_spatial_resolution   = remove_duplicates(all_lowest_spatial_resolution)
+all_typical_spatial_resolution  = remove_duplicates(all_typical_spatial_resolution)
+all_lowest_spatial_scope        = remove_duplicates(all_lowest_spatial_scope)
 
-all_operating_systems       = remove_duplicates(all_operating_systems)
-all_infrastructure_sector   = remove_duplicates(all_infrastructure_sector)
+
+all_operating_systems           = remove_duplicates(all_operating_systems)
+all_infrastructure_sector       = remove_duplicates(all_infrastructure_sector)
 
 
 // #6
@@ -920,8 +966,12 @@ all_language                = all_language.filter(function (element) { return el
 all_modeling_paradigm       = all_modeling_paradigm.filter(function (element) { return element != null; });
 all_typical_temporal_scope  = all_typical_temporal_scope.filter(function (element) { return element != null; });
 all_highest_temporal_scope  = all_highest_temporal_scope.filter(function (element) { return element != null; });
-all_typical_temporal_resolution  = all_typical_temporal_resolution.filter(function (element) { return element != null; });
-all_highest_temporal_resolution  = all_highest_temporal_resolution.filter(function (element) { return element != null; });
+all_typical_temporal_resolution = all_typical_temporal_resolution.filter(function (element) { return element != null; });
+all_highest_temporal_resolution = all_highest_temporal_resolution.filter(function (element) { return element != null; });
+all_lowest_spatial_resolution   = all_lowest_spatial_resolution.filter(function (element) { return element != null; });
+all_typical_spatial_resolution  = all_typical_spatial_resolution.filter(function (element) { return element != null; });
+all_lowest_spatial_scope       = all_lowest_spatial_scope.filter(function (element) { return element != null; });
+
 
 all_operating_systems       = all_operating_systems.filter(function (element) { return element != null; });
 all_infrastructure_sector   = all_infrastructure_sector.filter(function (element) { return element != null; });
@@ -935,6 +985,10 @@ all_typical_temporal_scope  = all_typical_temporal_scope.map(j => "plt.typical_t
 all_highest_temporal_scope  = all_highest_temporal_scope.map(j => "plt.highest_temporal_scope.hig_tem_sco-" + j);
 all_typical_temporal_resolution  = all_typical_temporal_resolution.map(j => "plt.typical_temporal_resolution.typ_tem_res-" + j);
 all_highest_temporal_resolution  = all_highest_temporal_resolution.map(j => "plt.highest_temporal_resolution.hig_tem_res-" + j);
+all_lowest_spatial_resolution    = all_lowest_spatial_resolution.map(j => "plt.lowest_spatial_resolution.low_spa_res-" + j);
+all_typical_spatial_resolution   = all_typical_spatial_resolution.map(j => "plt.typical_spatial_resolution.typ_spa_res-" + j);
+all_lowest_spatial_scope        = all_lowest_spatial_scope.map(j => "plt.lowest_spatial_scope.low_spa_sco-" + j);
+
 
 all_operating_systems       = all_operating_systems.map(j => "plt.operating_systems." + j);
 all_infrastructure_sector   = all_infrastructure_sector.map(j => "plt.infrastructure_sector." + j);
@@ -950,6 +1004,9 @@ var arrayNode = [
                 ...all_highest_temporal_scope,
                 ...all_typical_temporal_resolution,
                 ...all_highest_temporal_resolution,
+                ...all_lowest_spatial_resolution,
+                ...all_typical_spatial_resolution,
+                ...all_lowest_spatial_scope,
 
                 ...all_operating_systems,
                 ...all_infrastructure_sector
