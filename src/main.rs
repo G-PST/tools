@@ -693,7 +693,7 @@ async fn post_tool(tool: Json<Tool>) -> status::Accepted<String> {
 async fn get_tools() -> Json<Vec<Tool>> {
     let github = Github::new(
         concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION")),
-        Credentials::Token(env::var("TOOLS_GITHUB_PAT").unwrap()),
+        Credentials::Token(env!("TOOLS_GITHUB_PAT").to_string()),
     )
     .unwrap();
     let repo = github.repo("kdheepak", "tools");
