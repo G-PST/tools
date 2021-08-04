@@ -64,11 +64,15 @@ var line = d3.radialLine()
     .angle(function(d) { return d.x / 180 * Math.PI; }); 
 
 var svg = d3.select("body").append("svg")
-    .attr("width", diameter)
-    .attr("height", diameter)
+    .attr("width", diameter + 600)
+    .attr("height", diameter + 600)
   .append("g")
     .attr("transform", "translate(" + radius + "," + radius + ")");
 
+
+
+
+    
 var link = svg.append("g").selectAll(".link"),
     node = svg.append("g").selectAll(".node");
 
