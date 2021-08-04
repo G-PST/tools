@@ -303,6 +303,12 @@ impl Tool {
         {
             self.typical_spatial_scope = SpatialScale::from_str(&s).ok();
         }
+        if let Some(s) = self.parse_input("Input Data Format") {
+            self.input_data_formats = s.split(',').map(|w| w.trim().to_string()).collect();
+        }
+        if let Some(s) = self.parse_input("Output Data Format") {
+            self.output_data_formats = s.split(',').map(|w| w.trim().to_string()).collect();
+        }
         if let Some(s) = self.parse_input("Publications") {
             self.number_of_publications = s.parse::<u64>().ok();
         }
@@ -424,6 +430,14 @@ impl Tool {
                     "Capabilities" => {
                         capabilities =
                             Some(value.split(',').map(|w| w.trim().to_string()).collect())
+                    }
+                    "Input Data Formats" => {
+                        input_data_formats =
+                            value.split(',').map(|w| w.trim().to_string()).collect()
+                    }
+                    "Output Data Formats" => {
+                        output_data_formats =
+                            value.split(',').map(|w| w.trim().to_string()).collect()
                     }
                     "Modeling Paradigm" => {
                         modeling_paradigm =
