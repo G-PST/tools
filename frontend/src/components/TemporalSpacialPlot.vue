@@ -50,21 +50,6 @@
 
     <br />
 
-    <div class="row">
-      <div class="col">
-        <select class="form-control" v-model="selection1">
-          <option>temporal_resolution</option>
-          <option>temporal_scope</option>
-        </select>
-      </div>
-      <div class="col">
-        <select class="form-control" v-model="selection2">
-          <option>spatial_resolution</option>
-          <option>spatial_scope</option>
-        </select>
-      </div>
-    </div>
-
     <div id="chart" class="col" />
   </div>
 </template>
@@ -157,16 +142,6 @@ export default {
     data: {},
   },
   watch: {
-    selection1: {
-      handler() {
-        this.updatePlot();
-      },
-    },
-    selection2: {
-      handler() {
-        this.updatePlot();
-      },
-    },
     getTools: {
       handler() {
         this.selectedTools = this.getTools.map((d) => d.name);
@@ -188,7 +163,7 @@ export default {
       width: window.innerWidth * 0.5,
       height: window.innerHeight * 0.5,
       selection1: "temporal_resolution",
-      selection2: "spatial_resolution",
+      selection2: "spatial_scope",
       margin: {
         top: 75,
         right: 75,
