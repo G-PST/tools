@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<body>
+
+<!DOCTYPE html>
+
+
+<div></div>
+
+
+
+<p>List of Models</p>
+
+
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<div id="menu">
+    <button onClick="doUpdate();">ReEDS</button>
+    <button onClick="doUpdate();">PowerMat</button>
+    <button onClick="doUpdate();">PLEXO</button>
+</div> -->
+
+<script>
+var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+function doUpdate() {
+	var rand = Math.floor( Math.random() * 26 );
+	var myData = letters.slice(0, rand).split('');
+	update(myData);
+}
+
+function update(data) {
+	var u = d3.select('#content')
+	  .selectAll('div')
+	  .data(data);
+
+	u.enter()
+	  .append('div')
+	  .merge(u)
+		.text(function(d) {
+			return d;
+		});
+
+	u.exit().remove();
+}
+
+doUpdate();
+  
+</script>

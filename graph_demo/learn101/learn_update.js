@@ -823,372 +823,40 @@ var jsonObject = [
 
 
 
-
-// Issues:
-// - lincense has missing value   { name: 'plt.license.' },
-//      in the name     { name: 'plt.license.Permissive (open-source, eg. BSD)' },
-//      in the lincense "..Net"
-// - typical spatial scope has missing value  { name: 'plt.typical_spatial_scope.typ_spa_sco-' },
-// - need to update the code to map "highest_spatial_scope" here with Git's "largest_spatial_scope"
-//      the Git has "largest_spatial_scope", but the curl function gets "highest_spatial_scope"
-// - same applies to "largest_temporal_scope"
-//      
+var selected_name = [['ReEDS'],['psst']];
+var selected_jsonObject = [];
 
 
-function remove_duplicates(arr) {
-    var seen = {};
-    var ret_arr = [];
-    for (var i = 0; i < arr.length; i++) {
-        if (!(arr[i] in seen)) {
-            ret_arr.push(arr[i]);
-            seen[arr[i]] = true;
+// update filter per filter name
+for (i in jsonObject){
+
+    for (j in selected_name){
+
+        // console.log(selected_name[j]);
+
+        // if(jsonObject[i].name == "ReEDS" || jsonObject[i].name == "psst"){
+        if(jsonObject[i].name == selected_name[j]){
+        // console.log();
+        // console.log("found");
+
+        var obj = {};
+        obj = jsonObject[i];
+
+        selected_jsonObject.push(obj);
+
         }
-    }
-    return ret_arr;
-}
 
-
-// #1
-//--- Extact Values of Each Key ---//
-var all_name = [];
-var all_language = [];
-// scope
-var all_typical_temporal_scope = [];
-var all_largest_temporal_scope = [];
-var all_largest_spatial_scope = [];
-var all_typical_temporal_resolution = [];
-var all_highest_temporal_resolution = [];
-var all_highest_spatial_resolution = [];
-// spatial 
-var all_typical_spatial_resolution = [];
-var all_typical_spatial_scope = [];
-
-var all_modeling_paradigm = [];
-var all_operating_systems = [];
-var all_infrastructure_sector = [];
-var all_license = [];
-var all_input_data_formats = [];
-var all_output_data_formats = [];
-
-// var all_pair = {};
-var all_pair = [];
-
-
-// fix missing null value
-for (i in jsonObject) {
-
-    for (j in jsonObject[i]) {
-        jsonObject[i][j] = ( (jsonObject[i][j]) == null ? [] : (jsonObject[i][j]) );
     }
 }
 
 
+console.log(selected_jsonObject);
 
 
 
-// const swapValue = (obj) => {
-//     Object.keys(obj).forEach(key => {
-//        if(!obj[key]){
-//           obj[key] = '-';
-//        }
-//     });
-//  };
 
 
-// // replace "." with "-"
-// for (i in jsonObject) {
 
-//     // console.log(jsonObject[i].license)
-
-//     Object.keys(jsonObject[i]).forEach( if(obj[key]){} => {
-//         if(!obj[key]){
-//            obj[key] = '-';
-//         }
-//      });
-
-//      console.log(jsonObject[i].license)
-
-// }
-
-
-
-//-----------------------------//
-//--- Loop: Extracting Data ---//
-//-----------------------------//
-for (var i = 0; i < jsonObject.length; i++){
-
-
-// #2
-//--- loop name for node ---//
-all_name.push(jsonObject[i].name);
-all_language.push(jsonObject[i].language);
-all_typical_temporal_scope.push(jsonObject[i].typical_temporal_scope);
-all_largest_temporal_scope.push(jsonObject[i].highest_temporal_scope);
-all_largest_spatial_scope.push(jsonObject[i].highest_spatial_scope);
-all_typical_temporal_resolution.push(jsonObject[i].typical_temporal_resolution);
-all_highest_temporal_resolution.push(jsonObject[i].highest_temporal_resolution);
-all_highest_spatial_resolution.push(jsonObject[i].highest_spatial_resolution);
-all_typical_spatial_resolution.push(jsonObject[i].typical_spatial_resolution);
-all_typical_spatial_scope.push(jsonObject[i].typical_spatial_scope);
-all_modeling_paradigm.push(jsonObject[i].modeling_paradigm);
-all_operating_systems.push(jsonObject[i].operating_systems);
-all_infrastructure_sector.push(jsonObject[i].infrastructure_sector);
-all_license.push(jsonObject[i].license);
-all_input_data_formats.push(jsonObject[i].input_data_formats);
-all_output_data_formats.push(jsonObject[i].output_data_formats);
-}
-
-// all_lowest_spatial_resolution  = all_lowest_spatial_resolution.filter(function (element) { return element.length >0; });
-// console.log(all_lowest_spatial_resolution);
-
-
-
-
-// #3
-//--- loop pair for directed graphs ---//
-// add string to be compatible for the format of flare plot ---//
-
-//- name ---
-for (var i = 0; i < jsonObject.length; i++){
-
-all_pair[jsonObject[i].name] = 
-            [
-                "plt.typical_temporal_scope.typical_temporal_scope-" 
-                    + jsonObject[i].typical_temporal_scope, // it only has one element
-                "plt.largest_temporal_scope.largest_temporal_scope-" 
-                    + jsonObject[i].highest_temporal_scope, // it only has one element
-                "plt.largest_spatial_scope.largest_spatial_scope-" 
-                    + jsonObject[i].highest_spatial_scope, // it only has one element
-                "plt.typical_temporal_resolution.typical_temporal_resolution-" 
-                    + jsonObject[i].typical_temporal_resolution, // it only has one element  
-                "plt.highest_temporal_resolution.highest_temporal_resolution-" 
-                    + jsonObject[i].highest_temporal_resolution, // it only has one element
-                "plt.highest_spatial_resolution.highest_spatial_resolution-" 
-                    + jsonObject[i].highest_spatial_resolution, // it only has one element            
-                "plt.typical_spatial_resolution.typical_spatial_resolution-" 
-                    + jsonObject[i].typical_spatial_resolution, // it only has one element            
-                "plt.typical_spatial_scope.typical_spatial_scope-" 
-                    + jsonObject[i].typical_spatial_scope, // it only has one element            
-                "plt.license." 
-                    + jsonObject[i].license, // it only has one element
-
-            ...jsonObject[i].language.map(j => "plt.language.language-" + j),
-            ...jsonObject[i].modeling_paradigm.map(j => "plt.modeling_paradigm." + j),
-            ...jsonObject[i].operating_systems.map(j => "plt.operating_systems." + j),            
-            ...jsonObject[i].infrastructure_sector.map(j => "plt.infrastructure_sector." + j),
-            ...jsonObject[i].input_data_formats.map(j => "plt.input_data_formats.input_data_format-" + j),
-            ...jsonObject[i].output_data_formats.map(j => "plt.output_data_formats.output_data_format-" + j)
-        ];
-}
-
-
-
-//--- remove null value out of all_pair ---//
-// only work if there is only one value like in highest_temp_scope
-for (i in all_pair) {
-    var PATTERN = 'null',
-    filtered = all_pair[i].filter(function (str) { return str.indexOf(PATTERN) === -1; });
-    all_pair[i] = filtered
-}
-
-
-
-
-//--- Make all_pair into Name and Import Format ---//
-// correcting node name with dot
-
-// console.log(all_pair);
-
-
-var getPair = [];
-
-for (i in all_pair) {
-    
-    var obj = {};
-    var dummy_name = [i];  
-
-    // console.log()
-
-    // replace "." with "-" in the model's name
-    dummy_name = dummy_name.map(function (value) {
-        return value.replace(".","-")});
-
-    obj['name'] = "plt.name."+ dummy_name ;
-
-
-    // for (j in all_pair[i]) {
-
-    //     var dummy_import = [];
-    //     dummy_import = [all_pair[i][j]];  
-
-    //     // console.log(dummy_import); 
-    //     dummy_import = dummy_import.map(function (value2) {
-    //         return value2.replace(".","-")});
-
-    //     console.log(dummy_import);
-    // }
-
-    obj['imports'] = all_pair[i];
-
-    getPair.push(obj);
-
-}
-
-
-// console.log(getPair);
-
-
-
-// #4
-//--- Merge Elements in Array ---//
-// merge for each key if having multiple values
-all_language          = Array.prototype.concat.apply([], all_language);
-all_modeling_paradigm = Array.prototype.concat.apply([], all_modeling_paradigm);
-// all_typical_temporal_scope  --> no need to merge
-// all_largest_temporal_scope  --> no need to merge
-// all_typical_temporal_resolution  --> no need to merge
-// all_highest_temporal_resolution  --> no need to merge
-// all_lowest_spatial_resolution  --> no need to merge
-// all_typical_spatial_resolution --> no need to merge
-// all_highest_spatial_resolution --> no need to merge
-// all_lowest_spatial_scope --> no need to merge
-// all_largest_spatial_scope --> no need to merge
-// all_typical_spatial_scope --> no need to merge
-// all_license --> no need to merge
-all_operating_systems       = Array.prototype.concat.apply([], all_operating_systems);
-all_infrastructure_sector   = Array.prototype.concat.apply([], all_infrastructure_sector);
-all_input_data_formats   = Array.prototype.concat.apply([], all_input_data_formats);
-all_output_data_formats   = Array.prototype.concat.apply([], all_output_data_formats);
-
-
-
-// #5
-//--- remove duplicate ---//
-all_language                    = remove_duplicates(all_language)
-all_modeling_paradigm           = remove_duplicates(all_modeling_paradigm)
-all_typical_temporal_scope      = remove_duplicates(all_typical_temporal_scope)
-all_largest_temporal_scope      = remove_duplicates(all_largest_temporal_scope)
-all_largest_spatial_scope       = remove_duplicates(all_largest_spatial_scope)
-all_typical_temporal_resolution = remove_duplicates(all_typical_temporal_resolution)
-all_highest_temporal_resolution = remove_duplicates(all_highest_temporal_resolution)
-all_highest_spatial_resolution  = remove_duplicates(all_highest_spatial_resolution)
-all_typical_spatial_resolution  = remove_duplicates(all_typical_spatial_resolution)
-all_typical_spatial_scope       = remove_duplicates(all_typical_spatial_scope)
-
-all_operating_systems           = remove_duplicates(all_operating_systems)
-all_infrastructure_sector       = remove_duplicates(all_infrastructure_sector)
-all_license                     = remove_duplicates(all_license)
-all_input_data_formats          = remove_duplicates(all_input_data_formats)
-all_output_data_formats         = remove_duplicates(all_output_data_formats)
-
-
-// #6
-//--- remove null ---//
-all_language                = all_language.filter(function (element) { return element != null; });
-all_modeling_paradigm       = all_modeling_paradigm.filter(function (element) { return element != null; });
-all_typical_temporal_scope  = all_typical_temporal_scope.filter(function (element) { return element != null; });
-all_largest_temporal_scope  = all_largest_temporal_scope.filter(function (element) { return element != null; });
-all_largest_spatial_scope   = all_largest_spatial_scope.filter(function (element) { return element != null; });
-all_typical_temporal_resolution = all_typical_temporal_resolution.filter(function (element) { return element != null; });
-all_highest_temporal_resolution = all_highest_temporal_resolution.filter(function (element) { return element != null; });
-all_highest_spatial_resolution  = all_highest_spatial_resolution.filter(function (element) { return element != null; });
-all_typical_spatial_resolution  = all_typical_spatial_resolution.filter(function (element) { return element != null; });
-all_typical_spatial_scope       = all_typical_spatial_scope.filter(function (element) { return element != null; });
-all_operating_systems       = all_operating_systems.filter(function (element) { return element != null; });
-all_infrastructure_sector   = all_infrastructure_sector.filter(function (element) { return element != null; });
-all_license                 = all_license.filter(function (element) { return element != null; });
-all_input_data_formats      = all_input_data_formats.filter(function (element) { return element != null; });
-all_output_data_formats     = all_output_data_formats.filter(function (element) { return element != null; });
-
-
-// #7
-//--- add prefix to each element ---//
-all_language                = all_language.map(j => "plt.language.language-" + j);
-all_modeling_paradigm       = all_modeling_paradigm.map(j => "plt.modeling_paradigm." + j);
-all_typical_temporal_scope  = all_typical_temporal_scope.map(j => "plt.typical_temporal_scope.typical_temporal_scope-" + j);
-all_largest_temporal_scope  = all_largest_temporal_scope.map(j => "plt.largest_temporal_scope.largest_temporal_scope-" + j);
-all_largest_spatial_scope   = all_largest_spatial_scope.map(j => "plt.largest_spatial_scope.largest_spatial_scope-" + j);
-all_typical_temporal_resolution  = all_typical_temporal_resolution.map(j => "plt.typical_temporal_resolution.typical_temporal_resolution-" + j);
-all_highest_temporal_resolution  = all_highest_temporal_resolution.map(j => "plt.highest_temporal_resolution.highest_temporal_resolution-" + j);
-all_highest_spatial_resolution   = all_highest_spatial_resolution.map(j => "plt.highest_spatial_resolution.highest_spatial_resolution-" + j);
-all_typical_spatial_resolution   = all_typical_spatial_resolution.map(j => "plt.typical_spatial_resolution.typical_spatial_resolution-" + j);
-all_typical_spatial_scope        = all_typical_spatial_scope.map(j => "plt.typical_spatial_scope.typical_spatial_scope-" + j);
-all_operating_systems       = all_operating_systems.map(j => "plt.operating_systems." + j);
-all_infrastructure_sector   = all_infrastructure_sector.map(j => "plt.infrastructure_sector." + j);
-all_license   = all_license.map(j => "plt.license." + j);
-all_input_data_formats    = all_input_data_formats.map(j => "plt.input_data_formats.input_data_format-" + j);
-all_output_data_formats   = all_output_data_formats.map(j => "plt.output_data_formats.output_data_format-" + j);
-
-
-// #8 - last one
-//--- Make Individual Node ---//
-var arrayNode = [
-                // no need for all name 
-                ...all_language,
-                ...all_typical_temporal_scope,
-                ...all_largest_temporal_scope,
-                ...all_typical_temporal_resolution,
-                ...all_highest_temporal_resolution,
-                ...all_typical_spatial_scope,
-                ...all_largest_spatial_scope,
-                ...all_typical_spatial_resolution,
-                ...all_highest_spatial_resolution,
-                ...all_modeling_paradigm,
-                ...all_operating_systems,
-                ...all_infrastructure_sector,
-                ...all_license,
-                ...all_input_data_formats,
-                ...all_output_data_formats
-              ];
-
-
-var getNode = [];
-for (i in arrayNode) {
-    var objNode = {};
-    objNode['name'] = arrayNode[i];
-    getNode.push(objNode);
-}
-
-// console.log();
-// console.log(arrayNode);
-// console.log([...getPair,...getNode]);
-
-
-//--------------//
-//--- output ---//
-//--------------//
-
-// output
-var data_final = [...getNode,...getPair];
-
-
-
-
-
-
-
-
-
-
-
-
-// console.log( JSON.stringify(data_final, undefined, 2) );
-// console.log("original data:");
+// print out
 // console.log(jsonObject);
 
-
-const fs = require('fs');
-fs.writeFile("/Users/pchanpiw/Documents/Git_PTN111/tools/graph_demo/hierarchical_edge/flare2.json", JSON.stringify(data_final), function(err) {
-    if(err) {
-        return console.log(err);
-    }
-    console.log("The file was saved!");
-}); 
-
-
-
-console.log(data_final);
-
-
-
-// ****    'plt.highest_temporal_resolution.highest_temporal_resolution-null',
