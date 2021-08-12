@@ -68,863 +68,718 @@
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
 
-var classes = [
-  {
-    "name": "plt.language.language-.NET"
-  },
-  {
-    "name": "plt.language.language-C++"
-  },
-  {
-    "name": "plt.language.language-C"
-  },
-  {
-    "name": "plt.language.language-HTML"
-  },
-  {
-    "name": "plt.language.language-GAMS"
-  },
-  {
-    "name": "plt.language.language-Python"
-  },
-  {
-    "name": "plt.language.language-MATLAB"
-  },
-  {
-    "name": "plt.language.language-GNU Octave"
-  },
-  {
-    "name": "plt.language.language-Julia"
-  },
-  {
-    "name": "plt.language.language-Delphi"
-  },
-  {
-    "name": "plt.typical_temporal_scope.typical_temporal_scope-years"
-  },
-  {
-    "name": "plt.typical_temporal_scope.typical_temporal_scope-hours"
-  },
-  {
-    "name": "plt.typical_temporal_scope.typical_temporal_scope-decades"
-  },
-  {
-    "name": "plt.typical_temporal_scope.typical_temporal_scope-"
-  },
-  {
-    "name": "plt.typical_temporal_scope.typical_temporal_scope-months"
-  },
-  {
-    "name": "plt.typical_temporal_scope.typical_temporal_scope-seconds"
-  },
-  {
-    "name": "plt.typical_temporal_scope.typical_temporal_scope-minutes"
-  },
-  {
-    "name": "plt.largest_temporal_scope.largest_temporal_scope-decades"
-  },
-  {
-    "name": "plt.largest_temporal_scope.largest_temporal_scope-years"
-  },
-  {
-    "name": "plt.largest_temporal_scope.largest_temporal_scope-seconds"
-  },
-  {
-    "name": "plt.largest_temporal_scope.largest_temporal_scope-hours"
-  },
-  {
-    "name": "plt.largest_temporal_scope.largest_temporal_scope-"
-  },
-  {
-    "name": "plt.largest_temporal_scope.largest_temporal_scope-days"
-  },
-  {
-    "name": "plt.typical_temporal_resolution.typical_temporal_resolution-hours"
-  },
-  {
-    "name": "plt.typical_temporal_resolution.typical_temporal_resolution-minutes"
-  },
-  {
-    "name": "plt.typical_temporal_resolution.typical_temporal_resolution-"
-  },
-  {
-    "name": "plt.highest_temporal_resolution.highest_temporal_resolution-minutes"
-  },
-  {
-    "name": "plt.highest_temporal_resolution.highest_temporal_resolution-"
-  },
-  {
-    "name": "plt.highest_temporal_resolution.highest_temporal_resolution-hours"
-  },
-  {
-    "name": "plt.highest_temporal_resolution.highest_temporal_resolution-instant"
-  },
-  {
-    "name": "plt.highest_temporal_resolution.highest_temporal_resolution-seconds"
-  },
-  {
-    "name": "plt.typical_spatial_scope.typical_spatial_scope-region"
-  },
-  {
-    "name": "plt.typical_spatial_scope.typical_spatial_scope-country"
-  },
-  {
-    "name": "plt.typical_spatial_scope.typical_spatial_scope-facility"
-  },
-  {
-    "name": "plt.typical_spatial_scope.typical_spatial_scope-"
-  },
-  {
-    "name": "plt.typical_spatial_scope.typical_spatial_scope-state"
-  },
-  {
-    "name": "plt.largest_spatial_scope.largest_spatial_scope-continent"
-  },
-  {
-    "name": "plt.largest_spatial_scope.largest_spatial_scope-region"
-  },
-  {
-    "name": "plt.largest_spatial_scope.largest_spatial_scope-facility"
-  },
-  {
-    "name": "plt.largest_spatial_scope.largest_spatial_scope-"
-  },
-  {
-    "name": "plt.largest_spatial_scope.largest_spatial_scope-country"
-  },
-  {
-    "name": "plt.largest_spatial_scope.largest_spatial_scope-county"
-  },
-  {
-    "name": "plt.typical_spatial_resolution.typical_spatial_resolution-facility"
-  },
-  {
-    "name": "plt.typical_spatial_resolution.typical_spatial_resolution-region"
-  },
-  {
-    "name": "plt.typical_spatial_resolution.typical_spatial_resolution-device"
-  },
-  {
-    "name": "plt.typical_spatial_resolution.typical_spatial_resolution-component"
-  },
-  {
-    "name": "plt.typical_spatial_resolution.typical_spatial_resolution-"
-  },
-  {
-    "name": "plt.typical_spatial_resolution.typical_spatial_resolution-state"
-  },
-  {
-    "name": "plt.highest_spatial_resolution.highest_spatial_resolution-device"
-  },
-  {
-    "name": "plt.highest_spatial_resolution.highest_spatial_resolution-county"
-  },
-  {
-    "name": "plt.highest_spatial_resolution.highest_spatial_resolution-component"
-  },
-  {
-    "name": "plt.highest_spatial_resolution.highest_spatial_resolution-facility"
-  },
-  {
-    "name": "plt.highest_spatial_resolution.highest_spatial_resolution-"
-  },
-  {
-    "name": "plt.highest_spatial_resolution.highest_spatial_resolution-state"
-  },
-  {
-    "name": "plt.highest_spatial_resolution.highest_spatial_resolution-municipality"
-  },
-  {
-    "name": "plt.modeling_paradigm.Optimization"
-  },
-  {
-    "name": "plt.modeling_paradigm.Discrete Simulation"
-  },
-  {
-    "name": "plt.modeling_paradigm.Visualization"
-  },
-  {
-    "name": "plt.modeling_paradigm.Data"
-  },
-  {
-    "name": "plt.modeling_paradigm.Engineering/Design"
-  },
-  {
-    "name": "plt.modeling_paradigm.Analytics"
-  },
-  {
-    "name": "plt.modeling_paradigm.Dynamic Simulation"
-  },
-  {
-    "name": "plt.modeling_paradigm.Simulation"
-  },
-  {
-    "name": "plt.modeling_paradigm.Engineering/Designtion"
-  },
-  {
-    "name": "plt.modeling_paradigm.Descrete Simulation"
-  },
-  {
-    "name": "plt.operating_systems.Windows"
-  },
-  {
-    "name": "plt.operating_systems.Mac OSX"
-  },
-  {
-    "name": "plt.operating_systems.Linux"
-  },
-  {
-    "name": "plt.infrastructure_sector.Electric"
-  },
-  {
-    "name": "plt.infrastructure_sector.Natural Gas"
-  },
-  {
-    "name": "plt.infrastructure_sector.Transportation"
-  },
-  {
-    "name": "plt.infrastructure_sector.Buildings"
-  },
-  {
-    "name": "plt.license.Proprietary (commercial)"
-  },
-  {
-    "name": "plt.license.Permissive (open-source, eg. BSD)"
-  },
-  {
-    "name": "plt.license.Private"
-  },
-  {
-    "name": "plt.license.Permissive (open-source, eg. BSD),"
-  },
-  {
-    "name": "plt.license."
-  },
-  {
-    "name": "plt.input_data_formats.input_data_format-XML"
-  },
-  {
-    "name": "plt.input_data_formats.input_data_format-CSV"
-  },
-  {
-    "name": "plt.input_data_formats.input_data_format-GLM"
-  },
-  {
-    "name": "plt.input_data_formats.input_data_format-Matlab M-files"
-  },
-  {
-    "name": "plt.input_data_formats.input_data_format-MATPOWER"
-  },
-  {
-    "name": "plt.input_data_formats.input_data_format-RAW"
-  },
-  {
-    "name": "plt.input_data_formats.input_data_format-DYR"
-  },
-  {
-    "name": "plt.input_data_formats.input_data_format-XLSX"
-  },
-  {
-    "name": "plt.input_data_formats.input_data_format-Excel"
-  },
-  {
-    "name": "plt.input_data_formats.input_data_format-text files"
-  },
-  {
-    "name": "plt.input_data_formats.input_data_format-Pandas"
-  },
-  {
-    "name": "plt.input_data_formats.input_data_format-Text File"
-  },
-  {
-    "name": "plt.input_data_formats.input_data_format-SQL"
-  },
-  {
-    "name": "plt.input_data_formats.input_data_format-JSON"
-  },
-  {
-    "name": "plt.output_data_formats.output_data_format-XML"
-  },
-  {
-    "name": "plt.output_data_formats.output_data_format-NA"
-  },
-  {
-    "name": "plt.output_data_formats.output_data_format-CSV"
-  },
-  {
-    "name": "plt.output_data_formats.output_data_format-GDX"
-  },
-  {
-    "name": "plt.output_data_formats.output_data_format-Matlab M-files"
-  },
-  {
-    "name": "plt.output_data_formats.output_data_format-JSON"
-  },
-  {
-    "name": "plt.output_data_formats.output_data_format-DataFrames.jl"
-  },
-  {
-    "name": "plt.output_data_formats.output_data_format-Any"
-  },
-  {
-    "name": "plt.output_data_formats.output_data_format-Excel"
-  },
-  {
-    "name": "plt.output_data_formats.output_data_format-text files"
-  },
-  {
-    "name": "plt.output_data_formats.output_data_format-Pandas"
-  },
-  {
-    "name": "plt.output_data_formats.output_data_format-Text File"
-  },
-  {
-    "name": "plt.output_data_formats.output_data_format-SQL"
-  },
-  {
-    "imports": [
-      "plt.typical_temporal_scope.typical_temporal_scope-years",
-      "plt.largest_temporal_scope.largest_temporal_scope-decades",
-      "plt.largest_spatial_scope.largest_spatial_scope-continent",
-      "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
-      "plt.highest_temporal_resolution.highest_temporal_resolution-minutes",
-      "plt.highest_spatial_resolution.highest_spatial_resolution-device",
-      "plt.typical_spatial_resolution.typical_spatial_resolution-facility",
-      "plt.typical_spatial_scope.typical_spatial_scope-region",
-      "plt.license.Proprietary (commercial)",
-      "plt.language.language-.NET",
-      "plt.modeling_paradigm.Optimization",
-      "plt.input_data_formats.input_data_format-XML",
-      "plt.output_data_formats.output_data_format-XML"
-    ],
-    "name": "plt.name.PLEXOS"
-  },
-  {
-    "imports": [
-      "plt.typical_temporal_scope.typical_temporal_scope-hours",
-      "plt.largest_temporal_scope.largest_temporal_scope-years",
-      "plt.largest_spatial_scope.largest_spatial_scope-region",
-      "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
-      "plt.highest_temporal_resolution.highest_temporal_resolution-",
-      "plt.highest_spatial_resolution.highest_spatial_resolution-device",
-      "plt.typical_spatial_resolution.typical_spatial_resolution-region",
-      "plt.typical_spatial_scope.typical_spatial_scope-region",
-      "plt.license.Permissive (open-source, eg. BSD)",
-      "plt.language.language-C++",
-      "plt.language.language-C",
-      "plt.language.language-HTML",
-      "plt.modeling_paradigm.Optimization",
-      "plt.modeling_paradigm.Discrete Simulation",
-      "plt.modeling_paradigm.Visualization",
-      "plt.modeling_paradigm.Data",
-      "plt.modeling_paradigm.Engineering/Design",
-      "plt.input_data_formats.input_data_format-CSV",
-      "plt.input_data_formats.input_data_format-GLM",
-      "plt.output_data_formats.output_data_format-NA"
-    ],
-    "name": "plt.name.GridLAB-D"
-  },
-  {
-    "imports": [
-      "plt.typical_temporal_scope.typical_temporal_scope-decades",
-      "plt.largest_temporal_scope.largest_temporal_scope-decades",
-      "plt.largest_spatial_scope.largest_spatial_scope-continent",
-      "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
-      "plt.highest_temporal_resolution.highest_temporal_resolution-hours",
-      "plt.highest_spatial_resolution.highest_spatial_resolution-county",
-      "plt.typical_spatial_resolution.typical_spatial_resolution-region",
-      "plt.typical_spatial_scope.typical_spatial_scope-country",
-      "plt.license.Private",
-      "plt.language.language-GAMS",
-      "plt.language.language-Python",
-      "plt.modeling_paradigm.Optimization",
-      "plt.modeling_paradigm.Analytics",
-      "plt.modeling_paradigm.Data",
-      "plt.modeling_paradigm.Engineering/Design",
-      "plt.input_data_formats.input_data_format-CSV",
-      "plt.output_data_formats.output_data_format-CSV",
-      "plt.output_data_formats.output_data_format-GDX"
-    ],
-    "name": "plt.name.ReEDS"
-  },
-  {
-    "imports": [
-      "plt.typical_temporal_scope.typical_temporal_scope-hours",
-      "plt.largest_temporal_scope.largest_temporal_scope-years",
-      "plt.largest_spatial_scope.largest_spatial_scope-region",
-      "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
-      "plt.highest_temporal_resolution.highest_temporal_resolution-minutes",
-      "plt.highest_spatial_resolution.highest_spatial_resolution-device",
-      "plt.typical_spatial_resolution.typical_spatial_resolution-facility",
-      "plt.typical_spatial_scope.typical_spatial_scope-region",
-      "plt.license.Permissive (open-source, eg. BSD)",
-      "plt.language.language-MATLAB",
-      "plt.language.language-GNU Octave",
-      "plt.language.language-C",
-      "plt.modeling_paradigm.Optimization",
-      "plt.modeling_paradigm.Visualization",
-      "plt.modeling_paradigm.Analytics",
-      "plt.modeling_paradigm.Data",
-      "plt.modeling_paradigm.Discrete Simulation",
-      "plt.input_data_formats.input_data_format-Matlab M-files",
-      "plt.output_data_formats.output_data_format-Matlab M-files"
-    ],
-    "name": "plt.name.MATPOWER"
-  },
-  {
-    "imports": [
-      "plt.typical_temporal_scope.typical_temporal_scope-",
-      "plt.largest_temporal_scope.largest_temporal_scope-years",
-      "plt.largest_spatial_scope.largest_spatial_scope-continent",
-      "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
-      "plt.highest_temporal_resolution.highest_temporal_resolution-instant",
-      "plt.highest_spatial_resolution.highest_spatial_resolution-device",
-      "plt.typical_spatial_resolution.typical_spatial_resolution-facility",
-      "plt.typical_spatial_scope.typical_spatial_scope-region",
-      "plt.license.Permissive (open-source, eg. BSD)",
-      "plt.language.language-Julia",
-      "plt.modeling_paradigm.Optimization",
-      "plt.input_data_formats.input_data_format-MATPOWER",
-      "plt.input_data_formats.input_data_format-RAW",
-      "plt.output_data_formats.output_data_format-JSON"
-    ],
-    "name": "plt.name.PowerModels-jl"
-  },
-  {
-    "imports": [
-      "plt.typical_temporal_scope.typical_temporal_scope-months",
-      "plt.largest_temporal_scope.largest_temporal_scope-years",
-      "plt.largest_spatial_scope.largest_spatial_scope-continent",
-      "plt.typical_temporal_resolution.typical_temporal_resolution-minutes",
-      "plt.highest_temporal_resolution.highest_temporal_resolution-seconds",
-      "plt.highest_spatial_resolution.highest_spatial_resolution-component",
-      "plt.typical_spatial_resolution.typical_spatial_resolution-device",
-      "plt.typical_spatial_scope.typical_spatial_scope-region",
-      "plt.license.Permissive (open-source, eg. BSD)",
-      "plt.language.language-Julia",
-      "plt.modeling_paradigm.Optimization",
-      "plt.modeling_paradigm.Discrete Simulation",
-      "plt.input_data_formats.input_data_format-MATPOWER",
-      "plt.input_data_formats.input_data_format-RAW",
-      "plt.input_data_formats.input_data_format-CSV",
-      "plt.output_data_formats.output_data_format-CSV",
-      "plt.output_data_formats.output_data_format-DataFrames.jl",
-      "plt.output_data_formats.output_data_format-Any"
-    ],
-    "name": "plt.name.PowerSimulations-jl"
-  },
-  {
-    "imports": [
-      "plt.typical_temporal_scope.typical_temporal_scope-seconds",
-      "plt.largest_temporal_scope.largest_temporal_scope-seconds",
-      "plt.largest_spatial_scope.largest_spatial_scope-region",
-      "plt.typical_temporal_resolution.typical_temporal_resolution-",
-      "plt.highest_temporal_resolution.highest_temporal_resolution-instant",
-      "plt.highest_spatial_resolution.highest_spatial_resolution-component",
-      "plt.typical_spatial_resolution.typical_spatial_resolution-component",
-      "plt.typical_spatial_scope.typical_spatial_scope-region",
-      "plt.license.Permissive (open-source, eg. BSD),",
-      "plt.language.language-Python",
-      "plt.modeling_paradigm.Dynamic Simulation",
-      "plt.input_data_formats.input_data_format-MATPOWER",
-      "plt.input_data_formats.input_data_format-DYR",
-      "plt.input_data_formats.input_data_format-XLSX",
-      "plt.output_data_formats.output_data_format-NA"
-    ],
-    "name": "plt.name.ANDES"
-  },
-  {
-    "imports": [
-      "plt.typical_temporal_scope.typical_temporal_scope-hours",
-      "plt.largest_temporal_scope.largest_temporal_scope-hours",
-      "plt.largest_spatial_scope.largest_spatial_scope-facility",
-      "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
-      "plt.highest_temporal_resolution.highest_temporal_resolution-minutes",
-      "plt.highest_spatial_resolution.highest_spatial_resolution-component",
-      "plt.typical_spatial_resolution.typical_spatial_resolution-facility",
-      "plt.typical_spatial_scope.typical_spatial_scope-facility",
-      "plt.license.Permissive (open-source, eg. BSD)",
-      "plt.language.language-C++",
-      "plt.modeling_paradigm.Simulation",
-      "plt.modeling_paradigm.Visualization",
-      "plt.modeling_paradigm.Engineering/Designtion",
-      "plt.input_data_formats.input_data_format-Excel",
-      "plt.input_data_formats.input_data_format-text files",
-      "plt.output_data_formats.output_data_format-Excel",
-      "plt.output_data_formats.output_data_format-text files"
-    ],
-    "name": "plt.name.SAM"
-  },
-  {
-    "imports": [
-      "plt.typical_temporal_scope.typical_temporal_scope-decades",
-      "plt.largest_temporal_scope.largest_temporal_scope-decades",
-      "plt.largest_spatial_scope.largest_spatial_scope-continent",
-      "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
-      "plt.highest_temporal_resolution.highest_temporal_resolution-minutes",
-      "plt.highest_spatial_resolution.highest_spatial_resolution-facility",
-      "plt.typical_spatial_resolution.typical_spatial_resolution-region",
-      "plt.typical_spatial_scope.typical_spatial_scope-region",
-      "plt.license.Permissive (open-source, eg. BSD)",
-      "plt.language.language-Python",
-      "plt.modeling_paradigm.Optimization",
-      "plt.input_data_formats.input_data_format-MATPOWER",
-      "plt.input_data_formats.input_data_format-CSV",
-      "plt.output_data_formats.output_data_format-Pandas"
-    ],
-    "name": "plt.name.SWITCH"
-  },
-  {
-    "imports": [
-      "plt.typical_temporal_scope.typical_temporal_scope-hours",
-      "plt.largest_temporal_scope.largest_temporal_scope-years",
-      "plt.largest_spatial_scope.largest_spatial_scope-continent",
-      "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
-      "plt.highest_temporal_resolution.highest_temporal_resolution-instant",
-      "plt.highest_spatial_resolution.highest_spatial_resolution-component",
-      "plt.typical_spatial_resolution.typical_spatial_resolution-facility",
-      "plt.typical_spatial_scope.typical_spatial_scope-region",
-      "plt.license.Permissive (open-source, eg. BSD)",
-      "plt.language.language-Python",
-      "plt.modeling_paradigm.Optimization",
-      "plt.modeling_paradigm.Descrete Simulation",
-      "plt.modeling_paradigm.Dynamic Simulation",
-      "plt.modeling_paradigm.Analytics",
-      "plt.modeling_paradigm.Visualization",
-      "plt.input_data_formats.input_data_format-MATPOWER",
-      "plt.input_data_formats.input_data_format-Pandas",
-      "plt.output_data_formats.output_data_format-Pandas"
-    ],
-    "name": "plt.name.PandaPower"
-  },
-  {
-    "imports": [
-      "plt.typical_temporal_scope.typical_temporal_scope-minutes",
-      "plt.largest_temporal_scope.largest_temporal_scope-years",
-      "plt.largest_spatial_scope.largest_spatial_scope-",
-      "plt.typical_temporal_resolution.typical_temporal_resolution-minutes",
-      "plt.highest_temporal_resolution.highest_temporal_resolution-seconds",
-      "plt.highest_spatial_resolution.highest_spatial_resolution-",
-      "plt.typical_spatial_resolution.typical_spatial_resolution-",
-      "plt.typical_spatial_scope.typical_spatial_scope-",
-      "plt.license.Permissive (open-source, eg. BSD)",
-      "plt.language.language-Delphi",
-      "plt.modeling_paradigm.Discrete Simulation",
-      "plt.modeling_paradigm.Visualization",
-      "plt.modeling_paradigm.Analytics",
-      "plt.modeling_paradigm.Data",
-      "plt.modeling_paradigm.Engineering/Design",
-      "plt.input_data_formats.input_data_format-CSV",
-      "plt.input_data_formats.input_data_format-Text File",
-      "plt.output_data_formats.output_data_format-CSV",
-      "plt.output_data_formats.output_data_format-Text File"
-    ],
-    "name": "plt.name.OpenDSS"
-  },
-  {
-    "imports": [
-      "plt.typical_temporal_scope.typical_temporal_scope-",
-      "plt.largest_temporal_scope.largest_temporal_scope-",
-      "plt.largest_spatial_scope.largest_spatial_scope-",
-      "plt.typical_temporal_resolution.typical_temporal_resolution-",
-      "plt.highest_temporal_resolution.highest_temporal_resolution-",
-      "plt.highest_spatial_resolution.highest_spatial_resolution-",
-      "plt.typical_spatial_resolution.typical_spatial_resolution-",
-      "plt.typical_spatial_scope.typical_spatial_scope-",
-      "plt.license.Permissive (open-source, eg. BSD)",
-      "plt.language.language-Python",
-      "plt.language.language-Julia",
-      "plt.language.language-GAMS",
-      "plt.modeling_paradigm.Optimization",
-      "plt.modeling_paradigm.Discrete Simulation",
-      "plt.modeling_paradigm.Dynamic Simulation",
-      "plt.modeling_paradigm.Analytics",
-      "plt.modeling_paradigm.Visualization",
-      "plt.modeling_paradigm.Data",
-      "plt.modeling_paradigm.Engineering/Design",
-      "plt.input_data_formats.input_data_format-CSV",
-      "plt.input_data_formats.input_data_format-SQL",
-      "plt.output_data_formats.output_data_format-CSV",
-      "plt.output_data_formats.output_data_format-SQL"
-    ],
-    "name": "plt.name.Spine Toolbox"
-  },
-  {
-    "imports": [
-      "plt.typical_temporal_scope.typical_temporal_scope-hours",
-      "plt.largest_temporal_scope.largest_temporal_scope-days",
-      "plt.largest_spatial_scope.largest_spatial_scope-country",
-      "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
-      "plt.highest_temporal_resolution.highest_temporal_resolution-hours",
-      "plt.highest_spatial_resolution.highest_spatial_resolution-state",
-      "plt.typical_spatial_resolution.typical_spatial_resolution-state",
-      "plt.typical_spatial_scope.typical_spatial_scope-state",
-      "plt.license.",
-      "plt.language.language-Python",
-      "plt.modeling_paradigm.Optimization",
-      "plt.modeling_paradigm.Visualization",
-      "plt.operating_systems.Windows",
-      "plt.operating_systems.Mac OSX",
-      "plt.operating_systems.Linux",
-      "plt.infrastructure_sector.Electric"
-    ],
-    "name": "plt.name.psst"
-  },
-  {
-    "imports": [
-      "plt.typical_temporal_scope.typical_temporal_scope-years",
-      "plt.largest_temporal_scope.largest_temporal_scope-years",
-      "plt.largest_spatial_scope.largest_spatial_scope-county",
-      "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
-      "plt.highest_temporal_resolution.highest_temporal_resolution-hours",
-      "plt.highest_spatial_resolution.highest_spatial_resolution-facility",
-      "plt.typical_spatial_resolution.typical_spatial_resolution-facility",
-      "plt.typical_spatial_scope.typical_spatial_scope-country",
-      "plt.license.",
-      "plt.language.language-Julia",
-      "plt.language.language-Python",
-      "plt.modeling_paradigm.Optimization",
-      "plt.modeling_paradigm.Visualization",
-      "plt.modeling_paradigm.Data",
-      "plt.operating_systems.Windows",
-      "plt.operating_systems.Mac OSX",
-      "plt.operating_systems.Linux",
-      "plt.infrastructure_sector.Electric"
-    ],
-    "name": "plt.name.PowerSimData-REISE-jl"
-  },
-  {
-    "imports": [
-      "plt.typical_temporal_scope.typical_temporal_scope-years",
-      "plt.largest_temporal_scope.largest_temporal_scope-",
-      "plt.largest_spatial_scope.largest_spatial_scope-",
-      "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
-      "plt.highest_temporal_resolution.highest_temporal_resolution-minutes",
-      "plt.highest_spatial_resolution.highest_spatial_resolution-municipality",
-      "plt.typical_spatial_resolution.typical_spatial_resolution-facility",
-      "plt.typical_spatial_scope.typical_spatial_scope-facility",
-      "plt.license.",
-      "plt.language.language-Julia",
-      "plt.language.language-Python",
-      "plt.modeling_paradigm.Optimization",
-      "plt.operating_systems.Windows",
-      "plt.operating_systems.Mac OSX",
-      "plt.operating_systems.Linux",
-      "plt.infrastructure_sector.Electric",
-      "plt.infrastructure_sector.Natural Gas",
-      "plt.infrastructure_sector.Transportation",
-      "plt.infrastructure_sector.Buildings",
-      "plt.input_data_formats.input_data_format-JSON",
-      "plt.output_data_formats.output_data_format-JSON"
-    ],
-    "name": "plt.name.REopt Tool"
-  }
+var classes_1 = [
+    {
+        "name": "plt.language.language-.NET"
+    },
+    {
+        "name": "plt.language.language-C++"
+    },
+    {
+        "name": "plt.language.language-C"
+    },
+    {
+        "name": "plt.language.language-HTML"
+    },
+    {
+        "name": "plt.language.language-GAMS"
+    },
+    {
+        "name": "plt.language.language-Python"
+    },
+    {
+        "name": "plt.language.language-MATLAB"
+    },
+    {
+        "name": "plt.language.language-GNU Octave"
+    },
+    {
+        "name": "plt.language.language-Julia"
+    },
+    {
+        "name": "plt.language.language-Delphi"
+    },
+    {
+        "name": "plt.typical_temporal_scope.typical_temporal_scope-years"
+    },
+    {
+        "name": "plt.typical_temporal_scope.typical_temporal_scope-hours"
+    },
+    {
+        "name": "plt.typical_temporal_scope.typical_temporal_scope-decades"
+    },
+    {
+        "name": "plt.typical_temporal_scope.typical_temporal_scope-"
+    },
+    {
+        "name": "plt.typical_temporal_scope.typical_temporal_scope-months"
+    },
+    {
+        "name": "plt.typical_temporal_scope.typical_temporal_scope-seconds"
+    },
+    {
+        "name": "plt.typical_temporal_scope.typical_temporal_scope-minutes"
+    },
+    {
+        "name": "plt.largest_temporal_scope.largest_temporal_scope-decades"
+    },
+    {
+        "name": "plt.largest_temporal_scope.largest_temporal_scope-years"
+    },
+    {
+        "name": "plt.largest_temporal_scope.largest_temporal_scope-seconds"
+    },
+    {
+        "name": "plt.largest_temporal_scope.largest_temporal_scope-hours"
+    },
+    {
+        "name": "plt.largest_temporal_scope.largest_temporal_scope-"
+    },
+    {
+        "name": "plt.largest_temporal_scope.largest_temporal_scope-days"
+    },
+    {
+        "name": "plt.typical_temporal_resolution.typical_temporal_resolution-hours"
+    },
+    {
+        "name": "plt.typical_temporal_resolution.typical_temporal_resolution-minutes"
+    },
+    {
+        "name": "plt.typical_temporal_resolution.typical_temporal_resolution-"
+    },
+    {
+        "name": "plt.highest_temporal_resolution.highest_temporal_resolution-minutes"
+    },
+    {
+        "name": "plt.highest_temporal_resolution.highest_temporal_resolution-"
+    },
+    {
+        "name": "plt.highest_temporal_resolution.highest_temporal_resolution-hours"
+    },
+    {
+        "name": "plt.highest_temporal_resolution.highest_temporal_resolution-instant"
+    },
+    {
+        "name": "plt.highest_temporal_resolution.highest_temporal_resolution-seconds"
+    },
+    {
+        "name": "plt.typical_spatial_scope.typical_spatial_scope-region"
+    },
+    {
+        "name": "plt.typical_spatial_scope.typical_spatial_scope-country"
+    },
+    {
+        "name": "plt.typical_spatial_scope.typical_spatial_scope-facility"
+    },
+    {
+        "name": "plt.typical_spatial_scope.typical_spatial_scope-"
+    },
+    {
+        "name": "plt.typical_spatial_scope.typical_spatial_scope-state"
+    },
+    {
+        "name": "plt.largest_spatial_scope.largest_spatial_scope-continent"
+    },
+    {
+        "name": "plt.largest_spatial_scope.largest_spatial_scope-region"
+    },
+    {
+        "name": "plt.largest_spatial_scope.largest_spatial_scope-facility"
+    },
+    {
+        "name": "plt.largest_spatial_scope.largest_spatial_scope-"
+    },
+    {
+        "name": "plt.largest_spatial_scope.largest_spatial_scope-country"
+    },
+    {
+        "name": "plt.largest_spatial_scope.largest_spatial_scope-county"
+    },
+    {
+        "name": "plt.typical_spatial_resolution.typical_spatial_resolution-facility"
+    },
+    {
+        "name": "plt.typical_spatial_resolution.typical_spatial_resolution-region"
+    },
+    {
+        "name": "plt.typical_spatial_resolution.typical_spatial_resolution-device"
+    },
+    {
+        "name": "plt.typical_spatial_resolution.typical_spatial_resolution-component"
+    },
+    {
+        "name": "plt.typical_spatial_resolution.typical_spatial_resolution-"
+    },
+    {
+        "name": "plt.typical_spatial_resolution.typical_spatial_resolution-state"
+    },
+    {
+        "name": "plt.highest_spatial_resolution.highest_spatial_resolution-device"
+    },
+    {
+        "name": "plt.highest_spatial_resolution.highest_spatial_resolution-county"
+    },
+    {
+        "name": "plt.highest_spatial_resolution.highest_spatial_resolution-component"
+    },
+    {
+        "name": "plt.highest_spatial_resolution.highest_spatial_resolution-facility"
+    },
+    {
+        "name": "plt.highest_spatial_resolution.highest_spatial_resolution-"
+    },
+    {
+        "name": "plt.highest_spatial_resolution.highest_spatial_resolution-state"
+    },
+    {
+        "name": "plt.highest_spatial_resolution.highest_spatial_resolution-municipality"
+    },
+    {
+        "name": "plt.modeling_paradigm.Optimization"
+    },
+    {
+        "name": "plt.modeling_paradigm.Discrete Simulation"
+    },
+    {
+        "name": "plt.modeling_paradigm.Visualization"
+    },
+    {
+        "name": "plt.modeling_paradigm.Data"
+    },
+    {
+        "name": "plt.modeling_paradigm.Engineering/Design"
+    },
+    {
+        "name": "plt.modeling_paradigm.Analytics"
+    },
+    {
+        "name": "plt.modeling_paradigm.Dynamic Simulation"
+    },
+    {
+        "name": "plt.modeling_paradigm.Simulation"
+    },
+    {
+        "name": "plt.modeling_paradigm.Engineering/Designtion"
+    },
+    {
+        "name": "plt.modeling_paradigm.Descrete Simulation"
+    },
+    {
+        "name": "plt.operating_systems.Windows"
+    },
+    {
+        "name": "plt.operating_systems.Mac OSX"
+    },
+    {
+        "name": "plt.operating_systems.Linux"
+    },
+    {
+        "name": "plt.infrastructure_sector.Electric"
+    },
+    {
+        "name": "plt.infrastructure_sector.Natural Gas"
+    },
+    {
+        "name": "plt.infrastructure_sector.Transportation"
+    },
+    {
+        "name": "plt.infrastructure_sector.Buildings"
+    },
+    {
+        "name": "plt.license.Proprietary (commercial)"
+    },
+    {
+        "name": "plt.license.Permissive (open-source, eg. BSD)"
+    },
+    {
+        "name": "plt.license.Private"
+    },
+    {
+        "name": "plt.license.Permissive (open-source, eg. BSD),"
+    },
+    {
+        "name": "plt.license."
+    },
+    {
+        "name": "plt.input_data_formats.input_data_format-XML"
+    },
+    {
+        "name": "plt.input_data_formats.input_data_format-CSV"
+    },
+    {
+        "name": "plt.input_data_formats.input_data_format-GLM"
+    },
+    {
+        "name": "plt.input_data_formats.input_data_format-Matlab M-files"
+    },
+    {
+        "name": "plt.input_data_formats.input_data_format-MATPOWER"
+    },
+    {
+        "name": "plt.input_data_formats.input_data_format-RAW"
+    },
+    {
+        "name": "plt.input_data_formats.input_data_format-DYR"
+    },
+    {
+        "name": "plt.input_data_formats.input_data_format-XLSX"
+    },
+    {
+        "name": "plt.input_data_formats.input_data_format-Excel"
+    },
+    {
+        "name": "plt.input_data_formats.input_data_format-text files"
+    },
+    {
+        "name": "plt.input_data_formats.input_data_format-Pandas"
+    },
+    {
+        "name": "plt.input_data_formats.input_data_format-Text File"
+    },
+    {
+        "name": "plt.input_data_formats.input_data_format-SQL"
+    },
+    {
+        "name": "plt.input_data_formats.input_data_format-JSON"
+    },
+    {
+        "name": "plt.output_data_formats.output_data_format-XML"
+    },
+    {
+        "name": "plt.output_data_formats.output_data_format-NA"
+    },
+    {
+        "name": "plt.output_data_formats.output_data_format-CSV"
+    },
+    {
+        "name": "plt.output_data_formats.output_data_format-GDX"
+    },
+    {
+        "name": "plt.output_data_formats.output_data_format-Matlab M-files"
+    },
+    {
+        "name": "plt.output_data_formats.output_data_format-JSON"
+    },
+    {
+        "name": "plt.output_data_formats.output_data_format-DataFrames.jl"
+    },
+    {
+        "name": "plt.output_data_formats.output_data_format-Any"
+    },
+    {
+        "name": "plt.output_data_formats.output_data_format-Excel"
+    },
+    {
+        "name": "plt.output_data_formats.output_data_format-text files"
+    },
+    {
+        "name": "plt.output_data_formats.output_data_format-Pandas"
+    },
+    {
+        "name": "plt.output_data_formats.output_data_format-Text File"
+    },
+    {
+        "name": "plt.output_data_formats.output_data_format-SQL"
+    },
+    {
+        "imports": [
+            "plt.typical_temporal_scope.typical_temporal_scope-years",
+            "plt.largest_temporal_scope.largest_temporal_scope-decades",
+            "plt.largest_spatial_scope.largest_spatial_scope-continent",
+            "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
+            "plt.highest_temporal_resolution.highest_temporal_resolution-minutes",
+            "plt.highest_spatial_resolution.highest_spatial_resolution-device",
+            "plt.typical_spatial_resolution.typical_spatial_resolution-facility",
+            "plt.typical_spatial_scope.typical_spatial_scope-region",
+            "plt.license.Proprietary (commercial)",
+            "plt.language.language-.NET",
+            "plt.modeling_paradigm.Optimization",
+            "plt.input_data_formats.input_data_format-XML",
+            "plt.output_data_formats.output_data_format-XML"
+        ],
+        "name": "plt.name.PLEXOS"
+    },
+    {
+        "imports": [
+            "plt.typical_temporal_scope.typical_temporal_scope-hours",
+            "plt.largest_temporal_scope.largest_temporal_scope-years",
+            "plt.largest_spatial_scope.largest_spatial_scope-region",
+            "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
+            "plt.highest_temporal_resolution.highest_temporal_resolution-",
+            "plt.highest_spatial_resolution.highest_spatial_resolution-device",
+            "plt.typical_spatial_resolution.typical_spatial_resolution-region",
+            "plt.typical_spatial_scope.typical_spatial_scope-region",
+            "plt.license.Permissive (open-source, eg. BSD)",
+            "plt.language.language-C++",
+            "plt.language.language-C",
+            "plt.language.language-HTML",
+            "plt.modeling_paradigm.Optimization",
+            "plt.modeling_paradigm.Discrete Simulation",
+            "plt.modeling_paradigm.Visualization",
+            "plt.modeling_paradigm.Data",
+            "plt.modeling_paradigm.Engineering/Design",
+            "plt.input_data_formats.input_data_format-CSV",
+            "plt.input_data_formats.input_data_format-GLM",
+            "plt.output_data_formats.output_data_format-NA"
+        ],
+        "name": "plt.name.GridLAB-D"
+    },
+    {
+        "imports": [
+            "plt.typical_temporal_scope.typical_temporal_scope-",
+            "plt.largest_temporal_scope.largest_temporal_scope-years",
+            "plt.largest_spatial_scope.largest_spatial_scope-continent",
+            "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
+            "plt.highest_temporal_resolution.highest_temporal_resolution-instant",
+            "plt.highest_spatial_resolution.highest_spatial_resolution-device",
+            "plt.typical_spatial_resolution.typical_spatial_resolution-facility",
+            "plt.typical_spatial_scope.typical_spatial_scope-region",
+            "plt.license.Permissive (open-source, eg. BSD)",
+            "plt.language.language-Julia",
+            "plt.modeling_paradigm.Optimization",
+            "plt.input_data_formats.input_data_format-MATPOWER",
+            "plt.input_data_formats.input_data_format-RAW",
+            "plt.output_data_formats.output_data_format-JSON"
+        ],
+        "name": "plt.name.PowerModels-jl"
+    },
+    {
+        "imports": [
+            "plt.typical_temporal_scope.typical_temporal_scope-months",
+            "plt.largest_temporal_scope.largest_temporal_scope-years",
+            "plt.largest_spatial_scope.largest_spatial_scope-continent",
+            "plt.typical_temporal_resolution.typical_temporal_resolution-minutes",
+            "plt.highest_temporal_resolution.highest_temporal_resolution-seconds",
+            "plt.highest_spatial_resolution.highest_spatial_resolution-component",
+            "plt.typical_spatial_resolution.typical_spatial_resolution-device",
+            "plt.typical_spatial_scope.typical_spatial_scope-region",
+            "plt.license.Permissive (open-source, eg. BSD)",
+            "plt.language.language-Julia",
+            "plt.modeling_paradigm.Optimization",
+            "plt.modeling_paradigm.Discrete Simulation",
+            "plt.input_data_formats.input_data_format-MATPOWER",
+            "plt.input_data_formats.input_data_format-RAW",
+            "plt.input_data_formats.input_data_format-CSV",
+            "plt.output_data_formats.output_data_format-CSV",
+            "plt.output_data_formats.output_data_format-DataFrames.jl",
+            "plt.output_data_formats.output_data_format-Any"
+        ],
+        "name": "plt.name.PowerSimulations-jl"
+    },
+    {
+        "imports": [
+            "plt.typical_temporal_scope.typical_temporal_scope-seconds",
+            "plt.largest_temporal_scope.largest_temporal_scope-seconds",
+            "plt.largest_spatial_scope.largest_spatial_scope-region",
+            "plt.typical_temporal_resolution.typical_temporal_resolution-",
+            "plt.highest_temporal_resolution.highest_temporal_resolution-instant",
+            "plt.highest_spatial_resolution.highest_spatial_resolution-component",
+            "plt.typical_spatial_resolution.typical_spatial_resolution-component",
+            "plt.typical_spatial_scope.typical_spatial_scope-region",
+            "plt.license.Permissive (open-source, eg. BSD),",
+            "plt.language.language-Python",
+            "plt.modeling_paradigm.Dynamic Simulation",
+            "plt.input_data_formats.input_data_format-MATPOWER",
+            "plt.input_data_formats.input_data_format-DYR",
+            "plt.input_data_formats.input_data_format-XLSX",
+            "plt.output_data_formats.output_data_format-NA"
+        ],
+        "name": "plt.name.ANDES"
+    },
+    {
+        "imports": [
+            "plt.typical_temporal_scope.typical_temporal_scope-hours",
+            "plt.largest_temporal_scope.largest_temporal_scope-hours",
+            "plt.largest_spatial_scope.largest_spatial_scope-facility",
+            "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
+            "plt.highest_temporal_resolution.highest_temporal_resolution-minutes",
+            "plt.highest_spatial_resolution.highest_spatial_resolution-component",
+            "plt.typical_spatial_resolution.typical_spatial_resolution-facility",
+            "plt.typical_spatial_scope.typical_spatial_scope-facility",
+            "plt.license.Permissive (open-source, eg. BSD)",
+            "plt.language.language-C++",
+            "plt.modeling_paradigm.Simulation",
+            "plt.modeling_paradigm.Visualization",
+            "plt.modeling_paradigm.Engineering/Designtion",
+            "plt.input_data_formats.input_data_format-Excel",
+            "plt.input_data_formats.input_data_format-text files",
+            "plt.output_data_formats.output_data_format-Excel",
+            "plt.output_data_formats.output_data_format-text files"
+        ],
+        "name": "plt.name.SAM"
+    },
+    {
+        "imports": [
+            "plt.typical_temporal_scope.typical_temporal_scope-decades",
+            "plt.largest_temporal_scope.largest_temporal_scope-decades",
+            "plt.largest_spatial_scope.largest_spatial_scope-continent",
+            "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
+            "plt.highest_temporal_resolution.highest_temporal_resolution-minutes",
+            "plt.highest_spatial_resolution.highest_spatial_resolution-facility",
+            "plt.typical_spatial_resolution.typical_spatial_resolution-region",
+            "plt.typical_spatial_scope.typical_spatial_scope-region",
+            "plt.license.Permissive (open-source, eg. BSD)",
+            "plt.language.language-Python",
+            "plt.modeling_paradigm.Optimization",
+            "plt.input_data_formats.input_data_format-MATPOWER",
+            "plt.input_data_formats.input_data_format-CSV",
+            "plt.output_data_formats.output_data_format-Pandas"
+        ],
+        "name": "plt.name.SWITCH"
+    },
+    {
+        "imports": [
+            "plt.typical_temporal_scope.typical_temporal_scope-hours",
+            "plt.largest_temporal_scope.largest_temporal_scope-years",
+            "plt.largest_spatial_scope.largest_spatial_scope-continent",
+            "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
+            "plt.highest_temporal_resolution.highest_temporal_resolution-instant",
+            "plt.highest_spatial_resolution.highest_spatial_resolution-component",
+            "plt.typical_spatial_resolution.typical_spatial_resolution-facility",
+            "plt.typical_spatial_scope.typical_spatial_scope-region",
+            "plt.license.Permissive (open-source, eg. BSD)",
+            "plt.language.language-Python",
+            "plt.modeling_paradigm.Optimization",
+            "plt.modeling_paradigm.Descrete Simulation",
+            "plt.modeling_paradigm.Dynamic Simulation",
+            "plt.modeling_paradigm.Analytics",
+            "plt.modeling_paradigm.Visualization",
+            "plt.input_data_formats.input_data_format-MATPOWER",
+            "plt.input_data_formats.input_data_format-Pandas",
+            "plt.output_data_formats.output_data_format-Pandas"
+        ],
+        "name": "plt.name.PandaPower"
+    },
+    {
+        "imports": [
+            "plt.typical_temporal_scope.typical_temporal_scope-minutes",
+            "plt.largest_temporal_scope.largest_temporal_scope-years",
+            "plt.largest_spatial_scope.largest_spatial_scope-",
+            "plt.typical_temporal_resolution.typical_temporal_resolution-minutes",
+            "plt.highest_temporal_resolution.highest_temporal_resolution-seconds",
+            "plt.highest_spatial_resolution.highest_spatial_resolution-",
+            "plt.typical_spatial_resolution.typical_spatial_resolution-",
+            "plt.typical_spatial_scope.typical_spatial_scope-",
+            "plt.license.Permissive (open-source, eg. BSD)",
+            "plt.language.language-Delphi",
+            "plt.modeling_paradigm.Discrete Simulation",
+            "plt.modeling_paradigm.Visualization",
+            "plt.modeling_paradigm.Analytics",
+            "plt.modeling_paradigm.Data",
+            "plt.modeling_paradigm.Engineering/Design",
+            "plt.input_data_formats.input_data_format-CSV",
+            "plt.input_data_formats.input_data_format-Text File",
+            "plt.output_data_formats.output_data_format-CSV",
+            "plt.output_data_formats.output_data_format-Text File"
+        ],
+        "name": "plt.name.OpenDSS"
+    },
+    {
+        "imports": [
+            "plt.typical_temporal_scope.typical_temporal_scope-",
+            "plt.largest_temporal_scope.largest_temporal_scope-",
+            "plt.largest_spatial_scope.largest_spatial_scope-",
+            "plt.typical_temporal_resolution.typical_temporal_resolution-",
+            "plt.highest_temporal_resolution.highest_temporal_resolution-",
+            "plt.highest_spatial_resolution.highest_spatial_resolution-",
+            "plt.typical_spatial_resolution.typical_spatial_resolution-",
+            "plt.typical_spatial_scope.typical_spatial_scope-",
+            "plt.license.Permissive (open-source, eg. BSD)",
+            "plt.language.language-Python",
+            "plt.language.language-Julia",
+            "plt.language.language-GAMS",
+            "plt.modeling_paradigm.Optimization",
+            "plt.modeling_paradigm.Discrete Simulation",
+            "plt.modeling_paradigm.Dynamic Simulation",
+            "plt.modeling_paradigm.Analytics",
+            "plt.modeling_paradigm.Visualization",
+            "plt.modeling_paradigm.Data",
+            "plt.modeling_paradigm.Engineering/Design",
+            "plt.input_data_formats.input_data_format-CSV",
+            "plt.input_data_formats.input_data_format-SQL",
+            "plt.output_data_formats.output_data_format-CSV",
+            "plt.output_data_formats.output_data_format-SQL"
+        ],
+        "name": "plt.name.Spine Toolbox"
+    },
+    {
+        "imports": [
+            "plt.typical_temporal_scope.typical_temporal_scope-hours",
+            "plt.largest_temporal_scope.largest_temporal_scope-days",
+            "plt.largest_spatial_scope.largest_spatial_scope-country",
+            "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
+            "plt.highest_temporal_resolution.highest_temporal_resolution-hours",
+            "plt.highest_spatial_resolution.highest_spatial_resolution-state",
+            "plt.typical_spatial_resolution.typical_spatial_resolution-state",
+            "plt.typical_spatial_scope.typical_spatial_scope-state",
+            "plt.license.",
+            "plt.language.language-Python",
+            "plt.modeling_paradigm.Optimization",
+            "plt.modeling_paradigm.Visualization",
+            "plt.operating_systems.Windows",
+            "plt.operating_systems.Mac OSX",
+            "plt.operating_systems.Linux",
+            "plt.infrastructure_sector.Electric"
+        ],
+        "name": "plt.name.psst"
+    },
+    {
+        "imports": [
+            "plt.typical_temporal_scope.typical_temporal_scope-years",
+            "plt.largest_temporal_scope.largest_temporal_scope-years",
+            "plt.largest_spatial_scope.largest_spatial_scope-county",
+            "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
+            "plt.highest_temporal_resolution.highest_temporal_resolution-hours",
+            "plt.highest_spatial_resolution.highest_spatial_resolution-facility",
+            "plt.typical_spatial_resolution.typical_spatial_resolution-facility",
+            "plt.typical_spatial_scope.typical_spatial_scope-country",
+            "plt.license.",
+            "plt.language.language-Julia",
+            "plt.language.language-Python",
+            "plt.modeling_paradigm.Optimization",
+            "plt.modeling_paradigm.Visualization",
+            "plt.modeling_paradigm.Data",
+            "plt.operating_systems.Windows",
+            "plt.operating_systems.Mac OSX",
+            "plt.operating_systems.Linux",
+            "plt.infrastructure_sector.Electric"
+        ],
+        "name": "plt.name.PowerSimData-REISE-jl"
+    },
+    {
+        "imports": [
+            "plt.typical_temporal_scope.typical_temporal_scope-years",
+            "plt.largest_temporal_scope.largest_temporal_scope-",
+            "plt.largest_spatial_scope.largest_spatial_scope-",
+            "plt.typical_temporal_resolution.typical_temporal_resolution-hours",
+            "plt.highest_temporal_resolution.highest_temporal_resolution-minutes",
+            "plt.highest_spatial_resolution.highest_spatial_resolution-municipality",
+            "plt.typical_spatial_resolution.typical_spatial_resolution-facility",
+            "plt.typical_spatial_scope.typical_spatial_scope-facility",
+            "plt.license.",
+            "plt.language.language-Julia",
+            "plt.language.language-Python",
+            "plt.modeling_paradigm.Optimization",
+            "plt.operating_systems.Windows",
+            "plt.operating_systems.Mac OSX",
+            "plt.operating_systems.Linux",
+            "plt.infrastructure_sector.Electric",
+            "plt.infrastructure_sector.Natural Gas",
+            "plt.infrastructure_sector.Transportation",
+            "plt.infrastructure_sector.Buildings",
+            "plt.input_data_formats.input_data_format-JSON",
+            "plt.output_data_formats.output_data_format-JSON"
+        ],
+        "name": "plt.name.REopt Tool"
+    }
 ]; 
 
-var classes_selected = [
-{
-  "name": "main.Model.PLEXO",
-  "imports": ["main.Capabilities.Capacity Expansion","main.InfraSec.Electric","main.OutputDataFormat.CSV Output","main.Paradigm.Optimization"]
-},{
-  "name": "main.Model.GridLAB-D",
-  "imports": ["main.InfraSec.Buildings","main.InfraSec.Electric","main.Paradigm.Discrete Simulation","main.Paradigm.Visualization","main.Paradigm.Engineering/Design","main.Paradigm.Optimization"]
-},{
-  "name": "main.Model.ReEDS",
-  "imports": ["main.Paradigm.Optimization","main.InfraSec.Electric","main.Paradigm.Discrete Simulation","main.Paradigm.Visualization","main.OutputDataFormat.GDX Output"]
-},{
-  "name": "main.Model.MATPOWER",
-  "imports": ["main.Paradigm.Optimization","main.Paradigm.Discrete Simulation","main.Paradigm.Visualization","main.InfraSec.Electric","main.OutputDataFormat.M-File Output"]
-},{
-  "name": "main.Model.PowerModels",
-  "imports": ["main.Paradigm.Optimization"]
-}
-,
-{
-  "name": "main.License.Proprietary",
-  "imports": ["main.Model.PLEXO"]
-},{
-  "name": "main.License.Permissive",
-  "imports": ["main.Model.GridLAB-D","main.Model.MATPOWER","main.Model.PowerModels"]
-},
-{
-  "name": "main.License.Private",
-  "imports": ["main.Model.ReEDS"]
-}
-,
-{
-  "name": "main.InfraSec.Electric",
-  "imports": []
-},{
-  "name": "main.InfraSec.Buildings",
-  "imports": []
-}
-,
-{
-  "name": "main.Paradigm.Optimization",
-  "imports": []
-},{
-  "name": "main.Paradigm.Discrete Simulation",
-  "imports": []
-},{
-  "name": "main.Paradigm.Visualization",
-  "imports": []
-},{
-  "name": "main.Paradigm.Engineering/Design",
-  "imports": []
-}
-,
-{
-  "name": "main.Capabilities.Capacity Expansion",
-  "imports": []
-},{
-  "name": "main.Capabilities.ACOPF",
-  "imports": []
-},{
-  "name": "main.Capabilities.Topology Control",
-  "imports": []
-},{
-  "name": "main.Capabilities.Transmission Switching",
-  "imports": []
-}
-,
-{
-  "name": "main.TempRes.Instantly Temporal Resolution",
-  "imports": ["main.Paradigm.Optimization","main.Model.PowerModels"]
-},{
-  "name": "main.TempRes.Secondly Temporal Resolution",
-  "imports": ["main.Paradigm.Optimization","main.Model.GridLAB-D"]
-},{
-  "name": "main.TempRes.Minutely Temporal Resolution",
-  "imports": ["main.Model.PLEXO","main.Paradigm.Optimization","main.Model.MATPOWER"]
-},{
-  "name": "main.TempRes.Hourly Temporal Resolution",
-  "imports": ["main.Model.PLEXO","main.Paradigm.Optimization","main.Model.GridLAB-D","main.Model.ReEDS","main.Model.MATPOWER","main.Model.PowerModels"]
-},{
-  "name": "main.TempRes.Weekly Temporal Resolution",
-  "imports": ["main.Paradigm.Optimization"]
-},{
-  "name": "main.TempRes.Yearly Temporal Resolution",
-  "imports": ["main.Model.PLEXO","main.Paradigm.Optimization","main.Model.GridLAB-D","main.Model.MATPOWER"]
-},{
-  "name": "main.TempRes.Decadally Temporal Resolution",
-  "imports": ["main.Paradigm.Optimization","main.Model.ReEDS"]
-}
-,
-{
-  "name": "main.SpatialRes.Component Spatial Resolution",
-  "imports": ["main.Paradigm.Optimization"]
-},{
-  "name": "main.SpatialRes.Device Spatial Resolution",
-  "imports": ["main.Paradigm.Optimization","main.Model.GridLAB-D","main.Model.PowerModels"]
-},{
-  "name": "main.SpatialRes.Facility Spatial Resolution",
-  "imports": ["main.Paradigm.Optimization","main.Model.PowerModels"]
-},{
-  "name": "main.SpatialRes.Municipality Spatial Resolution",
-  "imports": ["main.Paradigm.Optimization"]
-},{
-  "name": "main.SpatialRes.County Spatial Resolution",
-  "imports": ["main.Paradigm.Optimization","main.Model.ReEDS"]
-},{
-  "name": "main.SpatialRes.State Spatial Resolution",
-  "imports": ["main.Paradigm.Optimization"]
-},{
-  "name": "main.SpatialRes.Region Spatial Resolution",
-  "imports": ["main.Paradigm.Optimization","main.Model.GridLAB-D","main.Model.ReEDS","main.Model.MATPOWER"]
-},{
-  "name": "main.SpatialRes.Country Spatial Resolution",
-  "imports": ["main.Paradigm.Optimization"]
-},{
-  "name": "main.SpatialRes.Continent Spatial Resolution",
-  "imports": ["main.Paradigm.Optimization"]
-},{
-  "name": "main.SpatialRes.Global Spatial Resolution",
-  "imports": ["main.Paradigm.Optimization"]
-}
-,
-{
-  "name": "main.Language.GAMS",
-  "imports": ["main.Model.ReEDS","main.Paradigm.Optimization","main.OutputDataFormat.CSV Output"]
-},{
-  "name": "main.Language.NET",
-  "imports": ["main.Model.PLEXO"]
-},{
-  "name": "main.Language.Python",
-  "imports": ["main.Model.ReEDS"]
-},{
-  "name": "main.Language.MATLAB",
-  "imports": ["main.Model.MATPOWER"]
-},{
-  "name": "main.Language.C++",
-  "imports": []
-},{
-  "name": "main.Language.C",
-  "imports": ["main.Model.MATPOWER"]
-},
-{
-  "name": "main.Language.Julia",
-  "imports": ["main.Model.PowerModels"]
-}
-,
-{
-  "name": "main.Interface.GUI",
-  "imports": ["main.Model.PLEXO"]
-},{
-  "name": "main.Interface.API",
-  "imports": ["main.Model.GridLAB-D"]
-},{
-  "name": "main.Interface.Terminal",
-  "imports": ["main.Model.ReEDS","main.Model.PowerModels"]
-},{
-  "name": "main.Interface.MATLAB",
-  "imports": ["main.Model.MATPOWER"]
-}
-,
-{
-  "name": "main.OS.MAC OS",
-  "imports": ["main.Language.GAMS","main.Model.GridLAB-D","main.Model.ReEDS","main.Model.MATPOWER","main.Model.PowerModels"]
-},{
-  "name": "main.OS.Windows",
-  "imports": ["main.Model.PLEXO","main.Language.GAMS","main.Model.GridLAB-D","main.Model.ReEDS","main.Model.MATPOWER","main.Model.PowerModels"]
-},
-{
-  "name": "main.InputDataFormat.XML Input",
-  "imports": ["main.Paradigm.Optimization","main.Model.PLEXO"]
-},{
-  "name": "main.InputDataFormat.CSV Input",
-  "imports": ["main.Language.GAMS","main.Paradigm.Optimization","main.Model.GridLAB-D","main.Model.ReEDS"]
-},{
-  "name": "main.InputDataFormat.GLM Input",
-  "imports": ["main.Model.GridLAB-D"]
-},{
-  "name": "main.InputDataFormat.M-File Input",
-  "imports": ["main.Model.MATPOWER"]
-},{
-  "name": "main.InputDataFormat.MATPOWER Input",
-  "imports": ["main.Model.MATPOWER"]
-},{
-  "name": "main.InputDataFormat.RAW Input",
-  "imports": ["main.Model.PowerModels"]
-}
-,
-{
-  "name": "main.OutputDataFormat.XML Output",
-  "imports": ["main.Paradigm.Optimization"]
-},{
-  "name": "main.OutputDataFormat.CSV Output",
-  "imports": ["main.Paradigm.Optimization","main.Model.ReEDS"]
-},{
-  "name": "main.OutputDataFormat.GDX Output",
-  "imports": ["main.Paradigm.Optimization"]
-},{
-  "name": "main.OutputDataFormat.M-File Output",
-  "imports": []
-}
-,{
-  "name": "main.OutputDataFormat.Json Output"
-}
-];
-
+var classes_2 = [ { name: 'plt.language.language-.NET' },
+  { name: 'plt.language.language-C++' },
+  { name: 'plt.language.language-C' },
+  { name: 'plt.language.language-HTML' },
+  { name: 'plt.language.language-Julia' },
+  { name: 'plt.language.language-Python' },
+  { name: 'plt.typical_temporal_scope.typical_temporal_scope-years' },
+  { name: 'plt.typical_temporal_scope.typical_temporal_scope-hours' },
+  { name: 'plt.largest_temporal_scope.largest_temporal_scope-decades' },
+  { name: 'plt.largest_temporal_scope.largest_temporal_scope-years' },
+  { name: 'plt.largest_temporal_scope.largest_temporal_scope-' },
+  { name: 'plt.typical_temporal_resolution.typical_temporal_resolution-hours' },
+  { name: 'plt.highest_temporal_resolution.highest_temporal_resolution-minutes' },
+  { name: 'plt.highest_temporal_resolution.highest_temporal_resolution-' },
+  { name: 'plt.typical_spatial_scope.typical_spatial_scope-region' },
+  { name: 'plt.typical_spatial_scope.typical_spatial_scope-facility' },
+  { name: 'plt.largest_spatial_scope.largest_spatial_scope-continent' },
+  { name: 'plt.largest_spatial_scope.largest_spatial_scope-region' },
+  { name: 'plt.largest_spatial_scope.largest_spatial_scope-' },
+  { name: 'plt.typical_spatial_resolution.typical_spatial_resolution-facility' },
+  { name: 'plt.typical_spatial_resolution.typical_spatial_resolution-region' },
+  { name: 'plt.highest_spatial_resolution.highest_spatial_resolution-device' },
+  { name: 'plt.highest_spatial_resolution.highest_spatial_resolution-municipality' },
+  { name: 'plt.modeling_paradigm.Optimization' },
+  { name: 'plt.modeling_paradigm.Discrete Simulation' },
+  { name: 'plt.modeling_paradigm.Visualization' },
+  { name: 'plt.modeling_paradigm.Data' },
+  { name: 'plt.modeling_paradigm.Engineering/Design' },
+  { name: 'plt.operating_systems.Windows' },
+  { name: 'plt.operating_systems.Mac OSX' },
+  { name: 'plt.operating_systems.Linux' },
+  { name: 'plt.infrastructure_sector.Electric' },
+  { name: 'plt.infrastructure_sector.Natural Gas' },
+  { name: 'plt.infrastructure_sector.Transportation' },
+  { name: 'plt.infrastructure_sector.Buildings' },
+  { name: 'plt.license.Proprietary (commercial)' },
+  { name: 'plt.license.Permissive (open-source, eg. BSD)' },
+  { name: 'plt.license.' },
+  { name: 'plt.input_data_formats.input_data_format-XML' },
+  { name: 'plt.input_data_formats.input_data_format-CSV' },
+  { name: 'plt.input_data_formats.input_data_format-GLM' },
+  { name: 'plt.input_data_formats.input_data_format-JSON' },
+  { name: 'plt.output_data_formats.output_data_format-XML' },
+  { name: 'plt.output_data_formats.output_data_format-NA' },
+  { name: 'plt.output_data_formats.output_data_format-JSON' },
+  { name: 'plt.name.PLEXOS',
+    imports: 
+     [ 'plt.typical_temporal_scope.typical_temporal_scope-years',
+       'plt.largest_temporal_scope.largest_temporal_scope-decades',
+       'plt.largest_spatial_scope.largest_spatial_scope-continent',
+       'plt.typical_temporal_resolution.typical_temporal_resolution-hours',
+       'plt.highest_temporal_resolution.highest_temporal_resolution-minutes',
+       'plt.highest_spatial_resolution.highest_spatial_resolution-device',
+       'plt.typical_spatial_resolution.typical_spatial_resolution-facility',
+       'plt.typical_spatial_scope.typical_spatial_scope-region',
+       'plt.license.Proprietary (commercial)',
+       'plt.language.language-.NET',
+       'plt.modeling_paradigm.Optimization',
+       'plt.input_data_formats.input_data_format-XML',
+       'plt.output_data_formats.output_data_format-XML' ] },
+  { name: 'plt.name.GridLAB-D',
+    imports: 
+     [ 'plt.typical_temporal_scope.typical_temporal_scope-hours',
+       'plt.largest_temporal_scope.largest_temporal_scope-years',
+       'plt.largest_spatial_scope.largest_spatial_scope-region',
+       'plt.typical_temporal_resolution.typical_temporal_resolution-hours',
+       'plt.highest_temporal_resolution.highest_temporal_resolution-',
+       'plt.highest_spatial_resolution.highest_spatial_resolution-device',
+       'plt.typical_spatial_resolution.typical_spatial_resolution-region',
+       'plt.typical_spatial_scope.typical_spatial_scope-region',
+       'plt.license.Permissive (open-source, eg. BSD)',
+       'plt.language.language-C++',
+       'plt.language.language-C',
+       'plt.language.language-HTML',
+       'plt.modeling_paradigm.Optimization',
+       'plt.modeling_paradigm.Discrete Simulation',
+       'plt.modeling_paradigm.Visualization',
+       'plt.modeling_paradigm.Data',
+       'plt.modeling_paradigm.Engineering/Design',
+       'plt.input_data_formats.input_data_format-CSV',
+       'plt.input_data_formats.input_data_format-GLM',
+       'plt.output_data_formats.output_data_format-NA' ] },
+  { name: 'plt.name.REopt Tool',
+    imports: 
+     [ 'plt.typical_temporal_scope.typical_temporal_scope-years',
+       'plt.largest_temporal_scope.largest_temporal_scope-',
+       'plt.largest_spatial_scope.largest_spatial_scope-',
+       'plt.typical_temporal_resolution.typical_temporal_resolution-hours',
+       'plt.highest_temporal_resolution.highest_temporal_resolution-minutes',
+       'plt.highest_spatial_resolution.highest_spatial_resolution-municipality',
+       'plt.typical_spatial_resolution.typical_spatial_resolution-facility',
+       'plt.typical_spatial_scope.typical_spatial_scope-facility',
+       'plt.license.',
+       'plt.language.language-Julia',
+       'plt.language.language-Python',
+       'plt.modeling_paradigm.Optimization',
+       'plt.operating_systems.Windows',
+       'plt.operating_systems.Mac OSX',
+       'plt.operating_systems.Linux',
+       'plt.infrastructure_sector.Electric',
+       'plt.infrastructure_sector.Natural Gas',
+       'plt.infrastructure_sector.Transportation',
+       'plt.infrastructure_sector.Buildings',
+       'plt.input_data_formats.input_data_format-JSON',
+       'plt.output_data_formats.output_data_format-JSON' ] } ]
+       ;
 
 
 
@@ -968,15 +823,15 @@ console.log(svg)
 var link = svg.append("g").selectAll("link"),
     node = svg.append("g").selectAll("node");
 
-console.log("original link & node")
-console.log(link)
-console.log(node)
+// console.log("original link & node")
+// console.log(link)
+// console.log(node)
 
 
 // ------------------------ //
 // --- (Start) Original --- //
 //--- removed d3.json() ---//
-var root = packageHierarchy(classes_selected)
+var root = packageHierarchy(classes_1)
     .sum(function(d) { return d.size; });
 
 cluster(root);
@@ -1000,15 +855,56 @@ node = node
     .on("mouseout", mouseouted);
 
 
-console.log("look at raw data")
-console.log(packageImports(root.leaves()))
-console.log(root.leaves())
+// console.log("look at raw data")
+// console.log(packageImports(root.leaves()))
+// console.log(root.leaves())
 
 
 // --- (End) Original --- //
 console.log("correct version")
 console.log(link)
 console.log(node)
+
+
+// -------------------------//
+// --- Updating function ---//
+// ** Update data section (Called from the onclick)
+function updateData() {
+
+var new_root = packageHierarchy(classes_2)
+  .sum(function(d) { return d.size; });
+
+cluster(new_root);
+
+
+var   new_graph = svg.selectAll("g").remove();
+
+var link_new = svg.append("g").selectAll("link"),
+    node_new = svg.append("g").selectAll("node");
+
+
+link_new = link_new
+  .data(packageImports(new_root.leaves()))
+  .enter().append("path")
+    .each(function(d) { d.source = d[0], d.target = d[d.length - 1]; })
+    .attr("class", "link")
+    .attr("d", line);
+
+node_new = node_new
+  .data(new_root.leaves())
+  .enter().append("text")
+    .attr("class", "node")
+    .attr("dy", "0.31em")
+    .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (d.y + 8) + ",0)" + (d.x < 180 ? "" : "rotate(180)"); })
+    .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
+    .text(function(d) { return d.data.key; })
+    .on("mouseover", mouseovered)
+    .on("mouseout", mouseouted);    
+
+
+}
+
+
 
 
 function mouseovered(d) {
@@ -1081,49 +977,5 @@ function packageImports(nodes) {
 }
 
 
-// -------------------------//
-// --- Updating function ---//
-// ** Update data section (Called from the onclick)
-function updateData() {
-
-var new_root = packageHierarchy(classes)
-  .sum(function(d) { return d.size; });
-
-cluster(new_root);
-
-
-var   new_graph = svg.selectAll("g").remove();
-
-
-var link = svg.append("g").selectAll("link"),
-    node = svg.append("g").selectAll("node");
-
-
-link = link
-  .data(packageImports(new_root.leaves()))
-  .enter().append("path")
-    .each(function(d) { d.source = d[0], d.target = d[d.length - 1]; })
-    .attr("class", "link")
-    .attr("d", line);
-
-node = node
-  .data(new_root.leaves())
-  .enter().append("text")
-    .attr("class", "node")
-    .attr("dy", "0.31em")
-    .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (d.y + 8) + ",0)" + (d.x < 180 ? "" : "rotate(180)"); })
-    .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-    .text(function(d) { return d.data.key; })
-    .on("mouseover", mouseovered)
-    .on("mouseout", mouseouted);    
-
-
-console.log("after Update")
-console.log(new_graph)
-// console.log(new_node)
-
-
-// end function
-}
 
 </script>
