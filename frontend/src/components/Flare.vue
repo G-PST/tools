@@ -1,4 +1,4 @@
-//--- Part 1: Template ---//
+//---- Part 1: Template ----// 
 <template>
           <div id="arc">
           
