@@ -311,6 +311,17 @@ body:
         - label: iOS
         - label: Android
   - type: checkboxes
+    id: user_interface
+    attributes:
+      label: User Interface
+      description: What user interfaces are supported by the software tool?
+      options:
+        - label: Direct coding and programming
+        - label: Graphical user interface
+        - label: GUI with the possibility of coding if needed
+        - label: Web-based (online use interface)
+        - label: Other
+  - type: checkboxes
     id: parallel-computing
     attributes:
       label: Parallel Computing Paradigm
