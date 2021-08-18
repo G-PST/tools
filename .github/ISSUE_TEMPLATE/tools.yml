@@ -113,7 +113,8 @@ body:
     attributes:
       label: Use Cases
       description: Describe the use cases for the tool, include descriptions of region, study question, and other details.
-      placeholder: e.g. UC modeling for renewable integration in North America
+      placeholder: EX1: The model evaluates a range of scenarios of renewable integrations to Los Angeles Department of Water and Power (LADWP). EX2: The model has been indirectly referred in a relevant official document.  
+
   - type: checkboxes
     id: infrastructure-sector
     attributes:
