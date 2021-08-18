@@ -197,6 +197,14 @@ body:
         - label: Swift (Apple programming language)
         - label: WebAssembly
         - label: Zig
+  - type: input
+    id: required_dependencies
+    attributes:
+      label: Required Dependencies
+      description: List required dependencies
+      placeholder: (e.g., the model will need GAMS license and Cplex solver)
+    validations:
+      required: false
   - type: dropdown
     id: license
     attributes:
