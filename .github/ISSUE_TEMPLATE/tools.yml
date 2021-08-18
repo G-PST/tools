@@ -146,13 +146,14 @@ body:
       label: Modeling Paradigm
       description: What modeling Paradigm does this software tool follow?
       options:
-        - label: Optimization
+        - label: Analytics
+        - label: Data
         - label: Discrete Simulation
         - label: Dynamic Simulation
-        - label: Analytics
-        - label: Visualization
-        - label: Data
+        - label: Equilibrium
         - label: Engineering/Design
+        - label: Optimization
+        - label: Visualization
   - type: textarea
     id: capabilities
     attributes:
