@@ -19,6 +19,11 @@ body:
       placeholder: XYZ
     validations:
       required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Add screenshots of your tool 
   - type: input
     id: focus_topic
     attributes:
