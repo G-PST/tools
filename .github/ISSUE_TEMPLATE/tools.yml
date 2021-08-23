@@ -120,15 +120,24 @@ body:
       label: Infrastructure Sector
       description: What Infrastructure Sector does this software tool model?
       options:
-        - label: Electric
-        - label: Natural Gas
-        - label: Transportation
+        - label: Atmospheric dispersion
+        - label: Agriculture
+        - label: Biomass
         - label: Buildings
         - label: Communications
-        - label: Water
+        - label: Cooling
+        - label: Ecosystems
+        - label: Electric
+        - label: District heating
+        - label: Forestry
+        - label: Health
         - label: Hydrogen
+        - label: Individual heating
+        - label: Land use
         - label: Liquid fuels
-        - label: Biomass
+        - label: Natural Gas
+        - label: Transportation
+        - label: Water
   - type: checkboxes
     id: represented-behavior
     attributes:
