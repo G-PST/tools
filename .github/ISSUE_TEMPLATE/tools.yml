@@ -145,10 +145,13 @@ body:
       description: What is the represented behavior that the tool is modeling?
       options:
         - label: Earth Systems
+        - label: Employment
         - label: Built Infrastructure
         - label: Financial
-        - label: Social
+        - label: Macro-economy
+        - label: Micro-economy
         - label: Policy
+        - label: Social
   - type: checkboxes
     id: modeling-paradigm
     attributes:
