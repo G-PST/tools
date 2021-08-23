@@ -516,8 +516,8 @@ body:
     validations:
       required: true
   - type: textarea
-    id: interfaces
+    id: interface_integration_linkage
     attributes:
-      label: Interfaces
-      description: References to the GitHub issue of interfaced tool
+      label: Interface, Integration, and Linkage
+      description: References to the GitHub issue of interfaced/integrated/linked tool(s)
       placeholder: e.g.#24,#6
