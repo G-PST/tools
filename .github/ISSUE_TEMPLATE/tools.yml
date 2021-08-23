@@ -32,7 +32,7 @@ body:
     attributes:
       label: Primary Purpose
       description: Give a short description of the tool
-      placeholder: e.g. Our tool uses ABC modeling approach developed by John Doe et al. and supports ...
+      placeholder: e.g. Our tool uses ABC modeling approach developed by John Doe et al and supports ...
     validations:
       required: true
   - type: textarea
