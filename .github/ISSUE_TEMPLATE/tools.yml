@@ -498,5 +498,5 @@ body:
     id: interface_integration_linkage
     attributes:
       label: Interface, Integration, and Linkage
-      description: References to the GitHub issue of interfaced/integrated/linkaged tool(s)
+      description: References to the GitHub issue of interfaced/integrated/linked tool(s)
       placeholder: e.g.#24,#6
