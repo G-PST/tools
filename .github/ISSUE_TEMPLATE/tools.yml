@@ -38,7 +38,7 @@ body:
     attributes:
       label: Mathematical Description
       description: Describe the mathematic problem represented by the tool
-      placeholder: e.g., cost minimizing linear program with economic objective
+      placeholder: e.g. cost minimizing linear program with economic objective
   - type: input
     id: website
     attributes:
@@ -84,7 +84,7 @@ body:
     attributes:
       label: Funding Source
       description: Primary Funding Source
-      placeholder: e.g., DOE
+      placeholder: e.g. DOE
     validations:
       required: false
   - type: input
@@ -92,7 +92,7 @@ body:
     attributes:
       label: Publications
       description: How many works have been published as a direct result of the tool?
-      placeholder: "Enter integer number of publications here (e.g., 10)"
+      placeholder: "Enter integer number of publications here (e.g. 10)"
       value: "0"
     validations:
       required: false
@@ -113,7 +113,7 @@ body:
     attributes:
       label: Use Cases
       description: Describe the use cases for the tool, include descriptions of region, study question, and other details.
-      placeholder: e.g., 1 - The model evaluates a range of scenarios of renewable integrations to Los Angeles Department of Water and Power (LADWP). 2 - The model has been indirectly referred in a relevant official document.
+      placeholder: e.g. 1 - The model evaluates a range of scenarios of renewable integrations to Los Angeles Department of Water and Power (LADWP). 2 - The model has been indirectly referred in a relevant official document.
   - type: checkboxes
     id: infrastructure-sector
     attributes:
@@ -215,7 +215,7 @@ body:
     attributes:
       label: Required Dependencies
       description: List required dependencies
-      placeholder: e.g., Our model will need a GAMS license and the Cplex solver
+      placeholder: e.g. Our model will need a GAMS license and the Cplex solver
     validations:
       required: false
   - type: dropdown
@@ -509,7 +509,7 @@ body:
     attributes:
       label: Input Data Format
       description: What is the input data formats supported by your tool?
-      placeholder: e.g., JSON, CSV
+      placeholder: e.g. JSON, CSV
     validations:
       required: true
   - type: input
@@ -517,7 +517,7 @@ body:
     attributes:
       label: Input Data Description
       description: What is the input data description of your tool?
-      placeholder: e.g., O&M costs, energy availability
+      placeholder: e.g. O&M costs, energy availability
     validations:
       required: false
   - type: input
@@ -525,7 +525,7 @@ body:
     attributes:
       label: Output Data Format
       description: What is the output data formats supported by your tool?
-      placeholder: e.g., CSV, XML
+      placeholder: e.g. CSV, XML
     validations:
       required: true
   - type: input
@@ -533,7 +533,7 @@ body:
     attributes:
       label: Output Data Description
       description: What is the output data description of your tool?
-      placeholder: e.g., detailed report about selected energy scenario, pollutants emissions, financial indicators
+      placeholder: e.g. detailed report about selected energy scenario, pollutants emissions, financial indicators
     validations:
       required: false
   - type: input
@@ -549,4 +549,4 @@ body:
     attributes:
       label: Interface, Integration, and Linkage
       description: References to the GitHub issue of interfaced/integrated/linked tool(s)
-      placeholder: e.g.,#24,#6
+      placeholder: e.g.#24,#6
