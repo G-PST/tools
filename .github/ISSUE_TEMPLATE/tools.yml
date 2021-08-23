@@ -22,9 +22,9 @@ body:
   - type: input
     id: focus_topic
     attributes:
-      label: Topic of focus
+      label: Focus topic
       description: Provide a few words to describe your model
-      placeholder: (e.g., modeling approaches and planning support)
+      placeholder: e.g. Our tool uses ABC modeling approaches and allows for planning support
     validations:
       required: true
   - type: input
@@ -32,7 +32,7 @@ body:
     attributes:
       label: Primary Purpose
       description: Give a short description of the tool
-      placeholder: ...
+      placeholder: e.g. Our tool uses ABC modeling approach developed by John Doe et al. and supports ...
     validations:
       required: true
   - type: textarea
