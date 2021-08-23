@@ -499,7 +499,7 @@ body:
     attributes:
       label: Output Data Description
       description: What is the output data description of your tool?
-      placeholder: e.g. detailed report about selected energy scenario, pollutants emissions, financial indicators 
+      placeholder: ( e.g. detailed report about selected energy scenario, pollutants emissions, financial indicators )
     validations:
       required: false
   - type: input
