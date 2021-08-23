@@ -223,7 +223,7 @@ body:
     attributes:
       label: Required Dependencies
       description: List required dependencies
-      placeholder: e.g. Our model will need a GAMS license and the Cplex solver
+      placeholder: e.g. Our model will need a GAMS license and the CPLEX solver
     validations:
       required: false
   - type: dropdown
