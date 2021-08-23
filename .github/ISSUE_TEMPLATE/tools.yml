@@ -126,7 +126,7 @@ body:
         - label: Buildings
         - label: Communications
         - label: Cooling
-        - label: Ecosystems (e.g., acidification, eutrophication)
+        - label: Ecosystems
         - label: Electric
         - label: District heating
         - label: Forestry
