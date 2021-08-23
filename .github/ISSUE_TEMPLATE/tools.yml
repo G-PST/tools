@@ -24,6 +24,7 @@ body:
     attributes:
       label: Screenshots
       description: Add screenshots of your tool 
+      placeholder: Drag images that you want to upload into this text area.
   - type: input
     id: focus_topic
     attributes:
