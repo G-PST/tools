@@ -20,9 +20,17 @@ body:
     validations:
       required: true
   - type: input
-    id: summary
+    id: focus_topic
     attributes:
-      label: Summary
+      label: Topic of focus
+      description: Provide a few words to describe your model
+      placeholder: (e.g., modeling approaches and planning support)
+    validations:
+      required: true
+  - type: input
+    id: primary_purpose
+    attributes:
+      label: Primary Purpose
       description: Give a short description of the tool
       placeholder: ...
     validations:
