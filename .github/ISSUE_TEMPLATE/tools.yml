@@ -22,7 +22,7 @@ body:
   - type: input
     id: focus_topic
     attributes:
-      label: Focus Topic
+      label: Topic of focus
       description: Provide a few words to describe your model
       placeholder: (e.g., modeling approaches and planning support)
     validations:
