@@ -513,6 +513,14 @@ body:
     validations:
       required: true
   - type: input
+    id: input-data-description
+    attributes:
+      label: Input Data Description
+      description: What is the input data description of your tool?
+      placeholder: ( e.g. O&M costs, energy availability )
+    validations:
+      required: false
+  - type: input
     id: output-data
     attributes:
       label: Output Data Format
@@ -520,6 +528,14 @@ body:
       placeholder: e.g. CSV,XML
     validations:
       required: true
+  - type: input
+    id: output-data-description
+    attributes:
+      label: Output Data Description
+      description: What is the output data description of your tool?
+      placeholder: ( e.g. detailed report about selected energy scenario, pollutants emissions, financial indicators )
+    validations:
+      required: false
   - type: input
     id: contact
     attributes:
