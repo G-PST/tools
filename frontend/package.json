@@ -33,6 +33,7 @@
     "vue-cli-plugin-vuetify": "~2.4.1"
   },
   "scripts": {
+    "ghpages-build": "vite build --base=/tools/",
     "build": "vite build",
     "dev": "vite",
     "serve": "vite preview"
