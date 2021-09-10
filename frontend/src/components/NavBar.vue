@@ -1,7 +1,13 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" :href="/#/">Modeling Tools</a>
+      <a class="navbar-brand" href="https://globalpst.org/"
+        ><img
+          src="/images/GPSTC-logo-blk-x2.png"
+          width="181"
+          height="90"
+          style="max-height: 90px; height: auto"
+      /></a>
       <button
         class="navbar-toggler"
         type="button"
@@ -13,6 +19,7 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
