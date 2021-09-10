@@ -35,7 +35,7 @@
   "scripts": {
     "ghpages-build": "vite build --base=/tools/",
     "build": "vite build",
-    "dev": "vite",
+    "dev": "vite --base=/tools/",
     "serve": "vite preview"
   },
   "version": "0.0.0"
