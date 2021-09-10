@@ -94,18 +94,27 @@ const actions = {
         toolObj.github_stars = toolObj.github_stars
           ? toolObj.github_stars
           : "-";
-        toolObj.url = `/#/Tool/${toolObj.number}`;
-        toolObj.name_url = `<a href='/#/Tool/${toolObj.number}'>${toolObj.name}</a>`;
+        toolObj.url = import.meta.env.BASE_URL + `/#/Tool/${toolObj.number}`;
+        toolObj.name_url = `<a href='${import.meta.env.BASE_URL}/#/Tool/${
+          toolObj.number
+        }'>${toolObj.name}</a>`;
         if (toolObj.website) {
-          toolObj.website_url = `<a target="_blank" href='${toolObj.website}'><img src='/images/link-mark.png' alt="Website" style="width: 32px; height: 32px"/></a>`;
+          toolObj.website_url = `<a target="_blank" href='${
+            toolObj.website
+          }'><img src='${
+            import.meta.env.BASE_URL
+          }/images/link-mark.png' alt="Website" style="width: 32px; height: 32px"/></a>`;
         }
         if (toolObj.source) {
           if (toolObj.source.includes("github.com")) {
-            toolObj.source_img = "/images/github-mark.png";
+            toolObj.source_img =
+              import.meta.env.BASE_URL + "/images/github-mark.png";
           } else if (toolObj.source.includes("sourceforge.net")) {
-            toolObj.source_img = "/images/sourceforge-mark.png";
+            toolObj.source_img =
+              import.meta.env.BASE_URL + "/images/sourceforge-mark.png";
           } else {
-            toolObj.source_img = "/images/link-mark.png";
+            toolObj.source_img =
+              import.meta.env.BASE_URL + "/images/link-mark.png";
           }
           toolObj.source_url = `<a target="_blank" href='${toolObj.source}'><img src='${toolObj.source_img}' alt="Source" style="width: 32px; height: 32px"/></a>`;
         }
