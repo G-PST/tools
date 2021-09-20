@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
       <a target="_blank" class="navbar-brand" href="https://globalpst.org/"
         ><img
@@ -37,3 +37,9 @@
     </div>
   </nav>
 </template>
+
+<style scoped>
+.navbar {
+  background-color: #ffffff;
+}
+</style>
