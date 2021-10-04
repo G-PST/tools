@@ -5,7 +5,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/vue-fontawesome": "^3.0.0-4",
     "@mdi/font": "5.9.55",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "bootstrap": "4",
     "bootstrap-table": "^1.18.3",
     "d3": "^7.0.0",
