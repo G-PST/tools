@@ -28,7 +28,7 @@ body:
   - type: input
     id: focus_topic
     attributes:
-      label: Focus topic
+      label: Focus Topic
       description: Provide a few words to describe your model
       placeholder: e.g. Our tool uses ABC modeling approaches and allows for planning support
     validations:
