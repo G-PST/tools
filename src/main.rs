@@ -235,7 +235,13 @@ impl Tool {
         if let Some(s) = self.parse_input("Documentation") {
             self.documentation = s;
         }
+        if let Some(s) = self.parse_input("Primary Purpose") {
+            self.description = s;
+        }
         if let Some(s) = self.parse_input("Summary") {
+            self.short_description = s;
+        }
+        if let Some(s) = self.parse_input("Focus Topic") {
             self.short_description = s;
         }
         if let Some(s) = self.parse_input("Source") {
