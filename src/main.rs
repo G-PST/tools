@@ -271,6 +271,11 @@ impl Tool {
             self.highest_temporal_scope = TemporalScale::from_str(&s).ok();
         }
         if let Some(s) =
+            self.parse_input("What is the largest temporal scope supported by the tool?")
+        {
+            self.highest_temporal_scope = TemporalScale::from_str(&s).ok();
+        }
+        if let Some(s) =
             self.parse_input("What is the lowest temporal scope supported by the tool?")
         {
             self.lowest_temporal_scope = TemporalScale::from_str(&s).ok();
@@ -297,6 +302,11 @@ impl Tool {
         }
         if let Some(s) =
             self.parse_input("What is the highest spatial scope supported by the tool?")
+        {
+            self.highest_spatial_scope = SpatialScale::from_str(&s).ok();
+        }
+        if let Some(s) =
+            self.parse_input("What is the largest spatial scope supported by the tool?")
         {
             self.highest_spatial_scope = SpatialScale::from_str(&s).ok();
         }
