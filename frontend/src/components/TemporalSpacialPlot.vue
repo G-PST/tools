@@ -229,16 +229,16 @@ export default {
         .map((d) => {
           if (this.selection1.includes("resolution")) {
             d.x_min = this.x(d["highest_" + this.selection1]);
-            d.x_max = this.x(d["lowest_" + this.selection1]);
+            d.x_max = this.x(d["typical_" + this.selection1]);
           } else {
-            d.x_min = this.x(d["lowest_" + this.selection1]);
+            d.x_min = this.x(d["typical_" + this.selection1]);
             d.x_max = this.x(d["highest_" + this.selection1]);
           }
           if (this.selection2.includes("resolution")) {
             d.y_min = this.y(d["highest_" + this.selection2]);
-            d.y_max = this.y(d["lowest_" + this.selection2]);
+            d.y_max = this.y(d["typical_" + this.selection2]);
           } else {
-            d.y_min = this.y(d["lowest_" + this.selection2]);
+            d.y_min = this.y(d["typical_" + this.selection2]);
             d.y_max = this.y(d["highest_" + this.selection2]);
           }
           d.w = Math.abs(d.x_min - d.x_max);
