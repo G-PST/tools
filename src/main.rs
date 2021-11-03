@@ -119,6 +119,7 @@ struct Tool {
     id: usize,
     number: u64,
     name: String,
+    screenshots: Vec<String>,
     short_description: String,
     description: String,
     website: String,
@@ -235,6 +236,13 @@ impl Tool {
         if let Some(s) = self.parse_input("Name") {
             self.name = s;
             dbg!(&self.name);
+        }
+        if let Some(s) = self.parse_input("Screenshots") {
+            self.screenshots = s
+                .lines()
+                .filter(|l| !l.is_empty())
+                .map(|s| s.to_string())
+                .collect::<Vec<String>>();
         }
         if let Some(s) = self.parse_input("Website") {
             self.website = s;
@@ -386,6 +394,7 @@ impl Tool {
         let name = issue.title.clone();
         let body = issue.body.clone();
 
+        let mut screenshots = Default::default();
         let mut description = Default::default();
         let mut short_description = Default::default();
         let mut website = Default::default();
@@ -416,99 +425,13 @@ impl Tool {
         let mut highest_spatial_scope = None;
         let mut number_of_publications = Default::default();
         let mut operating_systems = Default::default();
+        let issue_body = body?;
         let issue_url = issue.html_url.clone();
-
-        let body = body?;
-
-        let issue_body = body.clone();
-        for line in body.lines() {
-            if !line.starts_with("- ") {
-                continue;
-            }
-            let re = Regex::new(r"^- ").unwrap();
-            let line = re.replace(line, "").to_string();
-            let re = Regex::new(r"<!--[\s\S]*?-->").unwrap();
-            let line = re.replace(&line, "").to_string();
-            if let Some((key, value)) = split_once(&line, ": ") {
-                if value.is_empty() {
-                    continue;
-                }
-                let key = key.as_str();
-                match key {
-                    "Description" => description = value,
-                    "Short Description" => short_description = value,
-                    "Website" => website = value,
-                    "License" => license = value,
-                    "Source" => {
-                        source = Some(value.clone());
-                    }
-                    "Language" => {
-                        language = value.split(',').map(|w| w.trim().to_string()).collect()
-                    }
-                    "Infrastructure Sector" => {
-                        infrastructure_sector =
-                            Some(value.split(',').map(|w| w.trim().to_string()).collect())
-                    }
-                    "Capabilities" => {
-                        capabilities =
-                            Some(value.split(',').map(|w| w.trim().to_string()).collect())
-                    }
-                    "Input Data Formats" => {
-                        input_data_formats =
-                            value.split(',').map(|w| w.trim().to_string()).collect()
-                    }
-                    "Output Data Formats" => {
-                        output_data_formats =
-                            value.split(',').map(|w| w.trim().to_string()).collect()
-                    }
-                    "Modeling Paradigm" => {
-                        modeling_paradigm =
-                            Some(value.split(',').map(|w| w.trim().to_string()).collect())
-                    }
-                    "Smallest Temporal Scope" => {
-                        lowest_temporal_scope = TemporalScale::from_str(&value).ok();
-                    }
-                    "Largest Temporal Scope" => {
-                        highest_temporal_scope = TemporalScale::from_str(&value).ok();
-                    }
-                    "Typical Temporal Scope" => {
-                        typical_temporal_scope = TemporalScale::from_str(&value).ok();
-                    }
-                    "Smallest Spatial Scope" => {
-                        lowest_spatial_scope = SpatialScale::from_str(&value).ok();
-                    }
-                    "Largest Spatial Scope" => {
-                        highest_spatial_scope = SpatialScale::from_str(&value).ok();
-                    }
-                    "Typical Spatial Scope" => {
-                        typical_spatial_scope = SpatialScale::from_str(&value).ok();
-                    }
-                    "Lowest Temporal Resolution" => {
-                        lowest_temporal_resolution = TemporalScale::from_str(&value).ok();
-                    }
-                    "Highest Temporal Resolution" => {
-                        highest_temporal_resolution = TemporalScale::from_str(&value).ok();
-                    }
-                    "Typical Temporal Resolution" => {
-                        typical_temporal_resolution = TemporalScale::from_str(&value).ok();
-                    }
-                    "Lowest Spatial Resolution" => {
-                        lowest_spatial_resolution = SpatialScale::from_str(&value).ok();
-                    }
-                    "Highest Spatial Resolution" => {
-                        highest_spatial_resolution = SpatialScale::from_str(&value).ok();
-                    }
-                    "Typical Spatial Resolution" => {
-                        typical_spatial_resolution = SpatialScale::from_str(&value).ok();
-                    }
-                    _ => {}
-                }
-            }
-        }
         Some(Self {
             id,
             number,
             name,
+            screenshots,
             short_description,
             description,
             website,
