@@ -227,20 +227,10 @@ export default {
           return this.selectedTools.includes(d.name);
         })
         .map((d) => {
-          if (this.selection1.includes("resolution")) {
-            d.x_min = this.x(d["highest_" + this.selection1]);
-            d.x_max = this.x(d["typical_" + this.selection1]);
-          } else {
-            d.x_min = this.x(d["typical_" + this.selection1]);
-            d.x_max = this.x(d["highest_" + this.selection1]);
-          }
-          if (this.selection2.includes("resolution")) {
-            d.y_min = this.y(d["highest_" + this.selection2]);
-            d.y_max = this.y(d["typical_" + this.selection2]);
-          } else {
-            d.y_min = this.y(d["typical_" + this.selection2]);
-            d.y_max = this.y(d["highest_" + this.selection2]);
-          }
+          d.x_min = this.x(d["highest_temporal_resolution"]);
+          d.x_max = this.x(d["largest_temporal_scope"]);
+          d.y_min = this.y(d["highest_spatial_resolution"]);
+          d.y_max = this.y(d["largest_spatial_scope"]);
           d.w = Math.abs(d.x_min - d.x_max);
           d.h = Math.abs(d.y_min - d.y_max);
           d.label_x = d.x_min + Math.abs(d.x_min - d.x_max) / 2;
