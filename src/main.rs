@@ -211,8 +211,14 @@ impl Tool {
                     string = format!("{}{}", string, s);
                 }
                 (Event::End(Tag::Item), Location::Section) => {
-                    if string.starts_with("[X] ") {
-                        items.push(string.replace("[X] ", "").trim().to_string());
+                    if string.starts_with("[x] ") || string.starts_with("[X] ") {
+                        items.push(
+                            string
+                                .replace("[X] ", "")
+                                .replace("[x] ", "")
+                                .trim()
+                                .to_string(),
+                        );
                     }
                 }
                 (Event::End(Tag::List(None)), Location::Section) => {
@@ -226,8 +232,9 @@ impl Tool {
     }
 
     fn parse_body(&mut self) {
-        if let Some(s) = self.parse_input("Tool Name") {
+        if let Some(s) = self.parse_input("Name") {
             self.name = s;
+            dbg!(&self.name);
         }
         if let Some(s) = self.parse_input("Website") {
             self.website = s;
@@ -356,7 +363,6 @@ impl Tool {
                 let mut s = captures[3].split('/');
                 let username = s.next().unwrap().to_string();
                 let repository = s.next().unwrap().to_string();
-                info!("{} {}", username, repository);
                 let github = Github::new(
                     concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION")),
                     Credentials::Token(env::var("TOOLS_GITHUB_PAT").unwrap()),
