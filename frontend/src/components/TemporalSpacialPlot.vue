@@ -382,6 +382,23 @@ export default {
       this.yAxis = d3.axisLeft(this.y);
       this.y_axis_g.call(this.yAxis);
 
+      this.y_axis_g
+        .append("text")
+        .attr("class", "axis-title")
+        .attr("transform", "rotate(90)")
+        .attr("x", this.height / 2)
+        .attr("y", 60)
+        .attr("fill", "#5D6971")
+        .text("Spatial Span");
+
+      this.x_axis_g
+        .append("text")
+        .attr("class", "axis-title")
+        .attr("x", this.width / 2)
+        .attr("y", -50)
+        .attr("fill", "#5D6971")
+        .text("Temporal Span");
+
       var zoomed = (event) => {
         this.x.range([0, this.width].map((d) => event.transform.applyX(d)));
         this.x_axis_g.call(this.xAxis);
