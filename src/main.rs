@@ -64,12 +64,12 @@ enum Location {
 
 #[get("/")]
 async fn index() -> Option<NamedFile> {
-  NamedFile::open("frontend/dist/index.html").await.ok()
+  NamedFile::open("build/index.html").await.ok()
 }
 
 #[get("/<file..>")]
 async fn files(file: PathBuf) -> Option<NamedFile> {
-  NamedFile::open(Path::new("frontend/dist/").join(file)).await.ok()
+  NamedFile::open(Path::new("build/").join(file)).await.ok()
 }
 
 #[get("/version")]
