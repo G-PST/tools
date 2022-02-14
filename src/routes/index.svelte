@@ -2,6 +2,7 @@
   import Autocomplete from '$lib/Autocomplete.svelte'
   import ToolTable from '$lib/ToolTable.svelte'
   import LanguageChipBox from '$lib/LanguageChipBox.svelte'
+  import { base } from '$app/paths'
 </script>
 
 <svelte:head>
@@ -20,3 +21,4 @@
 <div class="grid mx-20 my-4 place-items-center">
   <ToolTable />
 </div>
+<a href="{base}/Tool/404" />
