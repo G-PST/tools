@@ -25,7 +25,6 @@
   let tool = $tools.find((tool) => {
     return tool.number.toString() === id.toString()
   })
-  console.log(tool)
   let loaded = false
   onMount(() => {
     tool.body_html = converter.makeHtml(tool.issue_body)
