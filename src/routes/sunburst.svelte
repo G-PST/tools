@@ -7,7 +7,7 @@
   import Icon from 'svelte-awesome/components/Icon.svelte'
   import { filteredTools, searchQuery, loading, languages } from '$lib/stores'
 
-  import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+  import { faExclamationTriangle, faSpinner } from '@fortawesome/free-solid-svg-icons'
 
   function getData(tools) {
     let data = { name: 'Languages', children: [] }
@@ -51,7 +51,7 @@
         class="bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full"
         role="alert"
       >
-        <Icon class="w-4 h-4 mr-2 fill-current" data={faExclamationTriangle} />
+        <Icon class="w-4 h-4 mr-2 fill-current" data={faSpinner} spin />
         Loading...
       </div>
     </div>

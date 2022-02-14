@@ -15,7 +15,7 @@
   import showdown from 'showdown'
   import { onMount } from 'svelte'
   import Icon from 'svelte-awesome/components/Icon.svelte'
-  import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+  import { faExternalLinkAlt, faSpinner } from '@fortawesome/free-solid-svg-icons'
 
   showdown.setOption('simplifiedAutoLink', true)
   showdown.setOption('openLinksInNewWindow', true)
@@ -48,7 +48,15 @@
       {@html tool.body_html}
     </div>
   {:else}
-    Loading...
+    <div class="grid-flow-row w-full items-stretch">
+      <div
+        class="bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full"
+        role="alert"
+      >
+        <Icon class="w-4 h-4 mr-2 fill-current" data={faSpinner} spin />
+        Loading...
+      </div>
+    </div>
   {/if}
 </div>
 

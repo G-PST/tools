@@ -114,9 +114,9 @@ export function updateTools() {
         return []
       })
   } else {
+    loading.set(false)
     tools.set(get(tools))
     selectedLanguages.set([...get(languages)].sort())
     selectedTools.set(get(tools).map((tool) => tool.name))
-    loading.set(false)
   }
 }

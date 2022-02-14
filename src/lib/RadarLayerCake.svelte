@@ -4,7 +4,7 @@
   import * as d3 from 'd3'
   import { filteredTools, searchQuery, loading, updateTools } from '$lib/stores'
   import Icon from 'svelte-awesome/components/Icon.svelte'
-  import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+  import { faExclamationTriangle, faSpinner } from '@fortawesome/free-solid-svg-icons'
 
   import Radar from '$lib/components/Radar.svelte'
   import AxisRadial from '$lib/components/AxisRadial.svelte'
@@ -32,7 +32,6 @@
   $: isEmpty = Object.values(data[0]).every((item) => item === 0)
 
   onMount(() => {
-    updateTools()
     const container = d3
       .select('#sunburst-chart')
       .append('div')
@@ -63,7 +62,7 @@
       class="bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full"
       role="alert"
     >
-      <Icon class="w-4 h-4 mr-2 fill-current" data={faExclamationTriangle} />
+      <Icon class="w-4 h-4 mr-2 fill-current" data={faSpinner} spin />
       Loading...
     </div>
   </div>
