@@ -185,7 +185,7 @@
 </script>
 
 <Svg>
-  <g class="main" transform="translate({$width / 10} {$height / 15}) scale(0.8 1)">
+  <g class="main" transform="translate({$width / 10} {$height / 5}) scale(0.8 1)">
     <g class="xaxis" bind:this={xaxis}>
       <text
         opacity="1"
