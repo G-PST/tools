@@ -3,10 +3,7 @@
   "env": {
     "BUILDPACK_URL": "https://github.com/emk/heroku-buildpack-rust.git"
   },
-  "keywords": [
-    "rust",
-    "rocket"
-  ],
+  "keywords": ["rust", "rocket"],
   "name": "Tools",
   "repository": "https://github.com/kdheepak/tools",
   "success_url": "/",
