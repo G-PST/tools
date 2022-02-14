@@ -13,7 +13,7 @@ jobs:
       - uses: bahmutov/npm-install@v1
       - name: build
         run: |
-          npm run build
+          NODE_ENV='production' npm run build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
