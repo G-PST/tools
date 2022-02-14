@@ -167,6 +167,7 @@
       <Icon class="w-4 h-4 mr-2 fill-current" data={faInfoCircle} />
       Is what you are searching for not listed? Click
       <a
+        target="_blank"
         href="https://github.com/kdheepak/tools/issues/new?template=tools.yml"
         class="font-bold text-blue-800 hover:text-blue-700 focus:text-blue-700 px-1"
       >
