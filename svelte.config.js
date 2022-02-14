@@ -11,10 +11,7 @@ const config = {
   preprocess: [preprocess({})],
 
   kit: {
-    adapter: adapter({
-      pages: productionBaseDirectory,
-      assets: productionBaseDirectory,
-    }),
+    adapter: adapter({}),
     paths: isProduction
       ? {
           base: `/${productionBaseDirectory}`,
