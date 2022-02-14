@@ -10,7 +10,7 @@
 </script>
 
 <script lang="ts">
-  export let id = 0
+  export let id
 
   import { tools } from '$lib/stores'
   import showdown from 'showdown'

@@ -21,4 +21,3 @@
 <div class="grid mx-20 my-4 place-items-center">
   <ToolTable />
 </div>
-<a href="{base}/Tool/404" />
