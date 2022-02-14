@@ -184,7 +184,7 @@
     </div>
   </div>
 {:else}
-  <div class="flex flex-col mt-6">
+  <div class="flex w-full flex-col mt-6">
     <div class="flex w-full justify-between">
       <button
         on:click={(_) => ($showAll = !$showAll)}
@@ -225,7 +225,7 @@
       </div>
     </div>
     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="py-2 inline-block w-full sm:px-6 lg:px-8">
         <div class="overflow-x-auto">
           <table class="table-auto w-full">
             <thead class="border-b bg-gray-800">
