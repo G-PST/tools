@@ -11,15 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: bahmutov/npm-install@v1
-        with:
-          working-directory: frontend
       - name: build
         run: |
-          cd frontend
-          yarn ghpages-build
+          npm run build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./frontend/dist
+          publish_dir: ./build
           publish_branch: gh-pages
