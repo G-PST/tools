@@ -15,7 +15,6 @@ const config = {
     paths: isProduction
       ? {
           base: `/${productionBaseDirectory}`,
-          assets: `/${productionBaseDirectory}`,
         }
       : {},
 
