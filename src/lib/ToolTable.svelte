@@ -78,7 +78,7 @@
       title: 'Stars',
       text_center: true,
       show: true,
-      sort: 'ascending',
+      sort: 'descending',
       sortColor: '#fff',
       sortActive: false,
     },
@@ -95,7 +95,9 @@
   function handleSort(column) {
     for (let c of columns) {
       if (c.title == column.title) {
-        c.sort = c.sort == 'ascending' ? 'descending' : 'ascending'
+        if (c.sortActive) {
+          c.sort = c.sort == 'ascending' ? 'descending' : 'ascending'
+        }
         c.sortActive = true
       } else {
         c.sortActive = false
