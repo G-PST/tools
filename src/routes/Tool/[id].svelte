@@ -11,29 +11,41 @@
 
 <script lang="ts">
   export let id
-  import { tools, searchQuery } from '$lib/stores'
+
+  import { tools } from '$lib/stores'
   import showdown from 'showdown'
   import { onMount } from 'svelte'
   import Icon from 'svelte-awesome/components/Icon.svelte'
-  import { faExternalLinkAlt, faSpinner } from '@fortawesome/free-solid-svg-icons'
+  import {
+    faExclamationCircle,
+    faExternalLinkAlt,
+    faSpinner,
+  } from '@fortawesome/free-solid-svg-icons'
+  let tool = null
+  $: tool = $tools.find((tool) => {
+    return tool.number.toString() === id.toString()
+  })
 
   showdown.setOption('simplifiedAutoLink', true)
   showdown.setOption('openLinksInNewWindow', true)
   showdown.setOption('emoji', true)
   showdown.setFlavor('github')
   const converter = new showdown.Converter()
-  let tool = $tools.find((tool) => {
-    return tool.number.toString() === id.toString()
-  })
   let loaded = false
+  let error = false
   onMount(() => {
-    tool.body_html = converter.makeHtml(tool.issue_body)
-    loaded = true
+    if (tool === undefined) {
+      loaded = false
+      error = true
+    } else {
+      tool.body_html = converter.makeHtml(tool.issue_body)
+      loaded = true
+    }
   })
 </script>
 
 <svelte:head>
-  <title>G-PST Tools Portal - {loaded ? `Tool ${tool.number}` : ''}</title>
+  <title>G-PST Tools Portal {loaded ? `- Tool ${tool.number}` : ''}</title>
 </svelte:head>
 
 <div class="grid mx-40 my-12">
@@ -46,7 +58,7 @@
     <div class="tool-wrapper">
       {@html tool.body_html}
     </div>
-  {:else}
+  {:else if !error}
     <div class="grid-flow-row w-full items-stretch">
       <div
         class="bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full"
@@ -54,6 +66,16 @@
       >
         <Icon class="w-4 h-4 mr-2 fill-current" data={faSpinner} spin />
         Loading...
+      </div>
+    </div>
+  {:else if error}
+    <div class="grid-flow-row w-full items-stretch">
+      <div
+        class="bg-red-100 rounded-lg py-5 px-6 mb-3 text-base text-red-700 inline-flex items-center w-full"
+        role="alert"
+      >
+        <Icon class="w-4 h-4 mr-2 fill-current" data={faExclamationCircle} />
+        Something went wrong. Please contact the developers.
       </div>
     </div>
   {/if}
