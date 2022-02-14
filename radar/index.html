@@ -5,19 +5,20 @@
     <meta name="description" content="" />
     <link rel="icon" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>G-PST Tools Portal</title>
+    <title>Radar Visualization</title>
 
 		
 
 		<link rel="stylesheet" href="/_app/assets/start-d5b4de3e.css">
 		<link rel="stylesheet" href="/_app/assets/vendor-19070324.css">
 		<link rel="stylesheet" href="/_app/assets/pages/__layout.svelte-145a3117.css">
+		<link rel="stylesheet" href="/_app/assets/pages/radar.svelte-7d8ce6c1.css">
 		<link rel="modulepreload" href="/_app/start-7370eaf1.js">
 		<link rel="modulepreload" href="/_app/chunks/vendor-b06d7aa0.js">
 		<link rel="modulepreload" href="/_app/chunks/paths-28a87002.js">
 		<link rel="modulepreload" href="/_app/pages/__layout.svelte-5f5b80b9.js">
 		<link rel="modulepreload" href="/_app/chunks/stores-5605b9fc.js">
-		<link rel="modulepreload" href="/_app/pages/index.svelte-197aae44.js">
+		<link rel="modulepreload" href="/_app/pages/radar.svelte-e52378c6.js">
 		<link rel="modulepreload" href="/_app/chunks/LanguageChipBox-dde50c58.js">
 
 		<script type="module">
@@ -34,9 +35,9 @@
 					error: null,
 					nodes: [
 						import("/_app/pages/__layout.svelte-5f5b80b9.js"),
-						import("/_app/pages/index.svelte-197aae44.js")
+						import("/_app/pages/radar.svelte-e52378c6.js")
 					],
-					url: new URL("http://prerender/"),
+					url: new URL("http://prerender/radar"),
 					params: {}
 				}
 			});
@@ -47,7 +48,7 @@
 
 
 <div class="h-screen w-screen grid grid-rows-[auto_1fr_auto]"><nav class="relative flex flex-wrap w-full py-4 justify-between items-center text-gray-500 shadow-lg hover:text-gray-700 focus:text-gray-700 navbar navbar-expand navbar-light "><div class="container-fluid w-full flex flex-wrap items-center justify-between px-6"><div class="collapse navbar-collapse flex-grow items-center" id="navbarSupportedContent"><a class="pr-6" href="https://globalpst.org/"><img src="https://globalpst.org/wp-content/uploads/GPSTC-logo-blk.png" srcset="https://globalpst.org/wp-content/uploads/GPSTC-logo-blk.png 1x, https://globalpst.org/wp-content/uploads/GPSTC-logo-blk-x2.png 2x" width="181" height="90" style="max-height:90px;height:auto;" alt="Global Power System Transformation Consortium (G-PST) Logo"></a>
-      <ul class="navbar-nav flex flex-col space-between-4 list-style-none mr-auto"><li class="nav-item px-2"><a class="nav-link active" href="/">Home</a></li>
+      <ul class="navbar-nav flex flex-col space-between-4 list-style-none mr-auto"><li class="nav-item px-2"><a class="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700" href="/">Home</a></li>
         <li class="nav-item px-2"><a class="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700" href="/about">About</a></li>
         <li class="nav-item px-2"><a class="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700" target="_blank" href="https://github.com/kdheepak/tools/issues/new?template=tools.yml">Submit <svg version="1.1" class="fa-icon  svelte-1dof0an" width="16" height="16" role="presentation" viewBox="0 0 512 512">
     <path id="path-0" d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z"></path>
@@ -57,10 +58,15 @@
 
   <main>
 
-<div class="grid mx-20 mt-6"><h1 class="text-4xl font-medium leading-tight mt-0 mb-2">Tools</h1></div>
+<div class="grid mx-20 mt-6"><h1 class="text-4xl font-medium leading-tight mt-0 mb-2">Radar</h1></div>
 <div class="grid mx-20 my-4 place-items-center"><div class="flex w-full justify-center"><input type="text" class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none " id="autocompleteInput" placeholder="Filter tools (e.g. 'OpenDSS' or 'steady state')" value=""></div></div>
 <div class="grid mx-20 my-4 place-items-center"><div class="flex flex-wrap justify-start space-x-2"></div></div>
-<div class="grid mx-20 my-4 place-items-center"><div class="grid-flow-row w-full items-stretch"><div class="grow overflow-x-auto bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700" role="alert">Loading ...
+<div class="grid mx-20 my-4 place-items-center"><div class="grid-flow-row w-full items-stretch"><div class="bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full" role="alert"><svg version="1.1" class="fa-icon w-4 h-4 mr-2 fill-current svelte-1dof0an" width="16" height="14.222222222222221" role="presentation" viewBox="0 0 576 512">
+    <path id="path-0" d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"></path>
+      
+      
+  </svg>
+      Loading...
     </div></div></div></main></div>
 
 </div>
