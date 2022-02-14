@@ -51,6 +51,20 @@
   $: color = d3.scaleOrdinal().domain($data.tools).range(d3.schemeSet3)
   $: buffer = 5
 
+  function area(d, w, h) {
+    return Math.abs(x_max(d, w) - x_min(d, w)) * Math.abs(y_max(d, h) - y_min(d, h))
+  }
+
+  $: filteredTools = $data.ftools.sort((d1, d2) => {
+    if (area(d1, $width, $height) < area(d2, $width, $height)) {
+      return 1
+    }
+    if (area(d1, $width, $height) > area(d2, $width, $height)) {
+      return -1
+    }
+    return 0
+  })
+
   function label_x(d, w) {
     return x_min(d) + (x_max(d) - x_min(d)) / 2
   }
@@ -149,7 +163,7 @@
   let _labels = { label: () => [] }
   $: _labels = flabeler()
     .label(
-      $data.ftools.map((d) => {
+      filteredTools.map((d) => {
         const x = label_x(d)
         const y = label_y(d)
         return {
@@ -164,7 +178,7 @@
       }),
     )
     .anchor(
-      $data.ftools.map((d) => {
+      filteredTools.map((d) => {
         return {
           x: label_x(d),
           y: label_y(d),
@@ -181,7 +195,7 @@
   }
 
   let rendered_labels = []
-  $: rendered_labels = get_labels($data.ftools, $width, $height)
+  $: rendered_labels = get_labels(filteredTools, $width, $height)
 </script>
 
 <Svg>
@@ -213,7 +227,7 @@
       </text>
     </g>
     <g class="rects">
-      {#each $data.ftools as d (d.name)}
+      {#each filteredTools as d (d.name)}
         <rect
           fill={color(d)}
           stroke-dasharray="4"
