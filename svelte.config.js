@@ -18,9 +18,6 @@ const config = {
           assets: `https://g-pst.github.io/${productionBaseDirectory}`,
         }
       : {},
-
-    // hydrate the <div id="svelte"> element in src/app.html
-    target: '#svelte',
   },
 }
 
