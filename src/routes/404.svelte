@@ -2,7 +2,6 @@
   import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
 
   import Icon from 'svelte-awesome/components/Icon.svelte'
-  export const prerender = true
 </script>
 
 <svelte:head>

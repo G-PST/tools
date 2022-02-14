@@ -2,7 +2,6 @@
   import Autocomplete from '$lib/Autocomplete.svelte'
   import ToolTable from '$lib/ToolTable.svelte'
   import LanguageChipBox from '$lib/LanguageChipBox.svelte'
-  export const prerender = true
 </script>
 
 <svelte:head>
