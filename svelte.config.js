@@ -15,6 +15,7 @@ const config = {
     paths: isProduction
       ? {
           base: `/${productionBaseDirectory}`,
+          assets: `https://g-pst.github.io/${productionBaseDirectory}`,
         }
       : {},
 
