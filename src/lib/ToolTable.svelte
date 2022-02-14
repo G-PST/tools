@@ -110,7 +110,6 @@
       for (var tool of value) {
         index += 1
         tool.github_stars = tool.github_stars ? tool.github_stars : '-'
-        tool.url = `${base}/Tool/${tool.number}`
         tool.index = index
       }
       for (const c of columns) {
@@ -276,7 +275,7 @@
                         {:else if column.field == 'name_url'}
                           <a
                             class="hover:text-blue-700 hover:underline text-blue-500"
-                            href="Tool/{tool.number}">{tool.name}</a
+                            href="{base}/Tool/{tool.number}">{tool.name}</a
                           >
                         {:else}
                           {@html tool[column.field]}
