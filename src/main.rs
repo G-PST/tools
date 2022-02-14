@@ -49,8 +49,11 @@ use rocket::{
   },
   tokio, Request, Responder, Response, State,
 };
+use rocket_cors as cors;
 use strum::IntoEnumIterator;
 use strum_macros::{EnumIter, EnumString};
+
+use crate::cors::{AllowedHeaders, AllowedOrigins, CorsOptions};
 
 #[derive(Debug, Clone, Copy)]
 enum Location {
@@ -501,5 +504,19 @@ async fn get_tools() -> Json<Vec<Tool>> {
 
 #[launch]
 fn rocket() -> _ {
-  rocket::build().mount("/", routes![index, files]).mount("/api/", routes![get_tools, labels, version])
+  // The default demonstrates the "All" serialization of several of the settings
+  let default_options: CorsOptions = Default::default();
+
+  let allowed_origins = AllowedOrigins::some(&["https://tools.kdheepak.com"], &["http://localhost:3000"]);
+
+  let options = cors::CorsOptions::default()
+    .allowed_origins(AllowedOrigins::all())
+    .allowed_methods(
+      vec![Method::Get, Method::Post, Method::Patch, Method::Delete].into_iter().map(From::from).collect(),
+    )
+    .allow_credentials(true)
+    .to_cors()
+    .unwrap();
+
+  rocket::build().mount("/", routes![index, files]).mount("/api/", routes![get_tools, labels, version]).attach(options)
 }
