@@ -105,6 +105,8 @@ export function updateTools() {
       })
       .then((data) => {
         tools.set(data)
+        selectedLanguages.set([...get(languages)].sort())
+        selectedTools.set(get(tools).map((tool) => tool.name))
         loading.set(false)
       })
       .catch((error) => {
