@@ -11,7 +11,7 @@
 </script>
 
 <script lang="ts">
-  export let id
+  export let id = 0
 
   import { tools } from '$lib/stores'
   import showdown from 'showdown'
@@ -53,6 +53,7 @@
   {#if loaded}
     <a
       target="_blank"
+      rel="external"
       class="justify-self-start inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg transition duration-150 ease-in-out"
       href={tool.issue_url}>Go to GitHub Issue</a
     >
