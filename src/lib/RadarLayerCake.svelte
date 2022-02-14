@@ -74,7 +74,7 @@
       role="alert"
     >
       <Icon class="w-4 h-4 mr-2 fill-current" data={faExclamationTriangle} />
-      No tools found matching filter '{$searchQuery}'.
+      No tools found matching filter `{$searchQuery}`.
     </div>
   </div>
 {:else}
