@@ -16,7 +16,6 @@ regex = "1"
 reqwest = { version ="0.11.0", features = ["json"] }
 rocket = { version = "0.5.0-rc.1", default-features = false, features = ["json", "msgpack", "uuid"] }
 rocket_codegen = { git = "https://github.com/SergioBenitez/Rocket" }
-rocket_cors = { git = "https://github.com/lawliet89/rocket_cors", branch = "master" }
 serde = "1.0.0"
 serde_derive = "1"
 serde_json = "1"
