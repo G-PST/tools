@@ -201,7 +201,7 @@
       <div class="flex gap-2">
         <div>
           <a
-            href="/radar"
+            href="{base}/radar"
             class="inline-block px-6 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
           >
             <Icon data={faRadiation} />
@@ -209,7 +209,7 @@
         </div>
         <div>
           <a
-            href="/spatialtemporal"
+            href="{base}/spatialtemporal"
             class="inline-block px-6 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
           >
             <Icon data={faThLarge} />
@@ -217,7 +217,7 @@
         </div>
         <div>
           <a
-            href="/sunburst"
+            href="{base}/sunburst"
             class="inline-block px-6 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
           >
             <Icon data={faChartPie} />
