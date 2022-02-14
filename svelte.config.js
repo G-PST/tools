@@ -4,14 +4,21 @@ import preprocess from 'svelte-preprocess'
 const isProduction = process.env.NODE_ENV == 'production' ? true : false
 const productionBaseDirectory = 'tools'
 
-function getPages() {
-  let pages = ['*']
-  const tools = [58, 57, 56, 54, 53, 52, 51, 50, 49, 48, 47, 46, 45, 43, 31]
-  for (const p of tools) {
-    pages.push(`/Tool/${p}`)
-  }
-  return pages
-}
+import { Octokit } from '@octokit/rest'
+
+const octokit = new Octokit()
+let pages = ['*']
+
+octokit
+  .paginate('GET /repos/{owner}/{repo}/issues', { owner: 'G-PST', repo: 'tools' }, (response) =>
+    response.data.filter((issue) => issue.state == 'open').map((issue) => issue.number),
+  )
+  .then((issues) => {
+    // issueTitles is now an array with the titles only
+    for (const i of issues) {
+      pages.push(`/Tool/${i}`)
+    }
+  })
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -30,7 +37,7 @@ const config = {
     prerender: {
       crawl: true,
       enabled: true,
-      entries: getPages(),
+      entries: pages,
     },
   },
 }
