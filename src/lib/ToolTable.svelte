@@ -50,7 +50,7 @@
       show: true,
       sort: 'ascending',
       sortColor: '#fff',
-      sortActive: false,
+      sortActive: true,
     },
     {
       field: 'short_description',
@@ -78,7 +78,7 @@
       title: 'Stars',
       text_center: true,
       show: true,
-      sort: 'descending',
+      sort: 'ascending',
       sortColor: '#fff',
       sortActive: false,
     },
@@ -242,12 +242,18 @@
                       <span>{column.title}</span> &nbsp;
                       {#if column.sort == 'ascending'}
                         <button on:click={() => handleSort(column)}
-                          ><Icon style="color: {column.sortColor}" data={faCaretDown} /></button
+                          ><Icon
+                            style="color: {column.sortActive ? column.sortColor : '#aaa'}"
+                            data={faCaretDown}
+                          /></button
                         >
                       {/if}
                       {#if column.sort == 'descending'}
                         <button on:click={() => handleSort(column)}
-                          ><Icon style="color: {column.sortColor}" data={faCaretUp} /></button
+                          ><Icon
+                            style="color: {column.sortActive ? column.sortColor : '#aaa'}"
+                            data={faCaretUp}
+                          /></button
                         >
                       {/if}
                     </div>
