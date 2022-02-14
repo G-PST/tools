@@ -110,7 +110,7 @@
       for (var tool of value) {
         index += 1
         tool.github_stars = tool.github_stars ? tool.github_stars : '-'
-        tool.url = `${base}/#/Tool/${tool.number}`
+        tool.url = `${base}/Tool/${tool.number}`
         tool.index = index
       }
       for (const c of columns) {
