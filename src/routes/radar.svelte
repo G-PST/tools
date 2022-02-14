@@ -9,7 +9,7 @@
 </svelte:head>
 
 <div class="grid mx-20 mt-6">
-  <h1 class="text-4xl font-medium leading-tight mt-0 mb-2">Radar</h1>
+  <h1 class="text-4xl font-medium leading-tight mt-0 mb-2">Radar Visualization</h1>
 </div>
 <div class="grid mx-20 my-4 place-items-center">
   <Autocomplete />
