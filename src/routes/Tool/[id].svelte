@@ -1,6 +1,6 @@
 <script context="module">
   /** @type {import('@sveltejs/kit').Load} */
-  export const prerender = false
+  export const prerender = true
   export async function load({ params }) {
     return {
       props: {

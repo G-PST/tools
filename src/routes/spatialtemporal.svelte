@@ -1,4 +1,5 @@
 <script lang="ts">
+  export const prerender = true
   import Autocomplete from '$lib/Autocomplete.svelte'
   import LanguageChipBox from '$lib/LanguageChipBox.svelte'
   import ToolChipBox from '$lib/ToolChipBox.svelte'

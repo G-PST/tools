@@ -2,6 +2,7 @@
   import Autocomplete from '$lib/Autocomplete.svelte'
   import RadarLayerCake from '$lib/RadarLayerCake.svelte'
   import LanguageChipBox from '$lib/LanguageChipBox.svelte'
+  export const prerender = true
 </script>
 
 <svelte:head>
