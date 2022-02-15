@@ -24,6 +24,7 @@
     "autoprefixer": "^10.4.0",
     "d3": "^7.2.1",
     "eslint": "^8.6.0",
+    "js-yaml": "^4.1.0",
     "layercake": "^5.0.3",
     "npm": "^8.3.0",
     "prettier": "^2.4.1",
