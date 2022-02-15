@@ -18,13 +18,14 @@
 
   import * as d3 from 'd3'
   import Icon from 'svelte-awesome/components/Icon.svelte'
-  import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+  import { faExclamationTriangle, faSpinner } from '@fortawesome/free-solid-svg-icons'
 
   function getData(ftools) {
     return { ftools: ftools, tools: $tools }
   }
 
   $: data = getData($filteredTools)
+  $: isEmpty = data.ftools.length === 0
 </script>
 
 <svelte:head>
@@ -51,6 +52,16 @@
     >
       <Icon class="w-4 h-4 mr-2 fill-current" data={faSpinner} spin />
       Loading...
+    </div>
+  </div>
+{:else if isEmpty}
+  <div class="grid-flow-row w-full items-stretch">
+    <div
+      class="bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full"
+      role="alert"
+    >
+      <Icon class="w-4 h-4 mr-2 fill-current" data={faExclamationTriangle} />
+      No tools found matching filter `{$searchQuery}`.
     </div>
   </div>
 {:else}
