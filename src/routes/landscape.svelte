@@ -1,7 +1,7 @@
 <script lang="ts">
   import Autocomplete from '$lib/Autocomplete.svelte'
   import { faTwitter } from '@fortawesome/free-brands-svg-icons'
-  import { faDatabase, faExternalLinkSquareAlt } from '@fortawesome/free-solid-svg-icons'
+  import { faDatabase, faExternalLinkSquareAlt, faStar } from '@fortawesome/free-solid-svg-icons'
   import Icon from 'svelte-awesome/components/Icon.svelte'
   import { searchQuery } from '$lib/stores'
 
@@ -51,6 +51,7 @@
           )
         }),
     )
+    console.log(ftools)
     return ftools
   }
   $: tools = getTools(data, $searchQuery)
@@ -94,24 +95,51 @@
   <div>Found {tools.length} tools</div>
 </div>
 <div class="grid mx-20 my-4 place-items-center">
-  <div class="cards w-full grid grid-cols-1 gap-2">
+  <div class="grid grid-cols-1 gap-2">
     {#each tools as tool}
-      <div class="card w-full flex justify-center">
-        <div class="block p-6 rounded-lg shadow-lg bg-white max-w">
-          <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">{tool.name}</h5>
-          <p class="text-gray-700 text-base mb-4">
-            {tool.description}
-          </p>
-          <div class="flex gap-5">
-            {#if tool.crunchbase_data.twitter}
-              <a target="_blank" rel="external" href={tool.crunchbase_data.twitter}
-                ><Icon data={faTwitter} /></a
+      <div class="flex justify-center">
+        <div class="flex flex-col md:flex-row w-full rounded-lg bg-white shadow-lg">
+          <img
+            src="https://deploy-preview-404--lfenergy.netlify.app/logos/{tool.image_data.fileName}"
+            class=" w-full h-96 pl-4 md:h-auto md:w-48 rounded-t-lg md:rounded-none md:rounded-l-lg"
+            alt={tool.name}
+          />
+          <div class="p-6 flex flex-col justify-start">
+            <h5 class="text-gray-900 text-xl font-medium mb-2">{tool.name}</h5>
+            <p class="text-gray-700 text-base mb-4">
+              {tool.description}
+            </p>
+            <div class="flex gap-5">
+              {#if tool.crunchbase_data.twitter}
+                <a target="_blank" rel="external" href={tool.crunchbase_data.twitter}
+                  ><Icon data={faTwitter} /></a
+                >
+              {/if}
+              <a target="_blank" rel="external" href={tool.crunchbase}><Icon data={faDatabase} /></a
               >
+              <a target="_blank" rel="external" href={tool.repo_url}>
+                <Icon data={faExternalLinkSquareAlt} />
+              </a>
+            </div>
+
+            {#if tool.github_data}
+              <div class="flex flex-wrap gap-5 mt-5 w-auto">
+                <span
+                  class="px-4 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease"
+                >
+                  <a target="_blank" rel="external" href={tool.github_data.contributors_link}
+                    ><Icon data={faStar} />&nbsp;<span>{tool.github_data.stars}</span></a
+                  >
+                </span>
+                {#each tool.github_data.languages as lang}
+                  <span
+                    class="px-4 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease"
+                  >
+                    {lang.name}
+                  </span>
+                {/each}
+              </div>
             {/if}
-            <a target="_blank" rel="external" href={tool.crunchbase}><Icon data={faDatabase} /></a>
-            <a target="_blank" rel="external" href={tool.repo_url}>
-              <Icon data={faExternalLinkSquareAlt} />
-            </a>
           </div>
         </div>
       </div>
