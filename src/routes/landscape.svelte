@@ -17,9 +17,19 @@
   }
   let selectedOption = 'G-PST'
   function getTools(data, searchQuery) {
-    const tools = data.landscape.filter((d) =>
+    const tmp = data.landscape.filter((d) =>
       selectedOption == 'All' ? true : d.name == selectedOption,
-    )[0].subcategories[0].items
+    )
+
+    const tools = []
+    for (const t of tmp) {
+      for (const sc of t.subcategories) {
+        for (const item of sc.items) {
+          tools.push(item)
+        }
+      }
+    }
+
     tools.sort((d1, d2) => {
       if (d1.name < d2.name) {
         return -1
@@ -79,6 +89,9 @@
       </div>
     </div>
   </div>
+</div>
+<div class="grid mx-20 my-4">
+  <div>Found {tools.length} tools</div>
 </div>
 <div class="grid mx-20 my-4 place-items-center">
   <div class="cards w-full grid grid-cols-1 gap-2">
