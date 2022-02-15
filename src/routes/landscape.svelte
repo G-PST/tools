@@ -1,7 +1,12 @@
 <script lang="ts">
   import Autocomplete from '$lib/Autocomplete.svelte'
   import { faTwitter } from '@fortawesome/free-brands-svg-icons'
-  import { faDatabase, faExternalLinkSquareAlt, faStar } from '@fortawesome/free-solid-svg-icons'
+  import {
+    faDatabase,
+    faExternalLinkSquareAlt,
+    faStar,
+    faUserFriends,
+  } from '@fortawesome/free-solid-svg-icons'
   import Icon from 'svelte-awesome/components/Icon.svelte'
   import { searchQuery } from '$lib/stores'
 
@@ -127,8 +132,17 @@
                 <span
                   class="px-4 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease"
                 >
-                  <a target="_blank" rel="external" href={tool.github_data.contributors_link}
+                  <a target="_blank" rel="external" href={tool.repo_url}
                     ><Icon data={faStar} />&nbsp;<span>{tool.github_data.stars}</span></a
+                  >
+                </span>
+                <span
+                  class="px-4 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease"
+                >
+                  <a target="_blank" rel="external" href={tool.github_data.contributors_link}
+                    ><Icon data={faUserFriends} />&nbsp;<span
+                      >{tool.github_data.contributors_count}</span
+                    ></a
                   >
                 </span>
                 {#each tool.github_data.languages as lang}
@@ -146,13 +160,3 @@
     {/each}
   </div>
 </div>
-
-<style>
-  .card {
-    grid-row: auto / span 1; /* use three rows of the parent grid */
-    display: grid;
-    grid-template-rows: subgrid;
-    grid-template-columns: subgrid;
-    grid-gap: 0; /* set the gap to 0 on the subgrid so our cards don’t have gaps */
-  }
-</style>
