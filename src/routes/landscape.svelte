@@ -1,6 +1,6 @@
 <script lang="ts">
   import Autocomplete from '$lib/Autocomplete.svelte'
-  import { faTwitter } from '@fortawesome/free-brands-svg-icons'
+  import { faGithub, faTwitter } from '@fortawesome/free-brands-svg-icons'
   import {
     faDatabase,
     faExternalLinkSquareAlt,
@@ -56,7 +56,6 @@
           )
         }),
     )
-    console.log(ftools)
     return ftools
   }
   $: tools = getTools(data, $searchQuery)
@@ -110,21 +109,25 @@
             alt={tool.name}
           />
           <div class="p-6 flex flex-col justify-start">
-            <h5 class="text-gray-900 text-xl font-medium mb-2">{tool.name}</h5>
+            <h5 class="text-xl font-medium mb-2 text-blue-600 hover:text-blue-700 transition duration-300 ease-in-out">
+              <a target="_blank" rel="external" href={tool.homepage_url}>
+                {tool.name}
+              </a>
+            </h5>
             <p class="text-gray-700 text-base mb-4">
               {tool.description}
             </p>
             <div class="flex gap-5">
+              <a target="_blank" rel="external" href={tool.crunchbase}><Icon data={faDatabase} /></a
+              >
+              <a target="_blank" rel="external" href={tool.repo_url}>
+                <Icon data={faGithub} />
+              </a>
               {#if tool.crunchbase_data.twitter}
                 <a target="_blank" rel="external" href={tool.crunchbase_data.twitter}
                   ><Icon data={faTwitter} /></a
                 >
               {/if}
-              <a target="_blank" rel="external" href={tool.crunchbase}><Icon data={faDatabase} /></a
-              >
-              <a target="_blank" rel="external" href={tool.repo_url}>
-                <Icon data={faExternalLinkSquareAlt} />
-              </a>
             </div>
 
             {#if tool.github_data}
