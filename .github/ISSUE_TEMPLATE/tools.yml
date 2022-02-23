@@ -6,7 +6,7 @@ assignees:
 body:
   - type: markdown
     attributes:
-      value: "## Welcome!"
+      value: '## Welcome!'
   - type: markdown
     attributes:
       value: |
@@ -23,7 +23,7 @@ body:
     id: screenshots
     attributes:
       label: Screenshots
-      description: Add screenshots of your tool 
+      description: Add screenshots of your tool
       placeholder: Drag images that you want to upload into this text area.
   - type: input
     id: focus_topic
@@ -82,7 +82,7 @@ body:
     attributes:
       label: Year
       description: Year the tool was originally created or released
-      placeholder: "2000"
+      placeholder: '2000'
     validations:
       required: true
   - type: input
@@ -106,8 +106,8 @@ body:
     attributes:
       label: Publications
       description: How many works have been published as a direct result of the tool?
-      placeholder: "Enter integer number of publications here (e.g. 10)"
-      value: "0"
+      placeholder: 'Enter integer number of publications here (e.g. 10)'
+      value: '0'
     validations:
       required: false
   - type: textarea
@@ -184,7 +184,7 @@ body:
     id: capabilities
     attributes:
       label: Capabilities
-      description: "Describe the software tool capabilities."
+      description: 'Describe the software tool capabilities.'
       placeholder: |
         1.
         2.
