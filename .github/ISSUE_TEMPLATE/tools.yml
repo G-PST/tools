@@ -2,7 +2,7 @@ name: Tool Form
 description: Submit a tool
 labels: []
 assignees:
-  - kdheepak
+  - GordStephen
 body:
   - type: markdown
     attributes:
