@@ -99,7 +99,7 @@ export const filteredTools = derived(
 export function updateTools() {
   if (get(tools).length === 0) {
     loading.set(true)
-    fetch('https://gpst-tools.herokuapp.com/api/tools')
+    fetch('https://g-pst.github.io/tools/tools.json')
       .then((response) => {
         return response.json()
       })
