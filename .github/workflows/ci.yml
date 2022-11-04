@@ -10,11 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
       - uses: bahmutov/npm-install@v1
-      - name: build
+      - name: Generate data
+        run: |
+          cargo build
+          TOOLS_GITHUB_PAT=${{secrets.GITHUB_TOKEN}} ./target/debug/tools &
+          curl localhost:8000/api/tools > tools.json
+      - name: Build site
         run: |
           NODE_ENV='production' npm run build
-      - name: Deploy
+          mv tools.json build/
+      - name: Deploy site
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
