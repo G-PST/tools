@@ -475,7 +475,7 @@ async fn get_tools() -> Json<Vec<Tool>> {
     Credentials::Token(env::var("TOOLS_GITHUB_PAT").unwrap()),
   )
   .unwrap();
-  let repo = github.repo("kdheepak", "tools");
+  let repo = github.repo("G-PST", "tools");
   let issues = repo
     .issues()
     .iter(&IssueListOptions::builder().asc().per_page(100).state(hubcaps::issues::State::All).build())
