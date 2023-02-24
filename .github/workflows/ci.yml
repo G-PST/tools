@@ -16,6 +16,7 @@ jobs:
         run: |
           cargo build
           TOOLS_GITHUB_PAT=${{secrets.GITHUB_TOKEN}} ./target/debug/tools &
+          sleep 10
           curl localhost:8000/api/tools > tools.json
       - name: Build site
         run: |
